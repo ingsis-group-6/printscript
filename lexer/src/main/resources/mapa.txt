@@ -1,0 +1,19 @@
+str first
+    Map< (String) -> Boolean, (String, Int) -> Token >
+
+    for key, values in map:
+        if(key(first)) {
+            values(first, i)
+        }
+
+class Token {
+    TokenType type;
+}
+
+
+interface Token {}
+
+data class LetToken {}
+
+class StringLiteral()
+

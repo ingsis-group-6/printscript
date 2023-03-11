@@ -7,5 +7,6 @@ import lexer.Salta
 
 
 fun main() {
-    
+    print("Built!")
 }
+

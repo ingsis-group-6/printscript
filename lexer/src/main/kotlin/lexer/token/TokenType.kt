@@ -1,6 +1,10 @@
 package lexer.token
 
 enum class TokenType {
+
+    //ASSIGNATION
+    ASSIGNATION,
+
     IDENTIFIER,
 
     //KEYWORDS
@@ -20,7 +24,13 @@ enum class TokenType {
     CLOSEPAREN,
 
     //DECLARATIONS
-    NumericLiteral,
-    StringLiteral,
-    RegularExpressionLiteral,
+    NUMERIC_LITERAL,
+    STRING_LITERAL,
+    REGULAR_EXPRESSION_LITERAL,
+
+    //EVALUATORS
+    EQUALS,
+    GREATER_THAN,
+    LESSER_THAN,
+    DIFFERENT,
 }

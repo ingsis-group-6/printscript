@@ -1,59 +1,42 @@
 package lexer
 
-import lexer.implementations.LexerImpl
-import lexer.utils.InputStreamUtils
+import lexer.implementation.LexerImpl
+import lexer.implementation.TokenTypeList
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import java.io.ByteArrayInputStream
-import java.io.InputStreamReader
+import java.io.File
 
 class LexerTest {
 
+    private val lexer = LexerImpl(TokenTypeList(listOf("let","string","number")), listOf(' '), listOf(';',':'))
+
     @Test
-    fun testEmptyInput(){
-        val lexer = LexerImpl()
-        val input = ""
-        val result = lexer.extractTokens(InputStreamReader(InputStreamUtils.convertStringToInputStream(input)))
+    fun testOneLineFile1(){
+        val tokens = lexer.extractTokensFromFile(File("src/test/resources/OneLineFile1.txt"))
+        Assertions.assertEquals(7, tokens.size)
     }
 
     @Test
-    fun testLineBuffer() {
-        val string1 = "let a: number = 21;"
-        val input1 = InputStreamReader(InputStreamUtils.convertStringToInputStream(string1))
-
-        val stringMore = "let a: number = 21;let a: number = 21;let a: number = 21;let a: number = 21;let a: number = 21;let a: number = 21;let a: number = 21;let a: number = 21;"
-        val inputMore = InputStreamReader(InputStreamUtils.convertStringToInputStream(stringMore))
-
-        val string5lines = "let a: number = 21;let a: number = 21;let a: number = 21;let a: number = 21;let a: number = 21;"
-        val input5lines = InputStreamReader(InputStreamUtils.convertStringToInputStream(string5lines))
-
-        val empty = ""
-        val emptyInput = InputStreamReader(InputStreamUtils.convertStringToInputStream(empty))
-
-        val lexer = LexerImpl()
-
-        val res1 = lexer.getLineBuffer(input1)
-        Assertions.assertEquals(string1, res1)
-
-        val res2 = lexer.getLineBuffer(input5lines)
-        Assertions.assertEquals(string5lines, res2)
-
-        val res3 = lexer.getLineBuffer(inputMore)
-        Assertions.assertNotEquals(stringMore, res3)
-
-
-
+    fun testOneLineFile2(){
+        val tokens = lexer.extractTokensFromFile(File("src/test/resources/OneLineFile2.txt"))
+        tokens.map { println(it) }
+        Assertions.assertEquals(7, tokens.size)
     }
 
     @Test
-    fun testInputStreamReader(){
-        val str = "ab"
-        val aInStr = InputStreamUtils.convertStringToInputStream(str)
-        val stringRead = "" + aInStr.read().toChar() + aInStr.read().toChar()
+    fun testFiveLineFile(){
+        val tokens = lexer.extractTokensFromFile(File("src/test/resources/FiveLineFile.txt"))
+        Assertions.assertEquals(35, tokens.size)
+    }
 
-        Assertions.assertEquals(str, stringRead)
+    @Test
+    fun testEmptyLineFile(){
+        val tokens = lexer.extractTokensFromFile(File("src/test/resources/ZeroLineFile.txt"))
+        assert(tokens.isEmpty())
     }
 
 
 
+    //TODO: AGREGAR TEST PARA TODOS LOS TOKENS
+    //TODO: ARREGLAR LOS TESTS Y BORRAR TESTS NO USADOS
 }

@@ -7,10 +7,4 @@ import java.nio.charset.StandardCharsets
 
 class ParserTest {
 
-    @Test
-    fun testJsonParse(){
-
-        val s: String = "{\"name\":\"John\", \"age\":30}"
-        val inputStream: InputStream = s.byteInputStream(StandardCharsets.UTF_8);
-    }
 }

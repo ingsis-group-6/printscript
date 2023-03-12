@@ -23,7 +23,7 @@ class LexerImpl: Lexer {
 
     override fun extractTokens(inputData: InputStreamReader): InputStream {
         getLineBuffer(inputData)
-
+        return InputStream.nullInputStream()
 
     }
 
@@ -33,12 +33,12 @@ class LexerImpl: Lexer {
         val bufferLines = 5
         var counter = 0
 
-        while (inputData.ready() || counter == bufferLines) {
-            val currentChar = inputData.read()
-            if (stopChars.contains(currentChar as Char)) {
+        while (inputData.ready() && counter != bufferLines) {
+            val currentChar = inputData.read().toChar()
+            if (stopChars.contains(currentChar)) {
                 counter++
             }
-            soFar = soFar + currentChar
+            soFar += currentChar
         }
         return soFar
     }

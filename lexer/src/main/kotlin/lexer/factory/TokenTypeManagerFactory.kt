@@ -15,7 +15,7 @@ class TokenTypeManagerFactory {
         }
 
         private fun generateCheckerList(keywords: List<String>): List<TokenTypeChecker>{
-            val tokenGeneratorFunction: (Int, TokenType, String, Int) -> Token = { orderId, tokenType, value, row -> Token(orderId, tokenType, value, row) }
+
             return listOf(
                 TokenTypeChecker(TokenType.ASSIGNATION) { string -> string == "=" },
                 TokenTypeChecker(TokenType.SEMICOLON)  { string -> string == ";"},

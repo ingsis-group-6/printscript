@@ -1,14 +1,14 @@
 package lexer
 
-import lexer.implementation.LexerImpl
-import lexer.implementation.TokenTypeList
+import TokenTypeManager
+import lexer.implementation.Lexer
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.io.File
 
 class LexerTest {
 
-    private val lexer = LexerImpl(TokenTypeList(listOf("let","string","number")), listOf(' '), listOf(';',':'))
+    private val lexer = Lexer(TokenTypeManager(listOf("let","string","number")), listOf(' '), listOf(';',':'))
 
     @Test
     fun testOneLineFile1(){

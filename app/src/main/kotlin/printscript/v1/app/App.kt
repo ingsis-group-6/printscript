@@ -6,7 +6,9 @@ package printscript.v1.app
 import lexer.Salta
 
 
-fun main() {
-    print("Built!")
+fun main(args: Array<String>) {
+    println("Built!")
+    println("The arguments are: ")
+    args.map { println(it) }
 }
 

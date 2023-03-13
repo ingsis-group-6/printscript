@@ -31,7 +31,7 @@ class LexerTest {
 
     @Test
     fun testEmptyLineFile(){
-        val tokens = lexer.extractTokensFromFile(File("src/test/resources/ZeroLineFile.txt"))
+        val tokens = lexer.extractTokensFromFile(File("src/test/resources/EmptyFile.txt"))
         assert(tokens.isEmpty())
     }
 

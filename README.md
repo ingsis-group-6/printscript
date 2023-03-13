@@ -1,3 +1,13 @@
+## Para correr PrintScript
+
+Primero pasar la App a un jar
+
+```kotlinc App.kt -include-runtime -d app.jar```
+
+Despues, correrlo agregando los argumentos necesarios
+
+```java -jar app.jar [args]```
+
 # Pasos para el TP
 
 ## Lexer

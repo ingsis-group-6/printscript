@@ -4,6 +4,7 @@ import lexer.`interface`.Lexer
 import lexer.`interface`.TokenTypeManager
 import lexer.token.Token
 import lexer.token.TokenType
+import lexer.util.StringReadingChecker
 import java.io.File
 import java.util.*
 
@@ -76,38 +77,5 @@ class Lexer(
 
 }
 
-object StringReadingChecker {
-    private const val EMPTY_CHAR = '\u0000'
-    private var previousChar = EMPTY_CHAR // k
-    private var currentStringClosingChar = EMPTY_CHAR // "
 
-
-    fun isPartOfString(currentChar: Char): Boolean{
-        // cuando no hay string
-        if((currentChar != '"' && currentChar != '\'') && currentStringClosingChar == EMPTY_CHAR){
-            return false
-        }
-
-        // cuando arranca el str
-        if((currentChar == '"' || currentChar == '\'') && currentStringClosingChar == EMPTY_CHAR) {
-            currentStringClosingChar = currentChar
-            return true
-        }
-
-        // cuando estas dentro del str
-        if (currentChar != currentStringClosingChar && currentStringClosingChar != EMPTY_CHAR) {
-            previousChar = currentChar
-            return true
-        }
-
-        // cuando cierra el str
-        if(currentChar == currentStringClosingChar && previousChar != '\\' && currentStringClosingChar != EMPTY_CHAR) {
-            currentStringClosingChar = EMPTY_CHAR
-            previousChar = EMPTY_CHAR
-            return true
-        }
-        return false
-    }
-
-}
 

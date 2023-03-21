@@ -38,9 +38,7 @@ class TokenTypeManagerFactory {
 
                 TokenTypeChecker(TokenType.NUMERIC_LITERAL) { string -> string[0].isDigit()},
                 TokenTypeChecker(TokenType.STRING_LITERAL) {
-                        string -> (string.startsWith('"') && string.endsWith('"')) || (string.startsWith('\'') && string.endsWith('\''))
-
-                                                           },
+                        string -> (string.startsWith('"') && string.endsWith('"')) || (string.startsWith('\'') && string.endsWith('\'')) },
                 TokenTypeChecker(TokenType.EQUALS) { string -> string == "==" },
                 TokenTypeChecker(TokenType.GREATER_EQUALS) { string -> string == ">=" },
                 TokenTypeChecker(TokenType.LESSER_EQUALS) { string -> string == "<=" },

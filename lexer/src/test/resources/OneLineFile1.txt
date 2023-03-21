@@ -1,1 +1,4 @@
-let myVar: number = 34;
+let myOtherVar: string = "hello" +
+' world';
+
+let 2.43.98

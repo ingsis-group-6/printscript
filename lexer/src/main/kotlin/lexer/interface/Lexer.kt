@@ -1,9 +1,7 @@
-package lexer.interfaces
+package lexer.`interface`
 
 import lexer.token.Token
-import java.io.FileInputStream
-import java.io.InputStream
-import java.io.InputStreamReader
+import java.io.File
 
 interface Lexer {
 
@@ -14,7 +12,9 @@ interface Lexer {
      *
      */
 
-    fun extractTokens(inputData: InputStreamReader): InputStream
+
+
+    fun extractTokensFromFile(file: File): List<Token>
 
     /**
      * 1) lees 1 linea
@@ -24,7 +24,6 @@ interface Lexer {
      *
      *
      */
-
 
 
 }

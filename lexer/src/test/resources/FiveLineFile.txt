@@ -1,0 +1,5 @@
+let num1: number = 1;
+let num2: number = 2;
+let num3: number = 3;
+let num4: number = 4;
+let num5: number = 5;

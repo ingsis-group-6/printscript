@@ -1,0 +1,1 @@
+let myStringVar : number = 3;

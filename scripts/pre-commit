@@ -1,3 +1,15 @@
 #!/bin/sh
 
-echo "*****Running pre commit******"
+echo "*****Running pre-commit******"
+
+git stash -q --keep-index
+
+./gradlew test
+
+status=$?
+
+git stash pop -q
+
+echo "*****Done with pre-commit******"
+
+exit $status

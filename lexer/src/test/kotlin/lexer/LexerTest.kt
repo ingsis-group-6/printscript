@@ -8,7 +8,7 @@ import java.io.File
 
 class LexerTest {
 
-    private val lexer = Lexer(TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(' '), listOf(';',':'))
+    private val lexer = Lexer(TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(' '), listOf(';',':', '(', ')'))
 
     @Test
     fun testOneLineFile1(){

@@ -1,4 +1,1 @@
-let myOtherVar: string = "hello" +
-' world';
-
-let 2.43.98
+println ("hello")

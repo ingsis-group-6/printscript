@@ -3,7 +3,6 @@
  */
 package printscript.v1.app
 
-import lexer.Salta
 
 
 fun main(args: Array<String>) {

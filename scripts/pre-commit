@@ -4,6 +4,8 @@ echo "*****Running pre-commit******"
 
 git stash -q --keep-index
 
+
+./gradlew ktlintFormat
 ./gradlew test
 
 status=$?

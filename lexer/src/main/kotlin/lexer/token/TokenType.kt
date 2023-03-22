@@ -2,7 +2,7 @@ package lexer.token
 
 enum class TokenType {
 
-    //ASSIGNATION
+    // ASSIGNATION
     ASSIGNATION,
 
     SEMICOLON,
@@ -10,15 +10,15 @@ enum class TokenType {
 
     IDENTIFIER,
 
-    //KEYWORDS
+    // KEYWORDS
     LET,
     PRINTLN,
 
-    //TYPES
+    // TYPES
     STRING_TYPE,
     NUMBER_TYPE,
 
-    //OPERATIONS
+    // OPERATIONS
     PLUS,
     MINUS,
     TIMES,
@@ -26,11 +26,11 @@ enum class TokenType {
     OPEN_PARENTHESIS,
     CLOSE_PARENTHESIS,
 
-    //DECLARATIONS
+    // DECLARATIONS
     NUMERIC_LITERAL,
     STRING_LITERAL,
 
-    //EVALUATORS
+    // EVALUATORS
     EQUALS,
     GREATER_EQUALS,
     LESSER_EQUALS,
@@ -38,6 +38,5 @@ enum class TokenType {
     LESSER_THAN,
     DIFFERENT,
     AND,
-    OR,
-
+    OR
 }

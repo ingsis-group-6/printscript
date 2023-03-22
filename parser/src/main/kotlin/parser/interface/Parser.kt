@@ -7,5 +7,4 @@ interface Parser {
      * 2. Genera el AST
      * 3. Santi me chupa el pito :D
      */
-
 }

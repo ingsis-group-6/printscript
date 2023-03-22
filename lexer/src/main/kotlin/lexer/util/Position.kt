@@ -1,4 +1,3 @@
 package lexer.util
 
-class Position {
-}
+class Position

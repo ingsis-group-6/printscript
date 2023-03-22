@@ -5,7 +5,6 @@ object StringReadingChecker {
     private var previousChar = EMPTY_CHAR
     private var currentStringClosingChar = EMPTY_CHAR
 
-
     fun isPartOfString(currentChar: Char): Boolean {
         when {
             // cuando arranca o cierra el str
@@ -31,6 +30,4 @@ object StringReadingChecker {
     private fun isStringCharacter(currentChar: Char) = currentChar == '"' || currentChar == '\''
 
     private fun isInMiddleOfString() = currentStringClosingChar != EMPTY_CHAR
-
-
 }

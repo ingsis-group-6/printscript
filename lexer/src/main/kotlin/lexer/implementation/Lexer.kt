@@ -2,8 +2,8 @@ package lexer.implementation
 
 import lexer.`interface`.Lexer
 import lexer.`interface`.TokenTypeManager
-import lexer.token.Token
-import lexer.token.TokenType
+import common.token.Token
+import common.token.TokenType
 import lexer.util.StringReadingChecker
 import java.io.File
 import java.util.*

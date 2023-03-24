@@ -2,7 +2,7 @@ package lexer.factory
 
 import TokenTypeManager
 import lexer.implementation.TokenTypeChecker
-import lexer.token.TokenType
+import common.token.TokenType
 
 class TokenTypeManagerFactory {
 

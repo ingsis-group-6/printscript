@@ -1,4 +1,4 @@
-package lexer.token
+package common.token
 
 enum class TokenType {
 

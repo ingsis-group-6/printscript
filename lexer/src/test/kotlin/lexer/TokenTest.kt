@@ -2,8 +2,8 @@ package lexer
 
 import lexer.factory.TokenTypeManagerFactory
 import lexer.implementation.Lexer
-import lexer.token.Token
-import lexer.token.TokenType
+import common.token.Token
+import common.token.TokenType
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.io.File

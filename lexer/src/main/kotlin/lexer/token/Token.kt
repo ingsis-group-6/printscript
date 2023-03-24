@@ -4,7 +4,7 @@ data class Token(
     val order_id: Int,
     val tokenType: TokenType,
     val value: String,
-    val row: Int,
+    val row: Int
     // val col: Int  --> En el momento de crear los tokens en el lexer, fijarse de ir sumando las lengths de las palabras
 
     /*
@@ -19,5 +19,5 @@ data class Token(
             }
         }
      */
-    //TODO: Hacer un token factory o el metodo que genere el token aca
+    // TODO: Hacer un token factory o el metodo que genere el token aca
 )

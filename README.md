@@ -1,3 +1,8 @@
+## Para copiar el script de Pre-Commit a .git/hooks
+
+```./gradlew copyPreCommitHook```
+
+
 ## Para correr PrintScript
 
 Primero pasar la App a un jar

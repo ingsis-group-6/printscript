@@ -1,0 +1,17 @@
+#!/bin/sh
+
+echo "*****Running pre-commit******"
+
+git stash -q --keep-index
+
+
+./gradlew ktlintFormat
+./gradlew test
+
+status=$?
+
+git stash pop -q
+
+echo "*****Done with pre-commit******"
+
+exit $status

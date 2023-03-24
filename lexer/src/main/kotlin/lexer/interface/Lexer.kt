@@ -12,8 +12,6 @@ interface Lexer {
      *
      */
 
-
-
     fun extractTokensFromFile(file: File): List<Token>
 
     /**
@@ -24,7 +22,4 @@ interface Lexer {
      *
      *
      */
-
-
 }
-

@@ -4,6 +4,7 @@
 
 plugins {
     id 'printscript.v1.kotlin-application-conventions'
+    id 'git-hooks'
 }
 
 dependencies {

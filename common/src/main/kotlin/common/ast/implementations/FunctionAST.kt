@@ -3,7 +3,7 @@ package common.ast.implementations
 import common.ast.AST
 import common.token.Token
 
-class FunctionAST: AST {
+class FunctionAST : AST {
     override fun getChildren(): List<AST> {
         TODO("Not yet implemented")
     }

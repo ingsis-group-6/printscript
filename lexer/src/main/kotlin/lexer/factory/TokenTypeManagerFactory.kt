@@ -17,6 +17,7 @@ class TokenTypeManagerFactory {
                 TokenTypeChecker(TokenType.ASSIGNATION) { string -> string == "=" },
                 TokenTypeChecker(TokenType.SEMICOLON) { string -> string == ";" },
                 TokenTypeChecker(TokenType.COLON) { string -> string == ":" },
+                TokenTypeChecker(TokenType.WHITESPACE) { string -> listOf(" ", "\n", "\t").contains(string) },
 
                 TokenTypeChecker(TokenType.IDENTIFIER) { string -> string[0].isLetter() && !keywords.contains(string) },
 
@@ -25,7 +26,7 @@ class TokenTypeManagerFactory {
 
 //                TokenTypeChecker(TokenType.NUMBER_TYPE) { string -> string == "number" },
 //                TokenTypeChecker(TokenType.STRING_TYPE) { string -> string == "string" },
-                TokenTypeChecker(TokenType.TYPE) {string -> string == "number" || string == "string"},
+                TokenTypeChecker(TokenType.TYPE) { string -> string == "number" || string == "string" },
 
                 TokenTypeChecker(TokenType.PLUS) { string -> string == "+" },
                 TokenTypeChecker(TokenType.MINUS) { string -> string == "-" },

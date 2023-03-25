@@ -9,12 +9,11 @@ import common.token.Token
 object ASTFactory {
 
     fun createAST(type: ASTType, tokens: List<Token>): AST {
-        return when(type) {
+        return when (type) {
             ASTType.ASSIGNATION -> AssignationAST() // aca va la logica de crear el assignation
             ASTType.DECLARATION -> DeclarationAST(tokens)
             ASTType.DECLARATION_ASSIGNATION -> DeclarationAssignationAST()
             ASTType.FUNCTION -> FunctionAST()
         }
     }
-
 }

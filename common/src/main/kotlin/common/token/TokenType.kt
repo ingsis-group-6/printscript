@@ -21,7 +21,6 @@ enum class TokenType {
 //    NUMBER_TYPE,
     TYPE,
 
-
     // OPERATIONS
     PLUS,
     MINUS,

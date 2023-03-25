@@ -1,4 +1,3 @@
 package common.exceptions
 
-class InvalidTokenInputException(message: String): Exception(message) {
-}
+class InvalidTokenInputException(message: String) : Exception(message)

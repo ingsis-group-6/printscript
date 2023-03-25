@@ -7,6 +7,8 @@ enum class TokenType {
 
     SEMICOLON,
     COLON,
+    EOF,
+    WHITESPACE,
 
     IDENTIFIER,
 
@@ -15,8 +17,10 @@ enum class TokenType {
     PRINTLN,
 
     // TYPES
-    STRING_TYPE,
-    NUMBER_TYPE,
+//    STRING_TYPE,
+//    NUMBER_TYPE,
+    TYPE,
+
 
     // OPERATIONS
     PLUS,

@@ -1,9 +1,9 @@
 package lexer
 
-import lexer.factory.TokenTypeManagerFactory
-import lexer.implementation.Lexer
 import common.token.Token
 import common.token.TokenType
+import lexer.factory.TokenTypeManagerFactory
+import lexer.implementation.Lexer
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -39,7 +39,7 @@ class TokenTest {
             Token(0, TokenType.LET, "let", 0),
             Token(1, TokenType.IDENTIFIER, "myVar", 0),
             Token(2, TokenType.COLON, ":", 0),
-            Token(3, TokenType.STRING_TYPE, "string", 0),
+            Token(3, TokenType.TYPE, "string", 0),
             Token(4, TokenType.ASSIGNATION, "=", 0),
             Token(5, TokenType.STRING_LITERAL, "\"hello\"", 0),
             Token(6, TokenType.SEMICOLON, ";", 0)

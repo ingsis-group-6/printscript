@@ -1,8 +1,8 @@
 package lexer.factory
 
 import TokenTypeManager
-import lexer.implementation.TokenTypeChecker
 import common.token.TokenType
+import lexer.implementation.TokenTypeChecker
 
 class TokenTypeManagerFactory {
 
@@ -23,8 +23,9 @@ class TokenTypeManagerFactory {
                 TokenTypeChecker(TokenType.LET) { string -> string == "let" },
                 TokenTypeChecker(TokenType.PRINTLN) { string -> string == "println" },
 
-                TokenTypeChecker(TokenType.NUMBER_TYPE) { string -> string == "number" },
-                TokenTypeChecker(TokenType.STRING_TYPE) { string -> string == "string" },
+//                TokenTypeChecker(TokenType.NUMBER_TYPE) { string -> string == "number" },
+//                TokenTypeChecker(TokenType.STRING_TYPE) { string -> string == "string" },
+                TokenTypeChecker(TokenType.TYPE) {string -> string == "number" || string == "string"},
 
                 TokenTypeChecker(TokenType.PLUS) { string -> string == "+" },
                 TokenTypeChecker(TokenType.MINUS) { string -> string == "-" },

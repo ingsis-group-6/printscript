@@ -15,6 +15,7 @@ class LexerTest {
         val tokens = lexer.extractTokensFromFile(File("src/test/resources/OneLineFile1.txt"))
         tokens.map { println(it) }
         Assertions.assertEquals(4, tokens.size)
+
     }
 
     @Test
@@ -22,7 +23,7 @@ class LexerTest {
         val tokens = lexer.extractTokensFromFile(File("src/test/resources/OneLineFile2.txt"))
         tokens.map { println(it) }
         ResultOutput.writeListToFile(tokens, "src/test/resources/outputs/testOneLineFile2_output.txt")
-        Assertions.assertEquals(12, tokens.size)
+        Assertions.assertEquals(16, tokens.size)
     }
 
     @Test

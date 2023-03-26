@@ -11,7 +11,6 @@ class TokenTypeManagerFactory {
             val keywords = listOf("let", "number", "string", "println")
             return TokenTypeManager(generateCheckerList(keywords))
         }
-
         private fun generateCheckerList(keywords: List<String>): List<TokenTypeChecker> {
             return listOf(
                 TokenTypeChecker(TokenType.ASSIGNATION) { string -> string == "=" },
@@ -28,12 +27,14 @@ class TokenTypeManagerFactory {
 //                TokenTypeChecker(TokenType.STRING_TYPE) { string -> string == "string" },
                 TokenTypeChecker(TokenType.TYPE) { string -> string == "number" || string == "string" },
 
-                TokenTypeChecker(TokenType.PLUS) { string -> string == "+" },
-                TokenTypeChecker(TokenType.MINUS) { string -> string == "-" },
-                TokenTypeChecker(TokenType.TIMES) { string -> string == "*" },
-                TokenTypeChecker(TokenType.DIVIDED_BY) { string -> string == "/" },
+//                TokenTypeChecker(TokenType.PLUS) { string -> string == "+" },
+//                TokenTypeChecker(TokenType.MINUS) { string -> string == "-" },
+//                TokenTypeChecker(TokenType.TIMES) { string -> string == "*" },
+//                TokenTypeChecker(TokenType.DIVIDED_BY) { string -> string == "/" },
                 TokenTypeChecker(TokenType.OPEN_PARENTHESIS) { string -> string == "(" },
                 TokenTypeChecker(TokenType.CLOSE_PARENTHESIS) { string -> string == ")" },
+
+                TokenTypeChecker(TokenType.OPERATOR) { string -> listOf("+", "-", "*", "/").contains(string) },
 
                 TokenTypeChecker(TokenType.NUMERIC_LITERAL) { string -> string[0].isDigit() },
                 TokenTypeChecker(TokenType.STRING_LITERAL) {

@@ -13,7 +13,7 @@ class Parser : Parser {
         return generateTreeFromTokenList(tokens)
     }
 
-    fun generateTreeFromTokenList(tokens: List<Token>): AST {
+    private fun generateTreeFromTokenList(tokens: List<Token>): AST {
         val inputTokenTypes = tokens.map { it.tokenType }
 
         val foundAST = when {

@@ -15,6 +15,7 @@ enum class TokenType {
     // KEYWORDS
     LET,
     PRINTLN,
+    FUNCTION,
 
     // TYPES
 //    STRING_TYPE,
@@ -28,6 +29,7 @@ enum class TokenType {
     DIVIDED_BY,
     OPEN_PARENTHESIS,
     CLOSE_PARENTHESIS,
+    OPERATOR,
 
     // DECLARATIONS
     NUMERIC_LITERAL,

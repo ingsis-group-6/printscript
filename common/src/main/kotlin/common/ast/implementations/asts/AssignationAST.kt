@@ -21,22 +21,16 @@ class AssignationAST(private val tokens: List<Token>) : AST {
 
         val rhs = extractRHS(tokensWithoutWhitespace)
         valueNode = if (rhs.size == 1) LeafNode(rhs.first().tokenType, rhs.first().value) else createExpressionNode(rhs)
-
-
-
     }
 
     //  5 + ( 3 * ( 2 + 1 ) )
     private fun createExpressionNode(rhs: List<Token>): Node {
-
         for (token in rhs) {
-
         }
 
         // x
 
         return LeafNode(TokenType.TYPE, "sa")
-
     }
 
     // num = 4;
@@ -44,11 +38,10 @@ class AssignationAST(private val tokens: List<Token>) : AST {
     // ID = LITERAL / EXPRESSION ;
     private fun validateInputTokens(tokens: List<Token>): Boolean {
         val validBody =
-                    tokens.size >= 4
-                    && tokens.first().tokenType == TokenType.IDENTIFIER
-                    && tokens[1].tokenType == TokenType.ASSIGNATION
-                    && tokens.last().tokenType == TokenType.SEMICOLON
-
+            tokens.size >= 4 &&
+                tokens.first().tokenType == TokenType.IDENTIFIER &&
+                tokens[1].tokenType == TokenType.ASSIGNATION &&
+                tokens.last().tokenType == TokenType.SEMICOLON
 
         val rightHandSide = extractRHS(tokens)
         val rhsIsValid = validateRightHandSide(rightHandSide)
@@ -71,7 +64,6 @@ class AssignationAST(private val tokens: List<Token>) : AST {
         return rightHandSide.all { token: Token -> validTokenTypes.contains(token.tokenType) }
     }
 
-
     override fun getChildren(): List<Node> {
         return listOf(this.identifierLeafNode, this.valueNode)
     }
@@ -80,5 +72,3 @@ class AssignationAST(private val tokens: List<Token>) : AST {
         return this.tokens
     }
 }
-
-

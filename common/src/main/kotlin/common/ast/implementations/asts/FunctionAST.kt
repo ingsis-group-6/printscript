@@ -47,7 +47,6 @@ class FunctionAST(private val tokens: List<Token>) : AST {
         return tokensWithoutWhitespace == templateList1 || tokensWithoutWhitespace == templateList2 || tokensWithoutWhitespace == templateList3
     }
 
-
     override fun getChildren(): List<Node> {
         return listOf(functionNode, paramNode)
     }

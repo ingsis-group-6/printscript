@@ -24,9 +24,7 @@ class DeclarationAssignationAST(private val tokens: List<Token>) : AST {
 
         declarationAST = DeclarationAST(listForDeclaration)
         assignationAST = AssignationAST(listForAssignation)
-
     }
-
 
     override fun getChildren(): List<Node> {
         return declarationAST.getChildren() + assignationAST.getChildren()

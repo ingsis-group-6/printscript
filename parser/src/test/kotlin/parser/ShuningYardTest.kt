@@ -44,10 +44,13 @@ fun infixToPostfix(infix: String): List<MathOperation> {
             is MathOperation.Operator -> {
                 while (operatorStack.isNotEmpty()) {
                     val top = operatorStack.peek() as? MathOperation.Operator ?: break
-                    if ((operation.associativity == MathOperation.Operator.Associativity.LEFT && operation.precedence <= top.precedence)
-                        || (operation.associativity == MathOperation.Operator.Associativity.RIGHT && operation.precedence < top.precedence)) {
+                    if ((operation.associativity == MathOperation.Operator.Associativity.LEFT && operation.precedence <= top.precedence) ||
+                        (operation.associativity == MathOperation.Operator.Associativity.RIGHT && operation.precedence < top.precedence)
+                    ) {
                         outputQueue.add(operatorStack.pop())
-                    } else break
+                    } else {
+                        break
+                    }
                 }
                 operatorStack.push(operation)
             }

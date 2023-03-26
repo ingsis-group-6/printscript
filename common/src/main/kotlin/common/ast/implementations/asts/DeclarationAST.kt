@@ -27,7 +27,6 @@ class DeclarationAST(private val tokens: List<Token>) : AST {
         typeLeafNode = LeafNode(TokenType.TYPE, typeToken?.value ?: "")
     }
 
-
     private fun validateInputTokens(tokens: List<Token>): Boolean {
         val templateList = listOf(
             TokenType.LET,
@@ -39,7 +38,6 @@ class DeclarationAST(private val tokens: List<Token>) : AST {
         return tokens.size == 5 && tokens.map { token: Token -> token.tokenType } == templateList
     }
 
-
     override fun getChildren(): List<Node> {
         return listOf(letLeafNode, identifierLeafNode, typeLeafNode)
     }
@@ -48,6 +46,5 @@ class DeclarationAST(private val tokens: List<Token>) : AST {
         return this.tokens
     }
 }
-
 
 // () podria ser Unary

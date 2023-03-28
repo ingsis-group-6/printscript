@@ -1,7 +1,3 @@
 package parser.interfaces
 
-interface Parser {
-
-
-
-}
+interface Parser

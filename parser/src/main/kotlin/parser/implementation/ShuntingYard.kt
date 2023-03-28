@@ -10,7 +10,6 @@ class ShuntingYard {
 
         for (token in tokens) {
             when {
-
                 token.toDoubleOrNull() != null -> valueQueue.add(token)
                 token in listOf("+", "-", "*", "/") -> {
                     while (!stack.isEmpty() && stack.peek() in listOf("*", "/") && stack.peek() != "(") {
@@ -46,7 +45,6 @@ class ShuntingYard {
 
         return treeStack.pop()
     }
-
 }
 
 data class TreeNode(val headToken: String, val left: TreeNode? = null, val right: TreeNode? = null)

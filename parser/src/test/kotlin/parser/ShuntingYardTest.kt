@@ -1,7 +1,6 @@
 package parser
 
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import parser.implementation.ShuntingYard
 import parser.implementation.TreeNode
@@ -9,8 +8,9 @@ import parser.implementation.TreeNode
 class ShuntingYardTest {
 
     private val sy = ShuntingYard()
+
     @Test
-    fun testSimpleCase(){
+    fun testSimpleCase() {
         val input = listOf(
             "(",
             "4",
@@ -31,7 +31,6 @@ class ShuntingYardTest {
 //        );
         val tree = sy.shuntingYard(input)
         print(tree)
-
     }
 
     @Test
@@ -66,15 +65,11 @@ class ShuntingYardTest {
         assertEquals(expectedTree, sy.shuntingYard(tokens))
     }
 
-
-    // TODO: Fix this case 
+    // TODO: Fix this case
     /*@Test
     fun testInvalidExpression() {
         val tokens = listOf("(", "1", "+", "2", ")", "*", "*", "3")
-        
+
         assertNull(sy.shuntingYard(tokens))
     }*/
-    
-
-
 }

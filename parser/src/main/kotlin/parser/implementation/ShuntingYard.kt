@@ -47,5 +47,3 @@ class ShuntingYard {
         return treeStack.pop()
     }
 }
-
-

@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import parser.implementation.ShuntingYard
 
-
 class ShuntingYardTest {
 
     private val sy = ShuntingYard()

@@ -5,7 +5,6 @@ import common.ast.implementations.node.TreeNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-
 class ShuntingYardTest {
 
     private val sy = ShuntingYard()

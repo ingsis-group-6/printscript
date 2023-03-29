@@ -152,16 +152,15 @@ class MathExpressionValidationTest {
     }
 
     @Test
-    fun testConsecutiveOperatorsAndParenthesis(){
+    fun testConsecutiveOperatorsAndParenthesis() {
         val expression = "( 6 - 2 - 3)((9*9) + 3 - 4 )"
         assertTrue(isMathExpressionCorrect(expression))
-
     }
+
     @Test
-    fun testNonClosingParenthesis(){
+    fun testNonClosingParenthesis() {
         val expression = "( 6 - 2 - 3))(()((9*9) + 3 - 4 )"
         assertFalse(isMathExpressionCorrect(expression))
-
     }
 
     @Test
@@ -242,10 +241,4 @@ class MathExpressionValidationTest {
         assertFalse(isValidMathExpression(listOf("5", "+", "-", "3")))
         assertFalse(isValidMathExpression(listOf("5", "+", "3", "*", "/", "4", "/", "2")))
     }
-
-
-
-
-
-
 }

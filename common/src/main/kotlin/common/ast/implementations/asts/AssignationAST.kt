@@ -30,14 +30,12 @@ class AssignationAST(private val tokens: List<Token>) : AST {
     private fun createExpressionNode(rhs: List<Token>): Node {
         val rhsValuesList = rhs.map { token: Token -> token.value }
         val validExpression = isValidMathExpression(rhsValuesList)
-        if(!validExpression) throw InvalidExpressionExeption("The expression on the right-hand side is invalid")
+        if (!validExpression) throw InvalidExpressionExeption("The expression on the right-hand side is invalid")
         val shuntingYard = ShuntingYard()
         return shuntingYard.shuntingYard(rhsValuesList)
-
-
     }
 
-    fun isValidMathExpression(tokens: List<String>): Boolean {
+    private fun isValidMathExpression(tokens: List<String>): Boolean {
         val stack = mutableListOf<String>()
         var prevToken = ""
 
@@ -78,7 +76,6 @@ class AssignationAST(private val tokens: List<Token>) : AST {
 
         return stack.isEmpty() && prevToken != "" && prevToken != "(" && prevToken != "." // last token must be a number, variable, or closing parenthesis
     }
-
 
     private fun validateInputTokens(tokens: List<Token>): Boolean {
         val validBody =

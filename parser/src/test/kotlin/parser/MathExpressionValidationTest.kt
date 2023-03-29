@@ -101,8 +101,6 @@ class MathExpressionValidationTest {
         return stack.isEmpty() && prevToken != "" && prevToken != "(" && prevToken != "." // last token must be a number, variable, or closing parenthesis
     }
 
-
-
     @Test
     fun testValidExpression() {
         val expression = "2 * (4 + 6) / 3 - 5"

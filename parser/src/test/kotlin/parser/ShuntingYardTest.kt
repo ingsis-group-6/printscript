@@ -42,8 +42,8 @@ class ShuntingYardTest {
 
     @Test
     fun testSimpleMultiplication() {
-        val tokens = listOf("3", "*", "4")
-        val expectedTree = TreeNode("*", TreeNode("3"), TreeNode("4"))
+        val tokens = listOf("myVar", "*", "4")
+        val expectedTree = TreeNode("*", TreeNode("myVar"), TreeNode("4"))
         assertEquals(expectedTree, sy.shuntingYard(tokens))
     }
 

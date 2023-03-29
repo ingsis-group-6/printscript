@@ -3,9 +3,12 @@ package common.ast.implementations.asts
 import common.ast.AST
 import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
+import common.ast.implementations.node.TreeNode
+import common.exceptions.InvalidExpressionExeption
 import common.exceptions.InvalidTokenInputException
 import common.token.Token
 import common.token.TokenType
+import java.util.*
 
 class AssignationAST(private val tokens: List<Token>) : AST {
 
@@ -25,17 +28,58 @@ class AssignationAST(private val tokens: List<Token>) : AST {
 
     //  5 + ( 3 * ( 2 + 1 ) )
     private fun createExpressionNode(rhs: List<Token>): Node {
-        for (token in rhs) {
-        }
+        val rhsValuesList = rhs.map { token: Token -> token.value }
+        val validExpression = isValidMathExpression(rhsValuesList)
+        if(!validExpression) throw InvalidExpressionExeption("The expression on the right-hand side is invalid")
+        val shuntingYard = ShuntingYard()
+        return shuntingYard.shuntingYard(rhsValuesList)
 
-        // x
 
-        return LeafNode(TokenType.TYPE, "sa")
     }
 
-    // num = 4;
+    fun isValidMathExpression(tokens: List<String>): Boolean {
+        val stack = mutableListOf<String>()
+        var prevToken = ""
 
-    // ID = LITERAL / EXPRESSION ;
+        for (i in tokens.indices) {
+            val token = tokens[i]
+            when {
+                token == "(" -> {
+                    if (prevToken.isNotEmpty() && (prevToken.matches(Regex("[0-9.]+")) || prevToken == ")")) {
+                        return false // opening parenthesis cannot follow a number, decimal point, or closing parenthesis
+                    }
+                    stack.add(token)
+                    prevToken = ""
+                }
+                token == ")" -> {
+                    if (stack.isNotEmpty() && stack.last() == "(" && prevToken != "(" && prevToken != "") {
+                        stack.removeAt(stack.lastIndex)
+                        prevToken = ")"
+                    } else {
+                        return false
+                    }
+                }
+                token in setOf("+", "-", "*", "/") -> {
+                    if (i == 0 || i == tokens.lastIndex || prevToken.matches(Regex("[+\\-*/]")) || prevToken == "(") {
+                        return false // operator cannot be at beginning or end of expression, or follow another operator or opening parenthesis
+                    } else {
+                        prevToken = token
+                    }
+                }
+                token.matches(Regex("[a-zA-Z][a-zA-Z0-9]*|[0-9.]+")) -> {
+                    if (prevToken.isNotEmpty() && (prevToken.matches(Regex("[a-zA-Z][a-zA-Z0-9]*")) || prevToken.matches(Regex("[0-9.]+")))) {
+                        return false // variables and numbers cannot be consecutive
+                    }
+                    prevToken = token
+                }
+                else -> return false // invalid character
+            }
+        }
+
+        return stack.isEmpty() && prevToken != "" && prevToken != "(" && prevToken != "." // last token must be a number, variable, or closing parenthesis
+    }
+
+
     private fun validateInputTokens(tokens: List<Token>): Boolean {
         val validBody =
             tokens.size >= 4 &&
@@ -70,5 +114,50 @@ class AssignationAST(private val tokens: List<Token>) : AST {
 
     override fun getTokensInLine(): List<Token> {
         return this.tokens
+    }
+}
+
+class ShuntingYard {
+
+    fun shuntingYard(tokens: List<String>): Node {
+        val stack = Stack<String>()
+        val valueQueue: Queue<String> = LinkedList()
+
+        for (token in tokens) {
+            when {
+                token.toDoubleOrNull() != null -> valueQueue.add(token)
+                token in listOf("+", "-", "*", "/") -> {
+                    while (!stack.isEmpty() && stack.peek() in listOf("*", "/") && stack.peek() != "(") {
+                        valueQueue.add(stack.pop()!!)
+                    }
+                    stack.push(token)
+                }
+                token == "(" -> stack.push(token)
+                token == ")" -> {
+                    while (stack.peek() != "(") {
+                        valueQueue.add(stack.pop()!!)
+                    }
+                    stack.pop()
+                }
+            }
+        }
+
+        while (!stack.isEmpty()) {
+            valueQueue.add(stack.pop()!!)
+        }
+
+        val treeStack = Stack<TreeNode>()
+
+        for (element in valueQueue) {
+            if (element.toDoubleOrNull() != null) {
+                treeStack.push(TreeNode(element))
+            } else {
+                val right = treeStack.pop()
+                val left = treeStack.pop()
+                treeStack.push(TreeNode(element, left, right))
+            }
+        }
+
+        return treeStack.pop()
     }
 }

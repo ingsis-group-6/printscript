@@ -1,9 +1,10 @@
 package parser
 
+import common.ast.implementations.asts.ShuntingYard
 import common.ast.implementations.node.TreeNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import parser.implementation.ShuntingYard
+
 
 class ShuntingYardTest {
 

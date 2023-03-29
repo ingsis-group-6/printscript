@@ -1,5 +1,6 @@
 package parser.implementation
 
+import common.ast.implementations.node.TreeNode
 import java.util.*
 
 class ShuntingYard {
@@ -47,4 +48,4 @@ class ShuntingYard {
     }
 }
 
-data class TreeNode(val headToken: String, val left: TreeNode? = null, val right: TreeNode? = null)
+

@@ -17,7 +17,7 @@ class ParserASTDetectionTest {
             "TYPE",
             "SEMICOLON"
         )
-        val ast1 = parser.testFunction(tokens)
+        val ast1 = parser.detectASTType(tokens)
         Assertions.assertEquals(ASTType.DECLARATION, ast1)
     }
 
@@ -30,7 +30,7 @@ class ParserASTDetectionTest {
             "CLOSE_PARENTHESIS",
             "SEMICOLON"
         )
-        val ast1 = parser.testFunction(tokens)
+        val ast1 = parser.detectASTType(tokens)
         Assertions.assertEquals(ASTType.FUNCTION, ast1)
     }
 
@@ -42,7 +42,7 @@ class ParserASTDetectionTest {
             "STRING_LITERAL",
             "SEMICOLON"
         )
-        val ast1 = parser.testFunction(tokens)
+        val ast1 = parser.detectASTType(tokens)
         Assertions.assertEquals(ASTType.ASSIGNATION, ast1)
     }
 
@@ -58,7 +58,7 @@ class ParserASTDetectionTest {
             "SEMICOLON"
         )
 
-        val ast1 = parser.testFunction(tokens)
+        val ast1 = parser.detectASTType(tokens)
 
         Assertions.assertEquals(ASTType.DECLARATION_ASSIGNATION, ast1)
         val tokens2 = TokenTypeListGenerator.generateTokenTypes(
@@ -70,7 +70,7 @@ class ParserASTDetectionTest {
             "NUMERIC_LITERAL",
             "SEMICOLON"
         )
-        val ast2 = parser.testFunction(tokens2)
+        val ast2 = parser.detectASTType(tokens2)
         Assertions.assertEquals(ASTType.DECLARATION_ASSIGNATION, ast2)
     }
 }

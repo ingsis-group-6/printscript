@@ -16,16 +16,12 @@ class Parser : Parser {
     private fun generateTreeFromTokenList(tokens: List<Token>): AST {
         val inputTokenTypes = tokens.map { it.tokenType }
 
-        val foundAST = when {
-            inputTokenTypes.first() == TokenType.IDENTIFIER -> ASTType.ASSIGNATION
-            inputTokenTypes.contains(TokenType.LET) && !inputTokenTypes.contains(TokenType.ASSIGNATION) -> ASTType.DECLARATION
-            inputTokenTypes.contains(TokenType.ASSIGNATION) -> ASTType.DECLARATION_ASSIGNATION
-            else -> ASTType.FUNCTION
-        }
+        val foundAST = detectASTType(inputTokenTypes)
         return ASTFactory.createAST(foundAST, tokens)
     }
 
-    fun testFunction(inputTokenTypes: List<TokenType>): ASTType {
+
+    fun detectASTType(inputTokenTypes: List<TokenType>): ASTType {
         val foundAST = when {
             inputTokenTypes.first() == TokenType.IDENTIFIER -> ASTType.ASSIGNATION
             inputTokenTypes.contains(TokenType.LET) && !inputTokenTypes.contains(TokenType.ASSIGNATION) -> ASTType.DECLARATION

@@ -4,7 +4,7 @@ import common.ast.AST
 import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
 import common.ast.implementations.node.TreeNode
-import common.exceptions.InvalidExpressionExeption
+import common.exceptions.InvalidExpressionException
 import common.exceptions.InvalidTokenInputException
 import common.token.Token
 import common.token.TokenType
@@ -30,7 +30,7 @@ class AssignationAST(private val tokens: List<Token>) : AST {
     private fun createExpressionNode(rhs: List<Token>): Node {
         val rhsValuesList = rhs.map { token: Token -> token.value }
         val validExpression = isValidMathExpression(rhsValuesList)
-        if (!validExpression) throw InvalidExpressionExeption("The expression on the right-hand side is invalid")
+        if (!validExpression) throw InvalidExpressionException("The expression on the right-hand side is invalid")
         val shuntingYard = ShuntingYard()
         return shuntingYard.shuntingYard(rhsValuesList)
     }

@@ -5,11 +5,13 @@ import common.ast.ASTFactory
 import common.ast.ASTType
 import common.token.Token
 import common.token.TokenType
+import parser.exceptions.EmptyTokenInputException
 import parser.interfaces.Parser
 
 class Parser : Parser {
 
     override fun parse(tokens: List<Token>): AST {
+        if (tokens.isEmpty()) throw EmptyTokenInputException("The input token list is empty.")
         return generateTreeFromTokenList(tokens)
     }
 
@@ -19,7 +21,6 @@ class Parser : Parser {
         val foundAST = detectASTType(inputTokenTypes)
         return ASTFactory.createAST(foundAST, tokens)
     }
-
 
     fun detectASTType(inputTokenTypes: List<TokenType>): ASTType {
         val foundAST = when {

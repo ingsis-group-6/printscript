@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import parser.implementation.Parser
 
-class ParserTest {
+class ParserASTDetectionTest {
     val parser = Parser()
 
     @Test
@@ -70,7 +70,7 @@ class ParserTest {
             "NUMERIC_LITERAL",
             "SEMICOLON"
         )
-        val ast2 = parser.testFunction(tokens)
+        val ast2 = parser.testFunction(tokens2)
         Assertions.assertEquals(ASTType.DECLARATION_ASSIGNATION, ast2)
     }
 }

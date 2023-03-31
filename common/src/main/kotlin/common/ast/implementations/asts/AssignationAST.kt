@@ -57,6 +57,7 @@ class AssignationAST(private val tokens: List<Token>) : AST {
                         return false
                     }
                 }
+
                 isOperator(token) -> {
                     if (i == 0 || i == tokens.lastIndex || prevToken.matches(Regex("[+\\-*/]")) || prevToken == "(") {
                         return false // operator cannot be at beginning or end of expression, or follow another operator or opening parenthesis

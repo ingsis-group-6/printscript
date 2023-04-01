@@ -6,3 +6,8 @@ plugins {
 dependencies {
     implementation project(':common')
 }
+
+ktlint {
+    outputToConsole = true
+    outputColorName = "RED"
+}

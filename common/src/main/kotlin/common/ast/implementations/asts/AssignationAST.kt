@@ -117,6 +117,10 @@ class AssignationAST(private val tokens: List<Token>) : AST {
     override fun getTokensInLine(): List<Token> {
         return this.tokens
     }
+
+    fun getIdentifier(): String = this.identifierLeafNode.getValue()
+
+    fun getRhsNode(): Node = this.valueNode
 }
 
 class ShuntingYard {

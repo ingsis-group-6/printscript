@@ -16,6 +16,20 @@ class Interpreter: Interpreter {
 
     private val symbolTable = mutableMapOf<String, Pair<String, String>>()
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     override fun interpret(ast: AST) {
         return when (ast){
             is DeclarationAST -> {

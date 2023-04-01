@@ -1,16 +1,15 @@
 package lexer.implementation
 
+import common.token.Token
+import common.token.TokenType
 import lexer.`interface`.Lexer
 import lexer.`interface`.TokenTypeManager
-import lexer.token.Token
-import lexer.token.TokenType
 import lexer.util.StringReadingChecker
 import java.io.File
 import java.util.*
 
 class Lexer(
     private val list: TokenTypeManager,
-    private val wordSeparationChars: List<Char>, // chars que separan las palabras, ej: espacio, comas en los params de un metodo
     private val tokenChars: List<Char>
 ) : Lexer { // chars que separan las palabras, pero representan una operacion y se incluyen como token
 
@@ -53,15 +52,11 @@ class Lexer(
                 soFar += char
                 continue
             }
-            if (!wordSeparationChars.contains(char) && !tokenChars.contains(char)) {
-                if (tokenChars.contains(char)) {
-                    stringsToReturn.add(char.toString())
-                    soFar = ""
-                }
+            if (!tokenChars.contains(char)) {
                 soFar += char
             } else {
                 if (soFar != "") stringsToReturn.add(soFar)
-                if (tokenChars.contains(char)) stringsToReturn.add(char.toString())
+                stringsToReturn.add(char.toString())
                 soFar = ""
             }
         }

@@ -1,1 +1,1 @@
-let myStringVar : number = 3;
+let myStringVar : number = 3 - 2;

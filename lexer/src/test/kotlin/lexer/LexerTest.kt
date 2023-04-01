@@ -8,7 +8,7 @@ import java.io.File
 
 class LexerTest {
 
-    private val lexer = Lexer(TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(' '), listOf(';', ':', '(', ')'))
+    private val lexer = Lexer(TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(';', ':', '(', ')', ' ', '\n', '\t'))
 
     @Test
     fun testOneLineFile1() {
@@ -21,13 +21,16 @@ class LexerTest {
     fun testOneLineFile2() {
         val tokens = lexer.extractTokensFromFile(File("src/test/resources/OneLineFile2.txt"))
         tokens.map { println(it) }
-        Assertions.assertEquals(7, tokens.size)
+        ResultOutput.writeListToFile(tokens, "src/test/resources/outputs/testOneLineFile2_output.txt")
+        Assertions.assertEquals(16, tokens.size)
     }
 
     @Test
     fun testFiveLineFile() {
         val tokens = lexer.extractTokensFromFile(File("src/test/resources/FiveLineFile.txt"))
-        Assertions.assertEquals(35, tokens.size)
+        ResultOutput.writeListToFile(tokens, "src/test/resources/outputs/testFiveLineFile_output.txt")
+
+        Assertions.assertEquals(55, tokens.size)
     }
 
     @Test

@@ -23,6 +23,7 @@ class FunctionAST(private val tokens: List<Token>) : AST {
     }
 
     private fun validateBody(tokensWithoutWhitespace: List<Token>): Boolean {
+        val tokenTypes = tokensWithoutWhitespace.map { token: Token -> token.tokenType }
         val templateList1 = listOf(
             TokenType.PRINTLN,
             TokenType.OPEN_PARENTHESIS,
@@ -44,7 +45,7 @@ class FunctionAST(private val tokens: List<Token>) : AST {
             TokenType.CLOSE_PARENTHESIS,
             TokenType.SEMICOLON
         )
-        return tokensWithoutWhitespace == templateList1 || tokensWithoutWhitespace == templateList2 || tokensWithoutWhitespace == templateList3
+        return tokenTypes == templateList1 || tokenTypes == templateList2 || tokenTypes == templateList3
     }
 
     override fun getChildren(): List<Node> {
@@ -53,5 +54,10 @@ class FunctionAST(private val tokens: List<Token>) : AST {
 
     override fun getTokensInLine(): List<Token> {
         return tokens
+    }
+
+    // no me gusta nada esto
+    fun getParamNode(): LeafNode {
+        return this.paramNode as LeafNode
     }
 }

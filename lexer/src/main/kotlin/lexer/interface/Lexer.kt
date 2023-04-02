@@ -12,7 +12,7 @@ interface Lexer {
      *
      */
 
-    fun extractTokensFromFile(file: File): List<Token>
+    fun extractTokensFromFile(file: File): Unit
 
     /**
      * 1) lees 1 linea

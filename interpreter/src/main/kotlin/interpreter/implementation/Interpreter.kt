@@ -9,7 +9,7 @@ import interpreter.interfaces.Interpreter
 
 class Interpreter : Interpreter {
 
-    private val symbolTable = mutableMapOf<String, Pair<String, String>>()
+    private val symbolTable = mutableMapOf<String, Pair<String, String?>>()
 
     override fun interpret(ast: AST) {
         return when (ast) {
@@ -35,7 +35,7 @@ class Interpreter : Interpreter {
             }
         }
     }
-    fun getSymbolTable(): Map<String, Pair<String, String>> {
+    fun getSymbolTable(): Map<String, Pair<String, String?>> {
         return this.symbolTable
     }
 }

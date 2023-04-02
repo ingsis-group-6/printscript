@@ -12,7 +12,7 @@ import java.lang.AssertionError
 import java.lang.Exception
 
 class AssignationInterpreter(
-    private val symbolTable: MutableMap<String, Pair<String, String>>
+    private val symbolTable: MutableMap<String, Pair<String, String?>>
 ) : Interpreter {
 
     override fun interpret(ast: AST) {
@@ -24,7 +24,7 @@ class AssignationInterpreter(
 
         val rhs = ast.getRhsNode() // ID, LITERAL, EXPRESSION TREE
 
-        val rhsValue: Pair<String, TokenType> = Utils.checkIfInteger(evaluateRhs(rhs))
+        val rhsValue: Pair<String?, TokenType> = Utils.checkIfInteger(evaluateRhs(rhs))
 
         val rhsCalculatedValueType = rhsValue.second
 
@@ -50,8 +50,8 @@ class AssignationInterpreter(
         }
     }
 
-    private fun evaluateRhs(rhs: Node): Pair<String, TokenType> {
-        val foundValue: Pair<String, TokenType> = when (rhs) {
+    private fun evaluateRhs(rhs: Node): Pair<String?, TokenType> {
+        val foundValue: Pair<String?, TokenType> = when (rhs) {
             is LeafNode -> {
                 if (rhs.type == TokenType.IDENTIFIER || rhs.type == TokenType.STRING_LITERAL || rhs.type == TokenType.NUMERIC_LITERAL) {
                     Pair(rhs.getValue(), rhs.type)

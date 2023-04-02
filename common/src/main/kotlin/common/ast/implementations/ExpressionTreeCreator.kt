@@ -62,5 +62,5 @@ object ExpressionTreeCreator {
 
     private fun isOperator(token: String) = token in setOf("+", "-", "*", "/")
 
-    private fun isStringOrNumericValue(token: String) = token.matches(Regex("[a-zA-Z][a-zA-Z0-9]*|[0-9.]+"))
+    private fun isStringOrNumericValue(token: String) = token.matches(Regex("\"[^\"]*\"|'[^']*'|[a-zA-Z][a-zA-Z0-9]*|[0-9.]+"))
 }

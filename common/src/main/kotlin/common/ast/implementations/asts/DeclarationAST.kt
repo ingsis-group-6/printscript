@@ -54,5 +54,3 @@ class DeclarationAST(private val tokens: List<Token>) : AST {
         return typeLeafNode.getValue()
     }
 }
-
-// () podria ser Unary

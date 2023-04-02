@@ -36,10 +36,11 @@ class Interpreter : Interpreter {
 
             is FunctionAST -> {
                 val paramNode = ast.getParamNode()
-                when(paramNode.type) {
+                when (paramNode.type) {
                     TokenType.IDENTIFIER -> {
-                        if(paramNode.getValue() !in symbolTable.keys) throw Exception("Variable ${paramNode.getValue()} is not declared")
-                        else {
+                        if (paramNode.getValue() !in symbolTable.keys) {
+                            throw Exception("Variable ${paramNode.getValue()} is not declared")
+                        } else {
                             println(symbolTable[paramNode.getValue()]!!.second)
                         }
                     }

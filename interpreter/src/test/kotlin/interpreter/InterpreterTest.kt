@@ -2,11 +2,9 @@ package interpreter
 
 import common.ast.ASTFactory
 import common.ast.ASTType
-import common.exceptions.InvalidTokenInputException
 import common.token.Token
 import common.token.TokenType
 import interpreter.implementation.Interpreter
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -153,7 +151,6 @@ class InterpreterTest {
         interpreter.interpret(astFirstLine)
         interpreter.interpret(astSecondLine)
         interpreter.interpret(astThirdLine)
-
     }
 
     companion object {
@@ -197,6 +194,4 @@ class InterpreterTest {
         val ast = ASTFactory.createAST(ASTType.FUNCTION, inputTokens)
         interpreter.interpret(ast)
     }
-
-
 }

@@ -4,10 +4,9 @@ import common.ast.AST
 import common.ast.implementations.asts.DeclarationAST
 import interpreter.interfaces.Interpreter
 
-class DeclarationInterpreter (
-    private val symbolTable : MutableMap<String, Pair<String, String>>
+class DeclarationInterpreter(
+    private val symbolTable: MutableMap<String, Pair<String, String>>
 ) : Interpreter {
-
 
     override fun interpret(ast: AST) {
         ast as DeclarationAST

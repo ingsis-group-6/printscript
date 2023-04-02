@@ -19,7 +19,7 @@ class DeclarationAssignationAST(private val tokens: List<Token>) : AST {
         val listForDeclaration = tokensWithoutWhitespace.subList(0, 4).toMutableList()
         listForDeclaration.add(tokensWithoutWhitespace.last())
         val listForAssignation =
-            listOf(tokensWithoutWhitespace[1]) + tokensWithoutWhitespace.subList(5, tokensWithoutWhitespace.size)
+            listOf(tokensWithoutWhitespace[1]) + tokensWithoutWhitespace.subList(4, tokensWithoutWhitespace.size)
                 .toList()
 
         declarationAST = DeclarationAST(listForDeclaration)

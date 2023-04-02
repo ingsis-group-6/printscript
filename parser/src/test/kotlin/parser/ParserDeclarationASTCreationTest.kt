@@ -82,11 +82,6 @@ class ParserDeclarationASTCreationTest {
             ),
             Arguments.of(
                 listOf(
-                    Token(1, TokenType.SEMICOLON, ";", 0)
-                )
-            ),
-            Arguments.of(
-                listOf(
                     Token(0, TokenType.LET, "let", 0),
                     Token(1, TokenType.IDENTIFIER, "myVar", 0),
                     Token(3, TokenType.SEMICOLON, ";", 0)

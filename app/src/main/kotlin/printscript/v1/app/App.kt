@@ -3,6 +3,7 @@
  */
 package printscript.v1.app
 
+import common.token.Token
 
 
 fun main(args: Array<String>) {
@@ -10,4 +11,6 @@ fun main(args: Array<String>) {
     println("The arguments are: ")
     args.map { println(it) }
 }
+
+
 

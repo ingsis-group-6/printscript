@@ -1,11 +1,13 @@
 package common.ast.implementations.asts
 
 import common.ast.AST
+import common.ast.implementations.ExpressionTreeCreator
 import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
 import common.exceptions.InvalidTokenInputException
 import common.token.Token
 import common.token.TokenType
+import java.lang.Exception
 
 class FunctionAST(private val tokens: List<Token>) : AST {
 
@@ -19,33 +21,38 @@ class FunctionAST(private val tokens: List<Token>) : AST {
         val isValid = validateBody(tokensWithoutWhitespace)
         if (!isValid) throw InvalidTokenInputException("There is a syntax error in line ${tokens.first().row}")
         functionNode = LeafNode(tokensWithoutWhitespace.first().tokenType, tokensWithoutWhitespace.first().value)
-        paramNode = LeafNode(tokensWithoutWhitespace[2].tokenType, tokensWithoutWhitespace[2].value)
+        val param = extractParam(tokensWithoutWhitespace)
+        if (!paramIsValid(param)) throw Exception("Invalid Parameter syntax")
+        paramNode = if (param.size == 1) LeafNode(tokensWithoutWhitespace[2].tokenType, tokensWithoutWhitespace[2].value) else ExpressionTreeCreator.createExpressionNode(param)
     }
 
-    private fun validateBody(tokensWithoutWhitespace: List<Token>): Boolean {
-        val tokenTypes = tokensWithoutWhitespace.map { token: Token -> token.tokenType }
-        val templateList1 = listOf(
-            TokenType.PRINTLN,
+    // print ( xx x x xx xx x x );
+    private fun extractParam(tokens: List<Token>): List<Token> = tokens.subList(2, tokens.lastIndex - 1)
+
+    private fun paramIsValid(param: List<Token>): Boolean {
+        val validTokenTypes = listOf(
+            TokenType.OPERATOR,
             TokenType.OPEN_PARENTHESIS,
+            TokenType.CLOSE_PARENTHESIS,
             TokenType.IDENTIFIER,
-            TokenType.CLOSE_PARENTHESIS,
-            TokenType.SEMICOLON
-        )
-        val templateList2 = listOf(
-            TokenType.PRINTLN,
-            TokenType.OPEN_PARENTHESIS,
-            TokenType.STRING_LITERAL,
-            TokenType.CLOSE_PARENTHESIS,
-            TokenType.SEMICOLON
-        )
-        val templateList3 = listOf(
-            TokenType.PRINTLN,
-            TokenType.OPEN_PARENTHESIS,
             TokenType.NUMERIC_LITERAL,
-            TokenType.CLOSE_PARENTHESIS,
-            TokenType.SEMICOLON
+            TokenType.STRING_LITERAL
         )
-        return tokenTypes == templateList1 || tokenTypes == templateList2 || tokenTypes == templateList3
+
+        return param.all { token: Token -> validTokenTypes.contains(token.tokenType) }
+    }
+
+    // print ( x ) ;
+    private fun validateBody(tokens: List<Token>): Boolean {
+        val validBody =
+            tokens.size >= 5 &&
+                (tokens.first().tokenType == TokenType.PRINTLN || tokens.first().tokenType == TokenType.FUNCTION) &&
+                tokens[1].tokenType == TokenType.OPEN_PARENTHESIS &&
+                tokens[tokens.lastIndex - 1].tokenType == TokenType.CLOSE_PARENTHESIS &&
+                tokens.last().tokenType == TokenType.SEMICOLON
+
+        val param = extractParam(tokens)
+        return validBody && paramIsValid(param)
     }
 
     override fun getChildren(): List<Node> {
@@ -57,7 +64,7 @@ class FunctionAST(private val tokens: List<Token>) : AST {
     }
 
     // no me gusta nada esto
-    fun getParamNode(): LeafNode {
-        return this.paramNode as LeafNode
+    fun getParamNode(): Node {
+        return this.paramNode
     }
 }

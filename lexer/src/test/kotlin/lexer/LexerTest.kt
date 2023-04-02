@@ -39,6 +39,12 @@ class LexerTest {
         assert(tokens.isEmpty())
     }
 
+    @Test
+    fun testConsecutiveLine() {
+        val tokens = lexer.extractTokensFromFile(File("src/test/resources/ConsecutiveLineFile.txt"))
+        ResultOutput.writeListToFile(tokens, "src/test/resources/outputs/ConsecutiveLineFile_output.txt")
+    }
+
     // TODO: AGREGAR TEST PARA TODOS LOS TOKENS
     // TODO: ARREGLAR LOS TESTS Y BORRAR TESTS NO USADOS
 }

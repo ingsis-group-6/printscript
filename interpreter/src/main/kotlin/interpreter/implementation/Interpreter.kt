@@ -5,12 +5,7 @@ import common.ast.implementations.asts.AssignationAST
 import common.ast.implementations.asts.DeclarationAST
 import common.ast.implementations.asts.DeclarationAssignationAST
 import common.ast.implementations.asts.FunctionAST
-import common.ast.implementations.node.LeafNode
-import common.ast.implementations.node.Node
-import common.ast.implementations.node.TreeNode
-import common.token.TokenType
 import interpreter.interfaces.Interpreter
-import java.lang.AssertionError
 
 class Interpreter : Interpreter {
 
@@ -23,8 +18,8 @@ class Interpreter : Interpreter {
             }
 
             is DeclarationAssignationAST -> {
-                DeclarationInterpreter(symbolTable).interpret(ast)
-                AssignationInterpreter(symbolTable).interpret(ast)
+                DeclarationInterpreter(symbolTable).interpret(ast.getDeclarationAST())
+                AssignationInterpreter(symbolTable).interpret(ast.getAssignationAST())
             }
 
             is AssignationAST -> {

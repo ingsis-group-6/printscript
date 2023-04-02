@@ -31,7 +31,7 @@ class InterpreterTest {
         interpreter.interpret(ast)
         assertTrue(interpreter.getSymbolTable().size == 1)
         assertEquals(
-            Pair("number", ""),
+            Pair("number", null),
             interpreter.getSymbolTable().get("myVar")
         )
     }
@@ -109,11 +109,11 @@ class InterpreterTest {
         interpreter.interpret(ast2)
         assertTrue(interpreter.getSymbolTable().size == 2)
         assertEquals(
-            Pair("number", ""),
+            Pair("number", null),
             interpreter.getSymbolTable().get("myVar")
         )
         assertEquals(
-            Pair("string", ""),
+            Pair("string", null),
             interpreter.getSymbolTable().get("myOtherVar")
         )
     }
@@ -163,7 +163,7 @@ class InterpreterTest {
             Token(4, TokenType.ASSIGNATION, "=", 0),
             Token(5, TokenType.NUMERIC_LITERAL, "3", 0),
             Token(6, TokenType.OPERATOR, "+", 0),
-            Token(7, TokenType.STRING_LITERAL, "Hello", 0),
+            Token(7, TokenType.STRING_LITERAL, "'Hello'", 0),
             Token(8, TokenType.SEMICOLON, ";", 0)
         )
 

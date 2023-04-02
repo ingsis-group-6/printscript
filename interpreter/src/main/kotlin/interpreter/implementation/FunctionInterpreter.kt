@@ -9,7 +9,7 @@ import interpreter.Utils
 import interpreter.interfaces.Interpreter
 
 class FunctionInterpreter(
-    private val symbolTable: MutableMap<String, Pair<String, String>>
+    private val symbolTable: MutableMap<String, Pair<String, String?>>
 ) : Interpreter {
 
     override fun interpret(ast: AST) {
@@ -26,7 +26,11 @@ class FunctionInterpreter(
                         }
                     }
 
-                    TokenType.STRING_LITERAL, TokenType.NUMERIC_LITERAL -> {
+                    TokenType.STRING_LITERAL -> {
+                        println(paramNode.getValue().substring(1).dropLast(1))
+                    }
+
+                    TokenType.NUMERIC_LITERAL -> {
                         println(paramNode.getValue())
                     }
 

@@ -23,7 +23,19 @@ class AssignationAST(private val tokens: List<Token>) : AST {
         identifierLeafNode = LeafNode(TokenType.IDENTIFIER, tokensWithoutWhitespace.first().value)
 
         val rhs = extractRHS(tokensWithoutWhitespace)
-        valueNode = if (rhs.size == 1) LeafNode(rhs.first().tokenType, rhs.first().value) else ExpressionTreeCreator.createExpressionNode(rhs)
+        valueNode =
+            if (rhs.size == 1) {
+                LeafNode(
+                    rhs.first().tokenType,
+                    if (rhs.first().tokenType == TokenType.STRING_LITERAL) {
+                        rhs.first().value.substring(1).dropLast(1)
+                    } else {
+                        rhs.first().value
+                    }
+                )
+            } else {
+                ExpressionTreeCreator.createExpressionNode(rhs)
+            }
     }
 
     //  5 + ( 3 * ( 2 + 1 ) )
@@ -77,8 +89,6 @@ class ShuntingYard {
 
         for (token in tokens) {
             when {
-                // TODO si es un string, deberia entrar tambien
-                // token.toDoubleOrNull() != null -> valueQueue.add(token)
                 isStringOrNumberValue(token) -> tokenQueue.add(token)
                 isOperator(token) -> {
                     while (!stack.isEmpty() && hasHigherPrecedence(stack) && stack.peek().tokenType != TokenType.OPEN_PARENTHESIS) {

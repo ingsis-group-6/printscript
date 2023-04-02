@@ -4,9 +4,9 @@ import common.ast.implementations.node.TreeNode
 import common.token.TokenType
 import java.lang.Exception
 
-class ExpressionTreeEvaluator(private val symbolTable: MutableMap<String, Pair<String, String>>) {
+class ExpressionTreeEvaluator(private val symbolTable: MutableMap<String, Pair<String, String?>>) {
 
-    fun evaluateExpression(node: TreeNode): Pair<String, TokenType> =
+    fun evaluateExpression(node: TreeNode): Pair<String?, TokenType> =
         when (node.headToken) {
             "+" -> {
                 val left = evaluateExpression(node.left!!)
@@ -17,7 +17,7 @@ class ExpressionTreeEvaluator(private val symbolTable: MutableMap<String, Pair<S
 
                 when {
                     leftResult.second == TokenType.NUMERIC_LITERAL && rightResult.second == TokenType.NUMERIC_LITERAL -> {
-                        val value = leftResult.first.toDouble() + rightResult.first.toDouble()
+                        val value = leftResult.first!!.toDouble() + rightResult.first!!.toDouble()
                         Pair(value.toString(), TokenType.NUMERIC_LITERAL)
                     }
                     else -> Pair(leftResult.first + rightResult.first, TokenType.STRING_LITERAL)
@@ -28,7 +28,7 @@ class ExpressionTreeEvaluator(private val symbolTable: MutableMap<String, Pair<S
             "/" -> evaluateBinaryOperation(node, Double::div)
             else -> evaluateLiteral(node.headToken)
         }
-    fun getIdentifierValue(expression: Pair<String, TokenType>, symbolTable: Map<String, Pair<String, String>>): Pair<String, TokenType> {
+    fun getIdentifierValue(expression: Pair<String?, TokenType>, symbolTable: MutableMap<String, Pair<String, String?>>): Pair<String?, TokenType> {
         return when (expression.second) {
             TokenType.IDENTIFIER -> {
                 val (type, value) = symbolTable.get(expression.first)
@@ -55,31 +55,39 @@ class ExpressionTreeEvaluator(private val symbolTable: MutableMap<String, Pair<S
         }
     }
 
-    private fun getValue(token: Pair<String, TokenType>): Pair<Double, TokenType> {
+    private fun getValue(token: Pair<String?, TokenType>): Pair<Double, TokenType> {
         return if (token.second == TokenType.IDENTIFIER) {
             if (!symbolTable.contains(token.first)) {
                 throw Exception("The variable ${token.first} is not declared")
             }
+            if (symbolTable[token.first]!!.second == null) {
+                throw Exception("The variable ${token.first} was not initialized")
+            }
             val (type, value) = symbolTable[token.first]!!
             val typeAsTokenType = if (type == "number") TokenType.NUMERIC_LITERAL else TokenType.STRING_LITERAL
-            Pair(value.toDouble(), typeAsTokenType)
+            Pair(value!!.toDouble(), typeAsTokenType)
         } else {
-            Pair(token.first.toDouble(), TokenType.NUMERIC_LITERAL)
+            Pair(token.first!!.toDouble(), TokenType.NUMERIC_LITERAL)
         }
     }
 
-    private fun evaluateLiteral(token: String): Pair<String, TokenType> {
+    private fun evaluateLiteral(token: String): Pair<String?, TokenType> {
         return when {
             isNumber(token) -> {
                 Pair(token, TokenType.NUMERIC_LITERAL)
             }
             (symbolTable.contains(token)) -> {
-                val dataInTable = this.symbolTable.get(key = token)
-                Pair(dataInTable!!.second, if (dataInTable!!.first == "number") TokenType.NUMERIC_LITERAL else TokenType.STRING_LITERAL)
+                if (this.symbolTable.get(key = token)!!.second == null) {
+                    throw Exception("Variable not initialized")
+                } else {
+                    val dataInTable = this.symbolTable.get(key = token)
+                    Pair(dataInTable!!.second, if (dataInTable!!.first == "number") TokenType.NUMERIC_LITERAL else TokenType.STRING_LITERAL)
+                }
             }
-            else -> {
-                Pair(token, TokenType.STRING_LITERAL)
+            (token.startsWith('"') && token.endsWith('"') || token.startsWith('\'') && token.endsWith('\'')) -> {
+                Pair(token.dropLast(1).substring(1), TokenType.STRING_LITERAL)
             }
+            else -> throw Exception("Variable $token not assigned")
         }
     }
 

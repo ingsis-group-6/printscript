@@ -46,7 +46,7 @@ class ParserAssignationASTCreationTest {
         val inputTokens = listOf(
             Token(1, TokenType.IDENTIFIER, "myVar", 0),
             Token(2, TokenType.ASSIGNATION, "=", 0),
-            Token(3, TokenType.STRING_LITERAL, "hello", 0),
+            Token(3, TokenType.STRING_LITERAL, "'hello'", 0),
             Token(4, TokenType.SEMICOLON, ";", 0)
         )
         val resultAST = parser.parse(inputTokens)

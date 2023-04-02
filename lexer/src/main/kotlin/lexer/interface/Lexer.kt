@@ -1,6 +1,5 @@
 package lexer.`interface`
 
-import common.token.Token
 import java.io.File
 
 interface Lexer {

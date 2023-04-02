@@ -15,8 +15,10 @@ class AssignationInterpreter(
     private val symbolTable: MutableMap<String, Pair<String, String?>>
 ) : Interpreter {
 
+    var currentLine: Int? = null
     override fun interpret(ast: AST) {
         ast as AssignationAST
+        currentLine = ast.getTokensInLine().first().row
         checkIfIdentifierWasDeclared(ast)
 
         val identifier = ast.getIdentifier()
@@ -34,18 +36,18 @@ class AssignationInterpreter(
                     assert(rhs.getValue() in symbolTable.keys && symbolTable[rhsValue.first]!!.first == type)
                     symbolTable[identifier] = Pair(type.toString(), symbolTable[rhsValue.first]!!.second)
                 } catch (error: AssertionError) {
-                    throw Exception("Variable ${rhsValue.first} is not declared")
+                    throw Exception("Variable ${rhsValue.first} is not declared (line $currentLine)")
                 }
             }
 
             TokenType.NUMERIC_LITERAL, TokenType.STRING_LITERAL -> {
                 val simplifiedType = if (rhsValue.second == TokenType.NUMERIC_LITERAL) "number" else "string"
-                if (type != simplifiedType) throw Exception("Type mismatch in $identifier assignation")
+                if (type != simplifiedType) throw Exception("Type mismatch in $identifier assignation (line $currentLine)")
                 symbolTable[identifier] = Pair(type.toString(), rhsValue.first)
             }
 
             else -> {
-                throw Exception("Unsupported operation")
+                throw Exception("Unsupported operation (line $currentLine)")
             }
         }
     }
@@ -56,7 +58,7 @@ class AssignationInterpreter(
                 if (rhs.type == TokenType.IDENTIFIER || rhs.type == TokenType.STRING_LITERAL || rhs.type == TokenType.NUMERIC_LITERAL) {
                     Pair(rhs.getValue(), rhs.type)
                 } else {
-                    throw Exception("Unsupported operation")
+                    throw Exception("Unsupported operation (line $currentLine)")
                 }
             }
             is TreeNode -> {
@@ -64,7 +66,7 @@ class AssignationInterpreter(
                 evaluator.evaluateExpression(rhs)
             }
             else -> {
-                throw Exception("Unsupported operation")
+                throw Exception("Unsupported operation (line $currentLine)")
             }
         }
 
@@ -72,6 +74,6 @@ class AssignationInterpreter(
     }
 
     private fun checkIfIdentifierWasDeclared(ast: AssignationAST) {
-        if (ast.getIdentifier() !in symbolTable.keys) throw Exception("Variable ${ast.getIdentifier()} is not declared")
+        if (ast.getIdentifier() !in symbolTable.keys) throw Exception("Variable ${ast.getIdentifier()} is not declared (line $currentLine)")
     }
 }

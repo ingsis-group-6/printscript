@@ -15,10 +15,9 @@ class Lexer(
 
     override fun extractTokensFromFile(file: File) {
         val scanner = Scanner(file)
-        var currentLine = 0
+        var currentLine = 1
         val fileToWrite = File("Tokens.txt")
         fileToWrite.writeText("")
-        println(Token(1, TokenType.TYPE, "dummy", 0).toString())
         while (scanner.hasNextLine()) {
             val lineTokenList = extractTokensFromLine(scanner.nextLine(), currentLine)
             currentLine++

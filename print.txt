@@ -1,3 +1,2 @@
-let one : number = 1;
-let function : number = 2+(24/(5- 1)-4) + one ;
-println( function );
+let myVar: string = 'hello';
+println("my var value is " + myVar + 5);

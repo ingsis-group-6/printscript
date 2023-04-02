@@ -3,6 +3,7 @@ package interpreter.implementation
 import common.ast.AST
 import common.ast.implementations.asts.AssignationAST
 import common.ast.implementations.asts.DeclarationAST
+import common.ast.implementations.asts.DeclarationAssignationAST
 import common.ast.implementations.asts.FunctionAST
 import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
@@ -18,44 +19,54 @@ class Interpreter : Interpreter {
     override fun interpret(ast: AST) {
         return when (ast) {
             is DeclarationAST -> {
-                if (ast.getIdentifier() in symbolTable.keys) throw Exception("Variable ${ast.getIdentifier()} is already declared")
-                val identifier = ast.getIdentifier()
-                val type = ast.getType()
-                symbolTable[identifier] = Pair(type, "")
+                interpretDeclarationAST(ast)
             }
 
-//            is DeclarationAssignationAST -> {
-//                val identifier = ast.getIdentifier()
-//                val type = ast.getType()
-//                symbolTable[identifier] = Pair(type, "")
-//            }
+            is DeclarationAssignationAST -> {
+                val declarationAST = ast.getDeclarationAST()
+                val assignationAST = ast.getAssignationAST()
+                interpretDeclarationAST(declarationAST as DeclarationAST)
+                interpretAssignationAST(assignationAST as AssignationAST)
+            }
 
             is AssignationAST -> {
                 interpretAssignationAST(ast)
             }
 
             is FunctionAST -> {
-                val paramNode = ast.getParamNode()
-                when (paramNode.type) {
-                    TokenType.IDENTIFIER -> {
-                        if (paramNode.getValue() !in symbolTable.keys) {
-                            throw Exception("Variable ${paramNode.getValue()} is not declared")
-                        } else {
-                            println(symbolTable[paramNode.getValue()]!!.second)
-                        }
-                    }
-                    TokenType.STRING_LITERAL, TokenType.NUMERIC_LITERAL -> {
-                        println(paramNode.getValue())
-                    }
-
-                    else -> {
-                        throw java.lang.Exception("Unsupported Operation")
-                    }
-                }
+                interpretFunctionAST(ast)
             }
 
             else -> {
                 throw Exception("Invalid AST")
+            }
+        }
+    }
+
+    private fun interpretDeclarationAST(ast: DeclarationAST) {
+        if (ast.getIdentifier() in symbolTable.keys) throw Exception("Variable ${ast.getIdentifier()} is already declared")
+        val identifier = ast.getIdentifier()
+        val type = ast.getType()
+        symbolTable[identifier] = Pair(type, "")
+    }
+
+    private fun interpretFunctionAST(ast: FunctionAST) {
+        val paramNode = ast.getParamNode()
+        when (paramNode.type) {
+            TokenType.IDENTIFIER -> {
+                if (paramNode.getValue() !in symbolTable.keys) {
+                    throw Exception("Variable ${paramNode.getValue()} is not declared")
+                } else {
+                    println(symbolTable[paramNode.getValue()]!!.second)
+                }
+            }
+
+            TokenType.STRING_LITERAL, TokenType.NUMERIC_LITERAL -> {
+                println(paramNode.getValue())
+            }
+
+            else -> {
+                throw java.lang.Exception("Unsupported Operation")
             }
         }
     }

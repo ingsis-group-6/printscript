@@ -33,4 +33,11 @@ class DeclarationAssignationAST(private val tokens: List<Token>) : AST {
     override fun getTokensInLine(): List<Token> {
         return this.tokens
     }
+    fun getDeclarationAST(): AST {
+        return this.declarationAST
+    }
+
+    fun getAssignationAST(): AST {
+        return this.assignationAST
+    }
 }

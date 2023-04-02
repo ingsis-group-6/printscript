@@ -10,6 +10,8 @@ plugins {
 dependencies {
     implementation 'org.apache.commons:commons-text'
     implementation project(':lexer')
+    implementation project(':parser')
+    implementation project(':interpreter')
 }
 
 application {

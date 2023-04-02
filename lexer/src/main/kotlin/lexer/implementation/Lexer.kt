@@ -13,17 +13,18 @@ class Lexer(
     private val tokenChars: List<Char>
 ) : Lexer { // chars que separan las palabras, pero representan una operacion y se incluyen como token
 
-    override fun extractTokensFromFile(file: File): List<Token> {
+    override fun extractTokensFromFile(file: File): Unit {
         val listOfTokens = mutableListOf<Token>()
         val scanner = Scanner(file)
-
         var currentLine = 0
+        val file = File("../Tokens.txt")
+        file.writeText("")
         while (scanner.hasNextLine()) {
             val lineTokenList = extractTokensFromLine(scanner.nextLine(), currentLine)
             currentLine++
-            listOfTokens.addAll(lineTokenList)
+            file.appendText(lineTokenList.joinToString("\n") { it.toString() } )
+            file.appendText("\n")
         }
-        return listOfTokens
     }
 
     fun extractTokensFromLine(inputLine: String, row: Int): List<Token> {

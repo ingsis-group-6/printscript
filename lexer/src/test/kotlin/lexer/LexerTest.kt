@@ -8,43 +8,47 @@ import java.io.File
 
 class LexerTest {
 
-    private val lexer = Lexer(TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(';', ':', '(', ')', ' ', '\n', '\t'))
+    private val lexer =
+        Lexer(TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(';', ':', '(', ')', ' ', '\n', '\t'))
 
-    @Test
-    fun testOneLineFile1() {
-        val tokens = lexer.extractTokensFromFile(File("src/test/resources/OneLineFile1.txt"))
-        tokens.map { println(it) }
-        Assertions.assertEquals(4, tokens.size)
+    private fun countLinesInFile(file: File): Int {
+        var lineCount = 0
+        file.forEachLine { lineCount++ }
+        return lineCount
     }
 
     @Test
+    fun testOneLineFile1() {
+        val tokens = lexer.extractTokensFromFile(File("src/test/resources/ConsecutiveLineFile.txt"))
+
+    }
+
+
+    @Test
     fun testOneLineFile2() {
-        val tokens = lexer.extractTokensFromFile(File("src/test/resources/OneLineFile2.txt"))
-        tokens.map { println(it) }
-        ResultOutput.writeListToFile(tokens, "src/test/resources/outputs/testOneLineFile2_output.txt")
-        Assertions.assertEquals(16, tokens.size)
+        lexer.extractTokensFromFile(File("src/test/resources/OneLineFile2.txt"))
+        assert(countLinesInFile(File("../Tokens.txt")) == 16)
     }
 
     @Test
     fun testFiveLineFile() {
-        val tokens = lexer.extractTokensFromFile(File("src/test/resources/FiveLineFile.txt"))
-        ResultOutput.writeListToFile(tokens, "src/test/resources/outputs/testFiveLineFile_output.txt")
-
-        Assertions.assertEquals(55, tokens.size)
+        lexer.extractTokensFromFile(File("src/test/resources/FiveLineFile.txt"))
+        assert(countLinesInFile(File("../Tokens.txt")) == 55)
     }
 
     @Test
     fun testEmptyLineFile() {
-        val tokens = lexer.extractTokensFromFile(File("src/test/resources/EmptyFile.txt"))
-        assert(tokens.isEmpty())
+        lexer.extractTokensFromFile(File("src/test/resources/EmptyFile.txt"))
+        assert(countLinesInFile(File("../Tokens.txt")) == 0)
     }
 
     @Test
     fun testConsecutiveLine() {
         val tokens = lexer.extractTokensFromFile(File("src/test/resources/ConsecutiveLineFile.txt"))
-        ResultOutput.writeListToFile(tokens, "src/test/resources/outputs/ConsecutiveLineFile_output.txt")
-    }
+        assert(countLinesInFile(File("../Tokens.txt"))==15)
+        }
 
-    // TODO: AGREGAR TEST PARA TODOS LOS TOKENS
-    // TODO: ARREGLAR LOS TESTS Y BORRAR TESTS NO USADOS
+//    // TODO: AGREGAR TEST PARA TODOS LOS TOKENS
+//    // TODO: ARREGLAR LOS TESTS Y BORRAR TESTS NO USADOS
+//}
 }

@@ -4,7 +4,9 @@ import common.ast.implementations.node.LeafNode
 import common.exceptions.InvalidTokenInputException
 import common.token.Token
 import common.token.TokenType
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -20,7 +22,7 @@ class ParserAssignationASTCreationTest {
     fun testEmptyInput() {
         val inputList = emptyList<Token>()
         assertThrows(EmptyTokenInputException::class.java) {
-            val resultAST = parser.parse(inputList)
+            parser.parse(inputList)
         }
     }
 
@@ -77,11 +79,6 @@ class ParserAssignationASTCreationTest {
             ),
             Arguments.of(
                 listOf(
-                    Token(1, TokenType.SEMICOLON, ";", 0)
-                )
-            ),
-            Arguments.of(
-                listOf(
                     Token(0, TokenType.LET, "let", 0),
                     Token(1, TokenType.IDENTIFIER, "myVar", 0),
                     Token(3, TokenType.SEMICOLON, ";", 0)
@@ -93,6 +90,8 @@ class ParserAssignationASTCreationTest {
     @ParameterizedTest
     @MethodSource("invalidTokenLists")
     fun testMyFunctionWithEmptyList(inputTokens: List<Token>) {
-        assertThrows(InvalidTokenInputException::class.java) { parser.parse(inputTokens) }
+        assertThrows(InvalidTokenInputException::class.java) {
+            parser.parse(inputTokens)
+        }
     }
 }

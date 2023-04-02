@@ -45,6 +45,14 @@ class DeclarationAST(private val tokens: List<Token>) : AST {
     override fun getTokensInLine(): List<Token> {
         return this.tokens
     }
+
+    fun getIdentifier(): String {
+        return identifierLeafNode.getValue()
+    }
+
+    fun getType(): String {
+        return typeLeafNode.getValue()
+    }
 }
 
 // () podria ser Unary

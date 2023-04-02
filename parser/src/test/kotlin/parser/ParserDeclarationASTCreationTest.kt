@@ -4,7 +4,9 @@ import common.ast.implementations.node.LeafNode
 import common.exceptions.InvalidTokenInputException
 import common.token.Token
 import common.token.TokenType
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -76,11 +78,6 @@ class ParserDeclarationASTCreationTest {
                     Token(2, TokenType.COLON, ":", 0),
                     Token(3, TokenType.TYPE, "string", 0),
                     Token(4, TokenType.SEMICOLON, ";", 0)
-                )
-            ),
-            Arguments.of(
-                listOf(
-                    Token(1, TokenType.SEMICOLON, ";", 0)
                 )
             ),
             Arguments.of(

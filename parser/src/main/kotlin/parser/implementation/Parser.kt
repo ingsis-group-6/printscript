@@ -7,6 +7,7 @@ import common.token.Token
 import common.token.TokenType
 import parser.exceptions.EmptyTokenInputException
 import parser.interfaces.Parser
+import java.lang.Exception
 
 class Parser : Parser {
 
@@ -27,7 +28,8 @@ class Parser : Parser {
             inputTokenTypes.first() == TokenType.IDENTIFIER -> ASTType.ASSIGNATION
             inputTokenTypes.contains(TokenType.LET) && !inputTokenTypes.contains(TokenType.ASSIGNATION) -> ASTType.DECLARATION
             inputTokenTypes.contains(TokenType.ASSIGNATION) -> ASTType.DECLARATION_ASSIGNATION
-            else -> ASTType.FUNCTION
+            inputTokenTypes.first() == TokenType.PRINTLN || inputTokenTypes.first() == TokenType.FUNCTION -> ASTType.FUNCTION
+            else -> throw Exception("Malformed Expression. AST not detected.")
         }
         return foundAST
     }

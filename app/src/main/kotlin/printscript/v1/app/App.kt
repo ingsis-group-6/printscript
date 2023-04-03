@@ -19,11 +19,17 @@ fun main(args: Array<String>) {
     if(!filename.exists()) throw Error("File does not exist.")
 
     //print(getTokenFromStringRepresentation("Token(order_id=10, tokenType=IDENTIFIER, value=num, row=0)"))
+    try{
+        executionFunction(filename)
+    } catch(exception: Exception){
+        printInRed(exception)
+    }
 
-    executionFunction(filename)
 
 
 }
+
+private fun printInRed(exception: Exception) = println("\u001B[31m${exception.message}\u001B[0m")
 
 fun executionFunction(file: File) {
 

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+kotlinc /app/src/main/kotlin/printscript/v1/app/App.kt  -d exectution-files/app.jar
+kotlinc /app/src/main/kotlin/printscript/v1/app/App.kt -include-runtime -d exectution-files/app.jar
+kotlinc /app/src/main/kotlin/printscript/v1/app/App.kt -include-runtime -d exectution-files/app.jar
+kotlinc /app/src/main/kotlin/printscript/v1/app/App.kt -include-runtime -d exectution-files/app.jar

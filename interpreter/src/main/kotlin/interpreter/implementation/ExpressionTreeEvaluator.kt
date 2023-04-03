@@ -81,7 +81,7 @@ class ExpressionTreeEvaluator(private val symbolTable: MutableMap<String, Pair<S
                     throw Exception("Variable not initialized")
                 } else {
                     val dataInTable = this.symbolTable.get(key = token)
-                    Pair(dataInTable!!.second, if (dataInTable!!.first == "number") TokenType.NUMERIC_LITERAL else TokenType.STRING_LITERAL)
+                    Pair(dataInTable!!.second, if (dataInTable.first == "number") TokenType.NUMERIC_LITERAL else TokenType.STRING_LITERAL)
                 }
             }
             (token.startsWith('"') && token.endsWith('"') || token.startsWith('\'') && token.endsWith('\'')) -> {

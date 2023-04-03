@@ -5,6 +5,7 @@
 plugins {
     id 'printscript.v1.kotlin-application-conventions'
     id 'git-hooks'
+    id "maven-publish"
 }
 
 dependencies {
@@ -19,4 +20,22 @@ dependencies {
 application {
     // Define the main class for the application.
     mainClass = 'printscript.v1.app.AppKt'
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/ricardolopezb/printscript-v1")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
 }

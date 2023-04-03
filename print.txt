@@ -1,2 +1,12 @@
-let myVar: string = 'hello';
-println("my var value is " + myVar + 5);
+println(4);
+println(5 + 4);
+println( 6 + ((2 - 7) * 3) * 2 + "hello" );
+let a: number = 5;
+println(a + 4);
+let b: number = a;
+println(b);
+println("hello" + a);
+let s1: string = 'S1 ';
+let s2: string = "S2";
+let s3: string = s1 + s2;
+println(s3);

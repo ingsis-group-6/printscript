@@ -45,15 +45,22 @@ private fun runLexer(file: File, function: PrintscriptFunction) {
 
     val listOfTokensInLine = mutableListOf<Token>()
     val scanner = Scanner(File("Tokens.txt"))
+    var semicolonFound = false
+    var currentLine = 1
     while (scanner.hasNextLine()) {
         val token = getTokenFromStringRepresentation(scanner.nextLine())
+        currentLine = token.row
         listOfTokensInLine.add(token)
 
         if (token.tokenType == TokenType.SEMICOLON) {
             function.execute(listOfTokensInLine)
             listOfTokensInLine.clear()
+            semicolonFound = true
         }
+        if(!scanner.hasNextLine() && token.tokenType != TokenType.SEMICOLON)
+            throw java.lang.Exception("There is a semicolon missing in the last line of the file")
     }
+
 }
 
 fun getTokenFromStringRepresentation(input: String): Token {

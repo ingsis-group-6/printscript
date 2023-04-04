@@ -1,4 +1,3 @@
 package linter.implementations
 
-class Linter {
-}
+class Linter

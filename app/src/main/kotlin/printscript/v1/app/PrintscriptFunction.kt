@@ -10,8 +10,8 @@ interface PrintscriptFunction {
 }
 
 class ExecuteFunction: PrintscriptFunction {
-    val parser = Parser()
-    val interpreter = Interpreter()
+    private val parser = Parser()
+    private val interpreter = Interpreter()
     override fun execute(tokenLine: List<Token>) = interpreter.interpret(parser.parse(tokenLine))
 
 }

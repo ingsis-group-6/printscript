@@ -34,7 +34,6 @@ class CaseChecker {
             CaseConvention.SNAKE_CASE -> isSnakeCase(stringToCheck)
         }
 
-
     private fun isCamelCase(s: String): Boolean = s.isNotEmpty() && s.first().isLowerCase() && s.all { it.isLetter() || it.isDigit() }
 
     private fun isSnakeCase(s: String): Boolean = s.isNotEmpty() && s.all { (it.isLetter() && it.isLowerCase()) || it == '_' || it.isDigit() }

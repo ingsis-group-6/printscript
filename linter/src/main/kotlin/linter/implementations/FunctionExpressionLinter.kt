@@ -1,7 +1,6 @@
 package linter.implementations
 
 import common.ast.AST
-import common.ast.implementations.asts.DeclarationAssignationAST
 import common.ast.implementations.asts.FunctionAST
 import common.ast.implementations.node.TreeNode
 import linter.`interface`.Linter

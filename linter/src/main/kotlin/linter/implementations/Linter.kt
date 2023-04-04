@@ -3,7 +3,7 @@ package linter.implementations
 import common.ast.AST
 import linter.`interface`.Linter
 
-class Linter: Linter {
+class Linter : Linter {
 
     private val linters: Set<Linter>
     init {
@@ -20,5 +20,4 @@ class Linter: Linter {
     override fun lint(ast: AST) {
         linters.forEach { linter: Linter -> linter.lint(ast) }
     }
-
 }

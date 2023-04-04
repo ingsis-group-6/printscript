@@ -5,11 +5,8 @@ package printscript.v1.app
 
 import common.token.Token
 import common.token.TokenType
-import interpreter.implementation.Interpreter
 import lexer.factory.TokenTypeManagerFactory
 import lexer.implementation.Lexer
-import linter.implementations.Linter
-import parser.implementation.Parser
 import java.io.File
 import java.util.*
 import kotlin.system.exitProcess
@@ -44,7 +41,7 @@ fun main(args: Array<String>) {
 
 }
 
-fun printHelpMessage() {
+private fun printHelpMessage() {
     println("********** PRINTSCRIPT v1.0 **********")
     println("For execution, run with execution [source-file] ")
     println("For linting, run with validation [source-file] ")
@@ -52,13 +49,6 @@ fun printHelpMessage() {
 
 private fun printInRed(exception: Exception) = println("\u001B[31m${exception.message}\u001B[0m")
 
-fun executionFunction(file: File) {
-
-    // runAppWithFunction(file, ExecuteFunction())
-    runAppWithFunction(file, LinterFunction())
-
-
-}
 
 private fun runAppWithFunction(file: File, function: PrintscriptFunction) {
     runLexer(file)
@@ -73,7 +63,6 @@ private fun runAppWithFunction(file: File, function: PrintscriptFunction) {
         if (token.tokenType == TokenType.SEMICOLON) {
             function.execute(listOfTokensInLine)
             listOfTokensInLine.clear()
-
         }
         if(!scanner.hasNextLine() && token.tokenType != TokenType.SEMICOLON)
             throw java.lang.Exception("There is a semicolon missing in the last line of the file")
@@ -97,28 +86,4 @@ fun getTokenFromStringRepresentation(input: String): Token {
     return Token(order_id, tokenType, value, row)
 }
 
-interface PrintscriptFunction {
-    fun execute(tokenLine: List<Token>)
-}
 
-class ExecuteFunction: PrintscriptFunction {
-    val parser = Parser()
-    val interpreter = Interpreter()
-    override fun execute(tokenLine: List<Token>) = interpreter.interpret(parser.parse(tokenLine))
-
-}
-
-class FormatFunction: PrintscriptFunction {
-    override fun execute(tokenLine: List<Token>) {
-        TODO("Not yet implemented")
-    }
-}
-
-class LinterFunction: PrintscriptFunction {
-    private val parser = Parser()
-    private val linter = Linter()
-    override fun execute(tokenLine: List<Token>) {
-        linter.lint(parser.parse(tokenLine))
-    }
-
-}

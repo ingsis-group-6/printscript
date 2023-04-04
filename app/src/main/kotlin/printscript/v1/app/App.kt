@@ -8,59 +8,82 @@ import common.token.TokenType
 import interpreter.implementation.Interpreter
 import lexer.factory.TokenTypeManagerFactory
 import lexer.implementation.Lexer
+import linter.implementations.Linter
 import parser.implementation.Parser
 import java.io.File
-import java.util.Scanner
+import java.util.*
+import kotlin.system.exitProcess
 
 
 fun main(args: Array<String>) {
+    if(args.isEmpty()) {
+        println("No function or source file was specified")
+        exitProcess(0)
+    }
 
-    val filename = File("print.txt")
-    if(!filename.exists()) throw Error("File does not exist.")
+    try {
 
-    //print(getTokenFromStringRepresentation("Token(order_id=10, tokenType=IDENTIFIER, value=num, row=0)"))
-    try{
-        executionFunction(filename)
+        when(args[0].lowercase(Locale.getDefault())){
+            "validation" -> {
+                val sourceFile = File(args[1])
+                if(!sourceFile.exists()) throw java.lang.Exception("File does not exist.")
+                runAppWithFunction(sourceFile, LinterFunction())
+            }
+            "execution" -> {
+                val sourceFile = File(args[1])
+                if(!sourceFile.exists()) throw java.lang.Exception("File does not exist.")
+                runAppWithFunction(sourceFile, ExecuteFunction())
+            }
+            "help" -> printHelpMessage()
+        }
+
     } catch(exception: Exception){
         printInRed(exception)
     }
 
 
+}
 
+fun printHelpMessage() {
+    println("********** PRINTSCRIPT v1.0 **********")
+    println("For execution, run with execution [source-file] ")
+    println("For linting, run with validation [source-file] ")
 }
 
 private fun printInRed(exception: Exception) = println("\u001B[31m${exception.message}\u001B[0m")
 
 fun executionFunction(file: File) {
 
-    runLexer(file, ExecuteFunction())
+    // runAppWithFunction(file, ExecuteFunction())
+    runAppWithFunction(file, LinterFunction())
 
 
 }
 
-private fun runLexer(file: File, function: PrintscriptFunction) {
-    val lexer =
-        Lexer(TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(';', ':', '(', ')', ' ', '\n', '\t','+','=','-','*','/'))
-    lexer.extractTokensFromFile(file)
+private fun runAppWithFunction(file: File, function: PrintscriptFunction) {
+    runLexer(file)
 
     val listOfTokensInLine = mutableListOf<Token>()
     val scanner = Scanner(File("Tokens.txt"))
-    var semicolonFound = false
-    var currentLine = 1
+
     while (scanner.hasNextLine()) {
         val token = getTokenFromStringRepresentation(scanner.nextLine())
-        currentLine = token.row
         listOfTokensInLine.add(token)
 
         if (token.tokenType == TokenType.SEMICOLON) {
             function.execute(listOfTokensInLine)
             listOfTokensInLine.clear()
-            semicolonFound = true
+
         }
         if(!scanner.hasNextLine() && token.tokenType != TokenType.SEMICOLON)
             throw java.lang.Exception("There is a semicolon missing in the last line of the file")
     }
 
+}
+
+private fun runLexer(file: File) {
+    val lexer = Lexer(TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(';', ':', '(', ')', ' ', '\n', '\t', '+', '=', '-', '*', '/'))
+    lexer.extractTokensFromFile(file)
 }
 
 fun getTokenFromStringRepresentation(input: String): Token {
@@ -92,8 +115,10 @@ class FormatFunction: PrintscriptFunction {
 }
 
 class LinterFunction: PrintscriptFunction {
+    private val parser = Parser()
+    private val linter = Linter()
     override fun execute(tokenLine: List<Token>) {
-        TODO("Not yet implemented")
+        linter.lint(parser.parse(tokenLine))
     }
 
 }

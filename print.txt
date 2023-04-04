@@ -1,3 +1,3 @@
 let a: number = 4;
-println(a)
-let b: number;
+println(a + 4);
+let B: number;

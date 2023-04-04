@@ -1,3 +1,5 @@
-let a: number = 4;
-println(a + 4);
-let B: number;
+let numberFour: number = 4;
+println(numberFour);
+let numberFive: number = 5;
+let sum: number = numberFour + numberFive;
+println(sum);

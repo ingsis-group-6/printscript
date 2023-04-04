@@ -32,6 +32,7 @@ fun main(args: Array<String>) {
                 runAppWithFunction(sourceFile, ExecuteFunction())
             }
             "help" -> printHelpMessage()
+            else -> throw java.lang.Exception("Invalid function specified - use 'validation' , 'execution' or help")
         }
 
     } catch(exception: Exception){

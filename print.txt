@@ -1,5 +1,5 @@
 let numberFour: number = 4;
 println(numberFour);
 let numberFive: number = 5;
-let sum: number = numberFour + numberFive;
+let sum: number;
 println(sum);

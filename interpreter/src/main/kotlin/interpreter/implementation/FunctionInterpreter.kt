@@ -21,8 +21,12 @@ class FunctionInterpreter(
                     TokenType.IDENTIFIER -> {
                         if (paramNode.getValue() !in symbolTable.keys) {
                             throw Exception("Variable ${paramNode.getValue()} is not declared")
+                        }
+                        val identifierValue = symbolTable[paramNode.getValue()]!!.second
+                        if(identifierValue == null) {
+                            throw Exception("Variable ${paramNode.getValue()} is not initialized")
                         } else {
-                            println(symbolTable[paramNode.getValue()]!!.second)
+                            println(identifierValue)
                         }
                     }
 

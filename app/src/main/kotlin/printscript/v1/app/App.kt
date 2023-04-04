@@ -91,3 +91,9 @@ class FormatFunction: PrintscriptFunction {
     }
 }
 
+class LinterFunction: PrintscriptFunction {
+    override fun execute(tokenLine: List<Token>) {
+        TODO("Not yet implemented")
+    }
+
+}

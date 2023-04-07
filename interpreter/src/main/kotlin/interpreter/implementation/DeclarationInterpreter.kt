@@ -16,5 +16,4 @@ class DeclarationInterpreter(
         val type = ast.getType()
         symbolTable[identifier] = Pair(type, null)
     }
-
 }

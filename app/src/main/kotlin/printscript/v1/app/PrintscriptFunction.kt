@@ -16,7 +16,7 @@ class ExecuteFunction : PrintscriptFunction {
     override fun execute(tokenLine: List<Token>) = interpreter.interpret(parser.parse(tokenLine))
 }
 
-class FormatFunction (configFileName: String): PrintscriptFunction {
+class FormatFunction(configFileName: String) : PrintscriptFunction {
     private val parser = Parser()
     private val formatter = Formatter(configFileName)
     override fun execute(tokenLine: List<Token>) {

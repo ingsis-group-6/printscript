@@ -55,7 +55,7 @@ class AssignationAST(private val tokens: List<Token>) : AST {
 
     private fun extractRHS(tokens: List<Token>) = try {
         tokens.subList(2, tokens.size - 1).toList()
-    } catch(e: Exception){
+    } catch (e: Exception) {
         throw java.lang.Exception("(Line ${tokens.first().row}) - Invalid number of tokens in line.")
     }
 

@@ -23,7 +23,6 @@ class IdentifierCaseLinter(private val caseToCheck: CaseConvention) : Linter {
         if (ast.first is DeclarationAssignationAST) {
             lint(Pair((ast.first as DeclarationAST), ast.second))
             lint(Pair((ast.first as AssignationAST), ast.second))
-
         }
     }
 }

@@ -2,6 +2,7 @@ package lexer.implementation
 
 import common.token.Token
 import common.token.TokenType
+import lexer.factory.TokenTypeManagerFactory
 import lexer.`interface`.Lexer
 import lexer.`interface`.TokenTypeManager
 import lexer.util.StringReadingChecker
@@ -12,6 +13,8 @@ class Lexer(
     private val list: TokenTypeManager,
     private val tokenChars: List<Char>
 ) : Lexer { // chars que separan las palabras, pero representan una operacion y se incluyen como token
+
+    constructor() : this(TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(';', ':', '(', ')', ' ', '\n', '\t', '+', '=', '-', '*', '/')) {}
 
     override fun extractTokensFromFile(file: File) {
         val scanner = Scanner(file)

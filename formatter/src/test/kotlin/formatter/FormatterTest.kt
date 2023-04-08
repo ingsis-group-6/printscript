@@ -25,6 +25,6 @@ class FormatterTest {
             Token(8, TokenType.SEMICOLON, ";", 0)
         )
 
-        assertEquals("let a : number = 4 / 2;", formatter.formatDeclarationAssignationAST(input))
+        assertEquals("let a: number = 4 / 2;\n", formatter.formatDeclarationAssignationAST(input))
     }
 }

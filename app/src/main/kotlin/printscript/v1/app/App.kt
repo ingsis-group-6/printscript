@@ -5,7 +5,6 @@ package printscript.v1.app
 
 import common.token.Token
 import common.token.TokenType
-import lexer.factory.TokenTypeManagerFactory
 import lexer.implementation.Lexer
 import java.io.File
 import java.util.*
@@ -27,7 +26,7 @@ fun main(args: Array<String>) {
             "format" -> {
                 val sourceFile = File(args[1])
                 if (!sourceFile.exists()) throw java.lang.Exception("File does not exist.")
-                runAppWithFunction(sourceFile, FormatFunction(args[2]))
+                runAppWithFunction(sourceFile, FormatFunction(sourceFile, args[2]))
             }
             "run" -> {
                 val sourceFile = File(args[1])
@@ -71,7 +70,7 @@ private fun runAppWithFunction(file: File, function: PrintscriptFunction) {
 }
 
 private fun runLexer(file: File) {
-    val lexer = Lexer(TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(';', ':', '(', ')', ' ', '\n', '\t', '+', '=', '-', '*', '/'))
+    val lexer = Lexer()
     lexer.extractTokensFromFile(file)
 }
 

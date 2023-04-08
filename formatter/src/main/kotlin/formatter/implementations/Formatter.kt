@@ -13,9 +13,9 @@ import formatter.`interface`.Formatter
 class Formatter(configFileName: String) : Formatter {
     private val formatterRules = FormatterRules(configFileName)
 
-    override fun format(ast: AST) {
+    override fun format(ast: AST): String {
         val tokensInLine = ast.getTokensInLine()
-        when (ast) {
+        return when (ast) {
             is FunctionAST -> {
                 formatFunctionAST(tokensInLine)
             }
@@ -28,7 +28,7 @@ class Formatter(configFileName: String) : Formatter {
             is DeclarationAssignationAST -> {
                 formatDeclarationAssignationAST(tokensInLine)
             }
-            else -> {}
+            else -> { "" }
         }
     }
 
@@ -39,9 +39,9 @@ class Formatter(configFileName: String) : Formatter {
     // PRINTLN ( [EXPR | LITERAL | ID] ) ;
     fun formatFunctionAST(tokens: List<Token>): String {
         return if (tokens.first().tokenType == TokenType.PRINTLN) {
-            "println(" + formatExpression(tokens.subList(2, tokens.lastIndex - 1)) + ");"
+            "println(" + formatExpression(tokens.subList(2, tokens.lastIndex - 1)) + ");\n"
         } else {
-            "${tokens.first().value}(" + formatExpression(tokens.subList(2, tokens.lastIndex - 1)) + ");"
+            "${tokens.first().value}(" + formatExpression(tokens.subList(2, tokens.lastIndex - 1)) + ");\n"
         }
     }
     fun formatExpression(tokens: List<Token>): String {
@@ -57,10 +57,11 @@ class Formatter(configFileName: String) : Formatter {
             tokens[1].value +
             createWhitespaceString(formatterRules.custom.spaceBeforeAndAfterAssignationOperator) +
             formatExpression(tokens.subList(2, tokens.lastIndex)) +
-            tokens.last().value
+            tokens.last().value +
+            "\n"
 
     //
-    fun formatDeclarationAST(tokens: List<Token>) =
+    fun formatDeclarationAST(tokens: List<Token>): String =
         tokens[0].value +
             createWhitespaceString(formatterRules.spacesBetweenTokens) +
             tokens[1].value +
@@ -68,17 +69,19 @@ class Formatter(configFileName: String) : Formatter {
             tokens[2].value +
             createWhitespaceString(formatterRules.custom.spaceAfterColon) +
             tokens[3].value +
-            tokens[4].value
+            tokens[4].value +
+            "\n"
 
     fun formatDeclarationAssignationAST(tokens: List<Token>): String {
         val declarationString = formatDeclarationAST(tokens.subList(0, 5))
         val expressionString = formatExpression(tokens.subList(5, tokens.lastIndex))
 
-        return declarationString.substring(0, declarationString.length - 1) +
+        return declarationString.substring(0, declarationString.length - 2) +
             createWhitespaceString(formatterRules.custom.spaceBeforeAndAfterAssignationOperator) +
             "=" +
             createWhitespaceString(formatterRules.custom.spaceBeforeAndAfterAssignationOperator) +
             expressionString +
-            tokens.last().value
+            tokens.last().value +
+            "\n"
     }
 }

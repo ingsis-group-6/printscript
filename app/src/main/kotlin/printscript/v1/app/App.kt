@@ -40,7 +40,7 @@ fun main(args: Array<String>) {
 private fun printHelpMessage() {
     println("********** PRINTSCRIPT v1.0 **********")
     println("For execution, run with execution [source-file] ")
-    println("For linting, run with validation [source-file] ")
+    println("For linting, run with validation [source-file] [config-file]")
 }
 
 private fun printInRed(exception: Exception) = println("\u001B[31m${exception.message}\u001B[0m")

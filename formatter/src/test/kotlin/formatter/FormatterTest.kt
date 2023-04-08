@@ -3,7 +3,7 @@ package formatter
 import common.token.Token
 import common.token.TokenType
 import formatter.implementations.Formatter
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class FormatterTest {

@@ -3,13 +3,29 @@ package parser.implementation
 import common.ast.AST
 import common.ast.ASTFactory
 import common.ast.ASTType
+import common.ast.implementations.asts.EmptyAST
+import common.exceptions.InvalidTokenInputException
 import common.token.Token
 import common.token.TokenType
 import parser.exceptions.EmptyTokenInputException
 import parser.interfaces.Parser
-import java.lang.Exception
+
 
 class Parser : Parser {
+
+    fun check(tokens:List<Token>): Pair<AST, List<String>> {
+        val errorList = mutableListOf<String>()
+        try {
+            val ast = parse(tokens)
+            return Pair(ast, errorList)
+        } catch (exc: InvalidTokenInputException){
+            errorList.add(exc.message!!)
+            return Pair(EmptyAST, errorList)
+        }
+    }
+
+    // let MyNumber: number = ;
+
 
     override fun parse(tokens: List<Token>): AST {
         if (tokens.isEmpty()) throw EmptyTokenInputException("The input token list is empty.")

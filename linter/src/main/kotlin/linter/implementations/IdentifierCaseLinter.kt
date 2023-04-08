@@ -1,27 +1,29 @@
 package linter.implementations
 
 import common.ast.AST
+import common.ast.implementations.asts.AssignationAST
 import common.ast.implementations.asts.DeclarationAST
 import common.ast.implementations.asts.DeclarationAssignationAST
 import linter.`interface`.Linter
 
 class IdentifierCaseLinter(private val caseToCheck: CaseConvention) : Linter {
-    val caseChecker = CaseChecker()
+    private val caseChecker = CaseChecker()
 
-    override fun lint(ast: AST) {
+    override fun lint(ast: Pair<AST, List<String>>) {
         lintCompoundAST(ast)
-        if (ast is DeclarationAST) {
-            if (!caseChecker.isValidCase(caseToCheck, ast.getIdentifier())) {
-                val currentLine = ast.getTokensInLine().first().row
+        if (ast.first is DeclarationAST) {
+            if (!caseChecker.isValidCase(caseToCheck, (ast.first as DeclarationAST).getIdentifier())) {
+                val currentLine = ast.first.getTokensInLine().first().row
                 println("(Line $currentLine) - Naming convention violated. Identifier should be ${caseToCheck.displayName}.")
             }
         }
     }
 
-    private fun lintCompoundAST(ast: AST) {
-        if (ast is DeclarationAssignationAST) {
-            lint(ast.getDeclarationAST())
-            lint(ast.getAssignationAST())
+    private fun lintCompoundAST(ast: Pair<AST, List<String>>) {
+        if (ast.first is DeclarationAssignationAST) {
+            lint(Pair((ast.first as DeclarationAST), ast.second))
+            lint(Pair((ast.first as AssignationAST), ast.second))
+
         }
     }
 }

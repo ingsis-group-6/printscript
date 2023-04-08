@@ -25,6 +25,6 @@ class LinterFunction : PrintscriptFunction {
     private val parser = Parser()
     private val linter = Linter()
     override fun execute(tokenLine: List<Token>) {
-        linter.lint(parser.parse(tokenLine))
+        linter.lint(parser.check(tokenLine))
     }
 }

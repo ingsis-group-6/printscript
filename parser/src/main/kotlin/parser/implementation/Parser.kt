@@ -27,8 +27,11 @@ class Parser : Parser {
 
     override fun parse(tokens: List<Token>): AST {
         if (tokens.isEmpty()) throw EmptyTokenInputException("The input token list is empty.")
-        return generateTreeFromTokenList(tokens)
+        return generateTreeFromTokenList(clearWhitespaces(tokens))
     }
+
+    private fun clearWhitespaces(tokens: List<Token>) =
+        tokens.filter { token: Token -> token.tokenType != TokenType.WHITESPACE }
 
     private fun generateTreeFromTokenList(tokens: List<Token>): AST {
         val inputTokenTypes = tokens.map { it.tokenType }

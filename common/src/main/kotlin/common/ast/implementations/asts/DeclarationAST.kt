@@ -14,16 +14,15 @@ class DeclarationAST(private val tokens: List<Token>) : AST {
     private val typeLeafNode: Node
 
     init {
-        val tokensWithoutWhitespace = tokens.filter { token: Token -> token.tokenType != TokenType.WHITESPACE }
-        val isValid = validateInputTokens(tokensWithoutWhitespace)
-        if (!isValid) throw InvalidTokenInputException("(Line ${tokens.first().row}) - There is a syntax error.")
+        val isValid = validateInputTokens(tokens)
+        if (!isValid) throw InvalidTokenInputException("(Line ${this.tokens.first().row}) - There is a syntax error.")
 
         letLeafNode = LeafNode(TokenType.LET, "let")
 
-        val identifierToken = tokens.find { token: Token -> token.tokenType == TokenType.IDENTIFIER }
+        val identifierToken = this.tokens.find { token: Token -> token.tokenType == TokenType.IDENTIFIER }
         identifierLeafNode = LeafNode(TokenType.IDENTIFIER, identifierToken?.value ?: "")
 
-        val typeToken = tokens.find { token: Token -> token.tokenType == TokenType.TYPE }
+        val typeToken = this.tokens.find { token: Token -> token.tokenType == TokenType.TYPE }
         typeLeafNode = LeafNode(TokenType.TYPE, typeToken?.value ?: "")
     }
 

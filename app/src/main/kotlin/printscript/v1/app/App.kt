@@ -19,12 +19,17 @@ fun main(args: Array<String>) {
 
     try {
         when (args[0].lowercase(Locale.getDefault())) {
-            "validation" -> {
+            "lint" -> {
                 val sourceFile = File(args[1])
                 if (!sourceFile.exists()) throw java.lang.Exception("File does not exist.")
                 runAppWithFunction(sourceFile, LinterFunction(args[2]))
             }
-            "execution" -> {
+            "format" -> {
+                val sourceFile = File(args[1])
+                if (!sourceFile.exists()) throw java.lang.Exception("File does not exist.")
+                runAppWithFunction(sourceFile, FormatFunction(args[2]))
+            }
+            "run" -> {
                 val sourceFile = File(args[1])
                 if (!sourceFile.exists()) throw java.lang.Exception("File does not exist.")
                 runAppWithFunction(sourceFile, ExecuteFunction())

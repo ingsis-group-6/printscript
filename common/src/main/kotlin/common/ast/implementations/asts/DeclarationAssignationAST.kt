@@ -4,7 +4,6 @@ import common.ast.AST
 import common.ast.implementations.node.Node
 import common.exceptions.InvalidTokenInputException
 import common.token.Token
-import common.token.TokenType
 
 class DeclarationAssignationAST(private val tokens: List<Token>) : AST {
 
@@ -14,12 +13,11 @@ class DeclarationAssignationAST(private val tokens: List<Token>) : AST {
     // LET ID : TYPE = (LITERAL / EXPRESSION / ID);
 
     init {
-        val tokensWithoutWhitespace = tokens.filter { token: Token -> token.tokenType != TokenType.WHITESPACE }
-        if (tokensWithoutWhitespace.size < 7) throw InvalidTokenInputException("(Line ${tokens.first().row}) - There is a syntax error.")
-        val listForDeclaration = tokensWithoutWhitespace.subList(0, 4).toMutableList()
-        listForDeclaration.add(tokensWithoutWhitespace.last())
+        if (tokens.size < 7) throw InvalidTokenInputException("(Line ${this.tokens.first().row}) - There is a syntax error.")
+        val listForDeclaration = tokens.subList(0, 4).toMutableList()
+        listForDeclaration.add(tokens.last())
         val listForAssignation =
-            listOf(tokensWithoutWhitespace[1]) + tokensWithoutWhitespace.subList(4, tokensWithoutWhitespace.size)
+            listOf(tokens[1]) + tokens.subList(4, tokens.size)
                 .toList()
 
         declarationAST = DeclarationAST(listForDeclaration)

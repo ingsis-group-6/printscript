@@ -17,13 +17,12 @@ class FunctionAST(private val tokens: List<Token>) : AST {
     private val paramNode: Node
 
     init {
-        val tokensWithoutWhitespace = tokens.filter { token: Token -> token.tokenType != TokenType.WHITESPACE }
-        val isValid = validateBody(tokensWithoutWhitespace)
-        if (!isValid) throw InvalidTokenInputException("(Line ${tokens.first().row}) - There is a syntax error.")
-        functionNode = LeafNode(tokensWithoutWhitespace.first().tokenType, tokensWithoutWhitespace.first().value)
-        val param = extractParam(tokensWithoutWhitespace)
+        val isValid = validateBody(tokens)
+        if (!isValid) throw InvalidTokenInputException("(Line ${this.tokens.first().row}) - There is a syntax error.")
+        functionNode = LeafNode(tokens.first().tokenType, tokens.first().value)
+        val param = extractParam(tokens)
         if (!paramIsValid(param)) throw Exception("Invalid Parameter syntax")
-        paramNode = if (param.size == 1) LeafNode(tokensWithoutWhitespace[2].tokenType, tokensWithoutWhitespace[2].value) else ExpressionTreeCreator.createExpressionNode(param)
+        paramNode = if (param.size == 1) LeafNode(tokens[2].tokenType, tokens[2].value) else ExpressionTreeCreator.createExpressionNode(param)
     }
 
     // print ( xx x x xx xx x x );

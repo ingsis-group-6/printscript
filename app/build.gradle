@@ -16,6 +16,7 @@ dependencies {
     implementation project(':interpreter')
     implementation project(':common')
     implementation project(':linter')
+    implementation project(':formatter')
 
 }
 

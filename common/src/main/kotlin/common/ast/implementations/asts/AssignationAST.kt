@@ -16,13 +16,12 @@ class AssignationAST(private val tokens: List<Token>) : AST {
     private val valueNode: Node
 
     init {
-        val tokensWithoutWhitespace = tokens.filter { token: Token -> token.tokenType != TokenType.WHITESPACE }
-        val isValid = validateInputTokens(tokensWithoutWhitespace)
-        if (!isValid) throw InvalidTokenInputException("(Line ${tokens.first().row} - There is a syntax error.")
+        val isValid = validateInputTokens(tokens)
+        if (!isValid) throw InvalidTokenInputException("(Line ${this.tokens.first().row} - There is a syntax error.")
 
-        identifierLeafNode = LeafNode(TokenType.IDENTIFIER, tokensWithoutWhitespace.first().value)
+        identifierLeafNode = LeafNode(TokenType.IDENTIFIER, tokens.first().value)
 
-        val rhs = extractRHS(tokensWithoutWhitespace)
+        val rhs = extractRHS(tokens)
         valueNode =
             if (rhs.size == 1) {
                 LeafNode(

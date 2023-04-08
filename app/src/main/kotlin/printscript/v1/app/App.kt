@@ -11,35 +11,30 @@ import java.io.File
 import java.util.*
 import kotlin.system.exitProcess
 
-
 fun main(args: Array<String>) {
-    if(args.isEmpty()) {
+    if (args.isEmpty()) {
         println("No function or source file was specified")
         exitProcess(0)
     }
 
     try {
-
-        when(args[0].lowercase(Locale.getDefault())){
+        when (args[0].lowercase(Locale.getDefault())) {
             "validation" -> {
                 val sourceFile = File(args[1])
-                if(!sourceFile.exists()) throw java.lang.Exception("File does not exist.")
+                if (!sourceFile.exists()) throw java.lang.Exception("File does not exist.")
                 runAppWithFunction(sourceFile, LinterFunction())
             }
             "execution" -> {
                 val sourceFile = File(args[1])
-                if(!sourceFile.exists()) throw java.lang.Exception("File does not exist.")
+                if (!sourceFile.exists()) throw java.lang.Exception("File does not exist.")
                 runAppWithFunction(sourceFile, ExecuteFunction())
             }
             "help" -> printHelpMessage()
             else -> throw java.lang.Exception("Invalid function specified - use 'validation' , 'execution' or help")
         }
-
-    } catch(exception: Exception){
+    } catch (exception: Exception) {
         printInRed(exception)
     }
-
-
 }
 
 private fun printHelpMessage() {
@@ -49,7 +44,6 @@ private fun printHelpMessage() {
 }
 
 private fun printInRed(exception: Exception) = println("\u001B[31m${exception.message}\u001B[0m")
-
 
 private fun runAppWithFunction(file: File, function: PrintscriptFunction) {
     runLexer(file)
@@ -65,10 +59,10 @@ private fun runAppWithFunction(file: File, function: PrintscriptFunction) {
             function.execute(listOfTokensInLine)
             listOfTokensInLine.clear()
         }
-        if(!scanner.hasNextLine() && token.tokenType != TokenType.SEMICOLON)
+        if (!scanner.hasNextLine() && token.tokenType != TokenType.SEMICOLON) {
             throw java.lang.Exception("There is a semicolon missing in the last line of the file")
+        }
     }
-
 }
 
 private fun runLexer(file: File) {
@@ -86,5 +80,3 @@ fun getTokenFromStringRepresentation(input: String): Token {
 
     return Token(order_id, tokenType, value, row)
 }
-
-

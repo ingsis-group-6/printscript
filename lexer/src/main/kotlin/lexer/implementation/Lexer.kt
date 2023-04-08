@@ -20,7 +20,10 @@ class Lexer(
         fileToWrite.writeText("")
         while (scanner.hasNextLine()) {
             val current = scanner.nextLine()
-            if(current.isEmpty()) continue
+            if (current.isEmpty()) {
+                currentLineNumber++
+                continue
+            }
             val lineTokenList = extractTokensFromLine(current, currentLineNumber)
             currentLineNumber++
             fileToWrite.appendText(lineTokenList.joinToString("\n") { it.toString() })

@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/printscript-v1.common.test.iml" filepath="$PROJECT_DIR$/.idea/modules/common/printscript-v1.common.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/linter/printscript-v1.linter.test.iml" filepath="$PROJECT_DIR$/.idea/modules/linter/printscript-v1.linter.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/parser/printscript-v1.parser.main.iml" filepath="$PROJECT_DIR$/.idea/modules/parser/printscript-v1.parser.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/parser/printscript-v1.parser.test.iml" filepath="$PROJECT_DIR$/.idea/modules/parser/printscript-v1.parser.test.iml" />
     </modules>

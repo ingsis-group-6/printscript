@@ -15,7 +15,7 @@ class DeclarationAssignationAST(private val tokens: List<Token>) : AST {
 
     init {
         val tokensWithoutWhitespace = tokens.filter { token: Token -> token.tokenType != TokenType.WHITESPACE }
-        if (tokensWithoutWhitespace.size < 7) throw InvalidTokenInputException("There is a syntax error in line ${tokens.first().row}")
+        if (tokensWithoutWhitespace.size < 7) throw InvalidTokenInputException("(Line ${tokens.first().row}) - There is a syntax error.")
         val listForDeclaration = tokensWithoutWhitespace.subList(0, 4).toMutableList()
         listForDeclaration.add(tokensWithoutWhitespace.last())
         val listForAssignation =

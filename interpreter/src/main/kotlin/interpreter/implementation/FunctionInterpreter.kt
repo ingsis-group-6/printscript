@@ -3,6 +3,7 @@ package interpreter.implementation
 import common.ast.AST
 import common.ast.implementations.asts.FunctionAST
 import common.ast.implementations.node.LeafNode
+import common.ast.implementations.node.Node
 import common.ast.implementations.node.TreeNode
 import common.token.TokenType
 import interpreter.Utils
@@ -15,19 +16,24 @@ class FunctionInterpreter(
     override fun interpret(ast: AST) {
         ast as FunctionAST
         val paramNode = ast.getParamNode()
+        val currentLine = ast.getTokensInLine().first().row
         when (paramNode) {
             is LeafNode -> {
                 when (paramNode.type) {
                     TokenType.IDENTIFIER -> {
                         if (paramNode.getValue() !in symbolTable.keys) {
-                            throw Exception("Variable ${paramNode.getValue()} is not declared")
+                            throw Exception("(Line $currentLine) - Variable ${paramNode.getValue()} is not declared")
+                        }
+                        val identifierValue = symbolTable[paramNode.getValue()]!!.second
+                        if (identifierValue == null) {
+                            throw Exception("(Line $currentLine) - Variable ${paramNode.getValue()} is not initialized")
                         } else {
-                            println(symbolTable[paramNode.getValue()]!!.second)
+                            println(identifierValue)
                         }
                     }
 
                     TokenType.STRING_LITERAL -> {
-                        println(paramNode.getValue().substring(1).dropLast(1))
+                        println(removeStartAndEndStringQuotes(paramNode))
                     }
 
                     TokenType.NUMERIC_LITERAL -> {
@@ -35,7 +41,7 @@ class FunctionInterpreter(
                     }
 
                     else -> {
-                        throw java.lang.Exception("Unsupported Operation")
+                        throw java.lang.Exception("(Line $currentLine) - Unsupported Operation")
                     }
                 }
             }
@@ -47,4 +53,6 @@ class FunctionInterpreter(
             }
         }
     }
+
+    private fun removeStartAndEndStringQuotes(paramNode: Node) = paramNode.getValue().substring(1).dropLast(1)
 }

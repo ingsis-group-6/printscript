@@ -15,12 +15,17 @@ class Lexer(
 
     override fun extractTokensFromFile(file: File) {
         val scanner = Scanner(file)
-        var currentLine = 1
+        var currentLineNumber = 1
         val fileToWrite = File("Tokens.txt")
         fileToWrite.writeText("")
         while (scanner.hasNextLine()) {
-            val lineTokenList = extractTokensFromLine(scanner.nextLine(), currentLine)
-            currentLine++
+            val current = scanner.nextLine()
+            if (current.isEmpty()) {
+                currentLineNumber++
+                continue
+            }
+            val lineTokenList = extractTokensFromLine(current, currentLineNumber)
+            currentLineNumber++
             fileToWrite.appendText(lineTokenList.joinToString("\n") { it.toString() })
             fileToWrite.appendText("\n")
         }

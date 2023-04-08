@@ -18,7 +18,7 @@ class AssignationAST(private val tokens: List<Token>) : AST {
     init {
         val tokensWithoutWhitespace = tokens.filter { token: Token -> token.tokenType != TokenType.WHITESPACE }
         val isValid = validateInputTokens(tokensWithoutWhitespace)
-        if (!isValid) throw InvalidTokenInputException("There is a syntax error in line ${tokens.first().row}")
+        if (!isValid) throw InvalidTokenInputException("(Line ${tokens.first().row} - There is a syntax error.")
 
         identifierLeafNode = LeafNode(TokenType.IDENTIFIER, tokensWithoutWhitespace.first().value)
 
@@ -53,7 +53,11 @@ class AssignationAST(private val tokens: List<Token>) : AST {
         return validBody && rhsIsValid
     }
 
-    private fun extractRHS(tokens: List<Token>) = tokens.subList(2, tokens.size - 1).toList()
+    private fun extractRHS(tokens: List<Token>) = try {
+        tokens.subList(2, tokens.size - 1).toList()
+    } catch (e: Exception) {
+        throw java.lang.Exception("(Line ${tokens.first().row}) - Invalid number of tokens in line.")
+    }
 
     private fun validateRightHandSide(rightHandSide: List<Token>): Boolean {
         val validTokenTypes = listOf(

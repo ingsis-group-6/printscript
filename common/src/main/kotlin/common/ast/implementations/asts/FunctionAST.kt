@@ -19,7 +19,7 @@ class FunctionAST(private val tokens: List<Token>) : AST {
     init {
         val tokensWithoutWhitespace = tokens.filter { token: Token -> token.tokenType != TokenType.WHITESPACE }
         val isValid = validateBody(tokensWithoutWhitespace)
-        if (!isValid) throw InvalidTokenInputException("There is a syntax error in line ${tokens.first().row}")
+        if (!isValid) throw InvalidTokenInputException("(Line ${tokens.first().row}) - There is a syntax error.")
         functionNode = LeafNode(tokensWithoutWhitespace.first().tokenType, tokensWithoutWhitespace.first().value)
         val param = extractParam(tokensWithoutWhitespace)
         if (!paramIsValid(param)) throw Exception("Invalid Parameter syntax")

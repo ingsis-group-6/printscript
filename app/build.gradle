@@ -6,6 +6,7 @@ plugins {
     id 'printscript.v1.kotlin-application-conventions'
     id 'git-hooks'
     id "maven-publish"
+    id "org.jlleitschuh.gradle.ktlint" version "11.3.1"
 }
 
 dependencies {
@@ -14,6 +15,7 @@ dependencies {
     implementation project(':parser')
     implementation project(':interpreter')
     implementation project(':common')
+    implementation project(':linter')
 
 }
 

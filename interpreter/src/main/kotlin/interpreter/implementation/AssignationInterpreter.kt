@@ -36,18 +36,18 @@ class AssignationInterpreter(
                     assert(rhs.getValue() in symbolTable.keys && symbolTable[rhsValue.first]!!.first == type)
                     symbolTable[identifier] = Pair(type.toString(), symbolTable[rhsValue.first]!!.second)
                 } catch (error: AssertionError) {
-                    throw Exception("Variable ${rhsValue.first} is not declared (line $currentLine)")
+                    throw Exception("(Line $currentLine) - Variable ${rhsValue.first} is not declared")
                 }
             }
 
             TokenType.NUMERIC_LITERAL, TokenType.STRING_LITERAL -> {
                 val simplifiedType = if (rhsValue.second == TokenType.NUMERIC_LITERAL) "number" else "string"
-                if (type != simplifiedType) throw Exception("Type mismatch in $identifier assignation (line $currentLine)")
+                if (type != simplifiedType) throw Exception("(Line $currentLine) - Type mismatch in $identifier assignation")
                 symbolTable[identifier] = Pair(type.toString(), rhsValue.first)
             }
 
             else -> {
-                throw Exception("Unsupported operation (line $currentLine)")
+                throw Exception("(Line $currentLine) - Unsupported operation")
             }
         }
     }

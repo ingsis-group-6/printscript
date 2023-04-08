@@ -16,7 +16,7 @@ class DeclarationAST(private val tokens: List<Token>) : AST {
     init {
         val tokensWithoutWhitespace = tokens.filter { token: Token -> token.tokenType != TokenType.WHITESPACE }
         val isValid = validateInputTokens(tokensWithoutWhitespace)
-        if (!isValid) throw InvalidTokenInputException("There is a syntax error in line ${tokens.first().row}")
+        if (!isValid) throw InvalidTokenInputException("(Line ${tokens.first().row}) - There is a syntax error.")
 
         letLeafNode = LeafNode(TokenType.LET, "let")
 

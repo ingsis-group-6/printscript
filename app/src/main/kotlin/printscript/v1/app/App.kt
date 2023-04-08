@@ -22,7 +22,7 @@ fun main(args: Array<String>) {
             "validation" -> {
                 val sourceFile = File(args[1])
                 if (!sourceFile.exists()) throw java.lang.Exception("File does not exist.")
-                runAppWithFunction(sourceFile, LinterFunction())
+                runAppWithFunction(sourceFile, LinterFunction(args[2]))
             }
             "execution" -> {
                 val sourceFile = File(args[1])

@@ -4,6 +4,7 @@ import common.ast.AST
 import common.ast.implementations.asts.AssignationAST
 import common.ast.implementations.asts.DeclarationAST
 import common.ast.implementations.asts.DeclarationAssignationAST
+import common.config.reader.linter.CaseConvention
 import linter.`interface`.Linter
 
 class IdentifierCaseLinter(private val caseToCheck: CaseConvention) : Linter {
@@ -38,9 +39,4 @@ class CaseChecker {
     private fun isCamelCase(s: String): Boolean = s.isNotEmpty() && s.first().isLowerCase() && s.all { it.isLetter() || it.isDigit() }
 
     private fun isSnakeCase(s: String): Boolean = s.isNotEmpty() && s.all { (it.isLetter() && it.isLowerCase()) || it == '_' || it.isDigit() }
-}
-
-enum class CaseConvention(val displayName: String) {
-    CAMEL_CASE("Camel Case"),
-    SNAKE_CASE("Snake Case")
 }

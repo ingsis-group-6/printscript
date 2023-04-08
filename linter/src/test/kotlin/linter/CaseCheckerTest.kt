@@ -1,7 +1,7 @@
 package linter
 
+import common.config.reader.linter.CaseConvention
 import linter.implementations.CaseChecker
-import linter.implementations.CaseConvention
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

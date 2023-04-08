@@ -21,9 +21,9 @@ class FormatFunction : PrintscriptFunction {
     }
 }
 
-class LinterFunction : PrintscriptFunction {
+class LinterFunction(configFileName: String) : PrintscriptFunction {
     private val parser = Parser()
-    private val linter = Linter()
+    private val linter = Linter(configFileName)
     override fun execute(tokenLine: List<Token>) {
         linter.lint(parser.check(tokenLine))
     }

@@ -87,7 +87,6 @@ class ParserAssignationASTCreationTest {
         )
     }
 
-
     @ParameterizedTest
     @MethodSource("invalidTokenLists")
     fun testMyFunctionWithEmptyList(inputTokens: List<Token>) {

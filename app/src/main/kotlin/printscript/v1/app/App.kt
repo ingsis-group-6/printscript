@@ -72,14 +72,13 @@ private fun runLexer(file: File) {
     lexer.extractTokensFromFile(file)
 }
 
-fun getTokenFromStringRepresentation(input: String): Token {
+private fun getTokenFromStringRepresentation(input: String): Token {
     val parts = input.substringAfter("(").dropLast(1).split(", ")
-
-    val order_id = parts[0].substringAfter("=").toInt()
+    val orderId = parts[0].substringAfter("=").toInt()
     val tokenType = TokenType.valueOf(parts[1].substringAfter("="))
     val value = parts[2].substringAfter("=")
     val row = parts[3].substringAfter("=").toInt()
     val col = parts[4].substringAfter("=").toInt()
 
-    return Token(order_id, tokenType, value, row, col)
+    return Token(orderId, tokenType, value, row, col)
 }

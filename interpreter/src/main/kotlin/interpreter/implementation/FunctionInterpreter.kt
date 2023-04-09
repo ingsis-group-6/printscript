@@ -8,10 +8,14 @@ import common.ast.implementations.node.TreeNode
 import common.token.TokenType
 import interpreter.Utils
 import interpreter.interfaces.Interpreter
+import interpreter.output.ConsolePrintOutputter
+import interpreter.output.Outputter
 
 class FunctionInterpreter(
     private val symbolTable: MutableMap<String, Pair<String, String?>>
 ) : Interpreter {
+
+    private val outputter: Outputter = ConsolePrintOutputter()
 
     override fun interpret(ast: AST) {
         ast as FunctionAST
@@ -28,16 +32,16 @@ class FunctionInterpreter(
                         if (identifierValue == null) {
                             throw Exception("(Line $currentLine) - Variable ${paramNode.getValue()} is not initialized")
                         } else {
-                            println(identifierValue)
+                            outputter.output(identifierValue)
                         }
                     }
 
                     TokenType.STRING_LITERAL -> {
-                        println(removeStartAndEndStringQuotes(paramNode))
+                        outputter.output(removeStartAndEndStringQuotes(paramNode))
                     }
 
                     TokenType.NUMERIC_LITERAL -> {
-                        println(paramNode.getValue())
+                        outputter.output(paramNode.getValue())
                     }
 
                     else -> {
@@ -47,7 +51,7 @@ class FunctionInterpreter(
             }
             is TreeNode -> {
                 val evaluator = ExpressionTreeEvaluator(symbolTable)
-                println(Utils.checkIfInteger(evaluator.evaluateExpression(paramNode)).first)
+                outputter.output(Utils.checkIfInteger(evaluator.evaluateExpression(paramNode)).first!!)
             }
             else -> {
             }

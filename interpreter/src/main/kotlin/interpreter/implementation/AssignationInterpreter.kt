@@ -16,9 +16,12 @@ class AssignationInterpreter(
 ) : Interpreter {
 
     var currentLine: Int? = null
+    var currentColumn: Int? = null
     override fun interpret(ast: AST) {
         ast as AssignationAST
         currentLine = ast.getTokensInLine().first().row
+        currentColumn = ast.getTokensInLine().first().col
+
         checkIfIdentifierWasDeclared(ast)
 
         val identifier = ast.getIdentifier()
@@ -36,7 +39,7 @@ class AssignationInterpreter(
                     assert(rhs.getValue() in symbolTable.keys && symbolTable[rhsValue.first]!!.first == type)
                     symbolTable[identifier] = Pair(type.toString(), symbolTable[rhsValue.first]!!.second)
                 } catch (error: AssertionError) {
-                    throw Exception("(Line $currentLine) - Variable ${rhsValue.first} is not declared")
+                    throw Exception("(Line $currentLine - Variable ${rhsValue.first} is not declared")
                 }
             }
 
@@ -74,6 +77,6 @@ class AssignationInterpreter(
     }
 
     private fun checkIfIdentifierWasDeclared(ast: AssignationAST) {
-        if (ast.getIdentifier() !in symbolTable.keys) throw Exception("(Line ${currentLine}) - Variable ${ast.getIdentifier()} is not declared")
+        if (ast.getIdentifier() !in symbolTable.keys) throw Exception("(Line $currentLine) - Variable ${ast.getIdentifier()} is not declared")
     }
 }

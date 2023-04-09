@@ -36,17 +36,17 @@ class Parser : Parser {
     private fun generateTreeFromTokenList(tokens: List<Token>): AST {
         val inputTokenTypes = tokens.map { it.tokenType }
 
-        val foundAST = detectASTType(inputTokenTypes)
+        val foundAST = detectASTType(inputTokenTypes, tokens.first().row)
         return ASTFactory.createAST(foundAST, tokens)
     }
 
-    fun detectASTType(inputTokenTypes: List<TokenType>): ASTType {
+    fun detectASTType(inputTokenTypes: List<TokenType>, row: Int): ASTType {
         val foundAST = when {
             inputTokenTypes.first() == TokenType.IDENTIFIER -> ASTType.ASSIGNATION
             inputTokenTypes.contains(TokenType.LET) && !inputTokenTypes.contains(TokenType.ASSIGNATION) -> ASTType.DECLARATION
             inputTokenTypes.contains(TokenType.ASSIGNATION) -> ASTType.DECLARATION_ASSIGNATION
             inputTokenTypes.first() == TokenType.PRINTLN || inputTokenTypes.first() == TokenType.FUNCTION -> ASTType.FUNCTION
-            else -> throw Exception("Malformed Expression. AST not detected.")
+            else -> throw Exception("(Line $row) - Malformed Expression. AST not detected.")
         }
         return foundAST
     }

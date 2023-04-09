@@ -21,7 +21,7 @@ class FunctionAST(private val tokens: List<Token>) : AST {
         if (!isValid) throw InvalidTokenInputException("(Line ${this.tokens.first().row}) - There is a syntax error.")
         functionNode = LeafNode(tokens.first().tokenType, tokens.first().value)
         val param = extractParam(tokens)
-        if (!paramIsValid(param)) throw Exception("Invalid Parameter syntax")
+        if (!paramIsValid(param)) throw Exception("(Line ${this.tokens.first().row}) - Invalid Parameter syntax") // H
         paramNode = if (param.size == 1) LeafNode(tokens[2].tokenType, tokens[2].value) else ExpressionTreeCreator.createExpressionNode(param)
     }
 

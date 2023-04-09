@@ -10,7 +10,7 @@ object ExpressionTreeCreator {
     // "a", "+", "4", "+", "\"hello\""
     fun createExpressionNode(rhs: List<Token>): Node {
         val validExpression = isValidMathExpression(rhs)
-        if (!validExpression) throw InvalidExpressionException("The expression on the right-hand side is invalid")
+        if (!validExpression) throw InvalidExpressionException("(Line ${rhs.first().row}) - The expression on the right-hand side is invalid")
         val shuntingYard = ShuntingYard()
         return shuntingYard.shuntingYard(rhs)
     }

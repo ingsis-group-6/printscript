@@ -16,9 +16,12 @@ class AssignationInterpreter(
 ) : Interpreter {
 
     var currentLine: Int? = null
+    var currentColumn: Int? = null
     override fun interpret(ast: AST) {
         ast as AssignationAST
         currentLine = ast.getTokensInLine().first().row
+        currentColumn = ast.getTokensInLine().first().col
+
         checkIfIdentifierWasDeclared(ast)
 
         val identifier = ast.getIdentifier()
@@ -36,7 +39,7 @@ class AssignationInterpreter(
                     assert(rhs.getValue() in symbolTable.keys && symbolTable[rhsValue.first]!!.first == type)
                     symbolTable[identifier] = Pair(type.toString(), symbolTable[rhsValue.first]!!.second)
                 } catch (error: AssertionError) {
-                    throw Exception("(Line $currentLine) - Variable ${rhsValue.first} is not declared")
+                    throw Exception("(Line $currentLine - Variable ${rhsValue.first} is not declared")
                 }
             }
 
@@ -58,7 +61,7 @@ class AssignationInterpreter(
                 if (rhs.type == TokenType.IDENTIFIER || rhs.type == TokenType.STRING_LITERAL || rhs.type == TokenType.NUMERIC_LITERAL) {
                     Pair(rhs.getValue(), rhs.type)
                 } else {
-                    throw Exception("Unsupported operation (line $currentLine)")
+                    throw Exception("(Line $currentLine) - Unsupported operation")
                 }
             }
             is TreeNode -> {
@@ -66,7 +69,7 @@ class AssignationInterpreter(
                 evaluator.evaluateExpression(rhs)
             }
             else -> {
-                throw Exception("Unsupported operation (line $currentLine)")
+                throw Exception("(Line $currentLine) - Unsupported operation")
             }
         }
 
@@ -74,6 +77,6 @@ class AssignationInterpreter(
     }
 
     private fun checkIfIdentifierWasDeclared(ast: AssignationAST) {
-        if (ast.getIdentifier() !in symbolTable.keys) throw Exception("Variable ${ast.getIdentifier()} is not declared (line $currentLine)")
+        if (ast.getIdentifier() !in symbolTable.keys) throw Exception("(Line $currentLine) - Variable ${ast.getIdentifier()} is not declared")
     }
 }

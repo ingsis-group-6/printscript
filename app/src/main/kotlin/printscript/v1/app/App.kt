@@ -17,24 +17,21 @@ fun main(args: Array<String>) {
     }
 
     try {
+        val sourceFile = File(args[1])
+        if (!sourceFile.exists()) throw java.lang.Exception("File ${args[1]} does not exist.")
+
         when (args[0].lowercase(Locale.getDefault())) {
             "lint" -> {
-                val sourceFile = File(args[1])
-                if (!sourceFile.exists()) throw java.lang.Exception("File does not exist.")
                 runAppWithFunction(sourceFile, LinterFunction(args[2]))
             }
             "format" -> {
-                val sourceFile = File(args[1])
-                if (!sourceFile.exists()) throw java.lang.Exception("File does not exist.")
                 runAppWithFunction(sourceFile, FormatFunction(sourceFile, args[2]))
             }
             "run" -> {
-                val sourceFile = File(args[1])
-                if (!sourceFile.exists()) throw java.lang.Exception("File does not exist.")
                 runAppWithFunction(sourceFile, ExecuteFunction())
             }
             "help" -> printHelpMessage()
-            else -> throw java.lang.Exception("Invalid function specified - use 'validation' , 'execution' or help")
+            else -> throw java.lang.Exception("Invalid function specified - use 'lint' , 'format', 'run', or help")
         }
     } catch (exception: Exception) {
         printInRed(exception)
@@ -43,8 +40,9 @@ fun main(args: Array<String>) {
 
 private fun printHelpMessage() {
     println("********** PRINTSCRIPT v1.0 **********")
-    println("For execution, run with execution [source-file] ")
-    println("For linting, run with validation [source-file] [config-file]")
+    println("For execution, run with run [source-file] ")
+    println("For formatting, run with format [source-file] [config-file]")
+    println("For linting, run with lint [source-file] [config-file]")
 }
 
 private fun printInRed(exception: Exception) = println("\u001B[31m${exception.message}\u001B[0m")
@@ -81,6 +79,7 @@ fun getTokenFromStringRepresentation(input: String): Token {
     val tokenType = TokenType.valueOf(parts[1].substringAfter("="))
     val value = parts[2].substringAfter("=")
     val row = parts[3].substringAfter("=").toInt()
+    val col = parts[4].substringAfter("=").toInt()
 
-    return Token(order_id, tokenType, value, row)
+    return Token(order_id, tokenType, value, row, col)
 }

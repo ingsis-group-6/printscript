@@ -17,7 +17,7 @@ class AssignationAST(private val tokens: List<Token>) : AST {
 
     init {
         val isValid = validateInputTokens(tokens)
-        if (!isValid) throw InvalidTokenInputException("(Line ${this.tokens.first().row} - There is a syntax error.")
+        if (!isValid) throw InvalidTokenInputException("(Line ${this.tokens.first().row}) - There is a syntax error.")
 
         identifierLeafNode = LeafNode(TokenType.IDENTIFIER, tokens.first().value)
 

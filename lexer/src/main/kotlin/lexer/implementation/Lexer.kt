@@ -37,16 +37,18 @@ class Lexer(
     fun extractTokensFromLine(inputLine: String, row: Int): List<Token> {
         val stringWords = getWordsFromLine(inputLine)
         val tokenList: MutableList<Token> = mutableListOf()
-        val tokenGeneratorFunction: (Int, TokenType, String, Int) -> Token = { orderId, tokenType, value, row -> Token(orderId, tokenType, value, row) }
+        val tokenGeneratorFunction: (Int, TokenType, String, Int, Int) -> Token = { orderId, tokenType, value, row, col -> Token(orderId, tokenType, value, row, col) }
         var currentOrderId = 0
+        var currentCol = 0
 
         for (word in stringWords) {
             for (tokenTypeChecker in list.getTokenTypeList()) {
                 if (tokenTypeChecker.validateType(word)) {
-                    tokenList.add(tokenGeneratorFunction(currentOrderId, tokenTypeChecker.tokenType, word, row))
+                    tokenList.add(tokenGeneratorFunction(currentOrderId, tokenTypeChecker.tokenType, word, row, currentCol))
                     currentOrderId++
                 }
             }
+            currentCol += word.length
         }
         return tokenList
     }
@@ -54,7 +56,6 @@ class Lexer(
     fun getWordsFromLine(line: String): List<String> {
         val stringsToReturn: MutableList<String> = mutableListOf()
         var soFar = ""
-
         for (char in line) {
             if (StringReadingChecker.isPartOfString(char)) {
                 soFar += char

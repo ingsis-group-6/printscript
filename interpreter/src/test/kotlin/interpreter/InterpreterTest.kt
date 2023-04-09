@@ -20,11 +20,11 @@ class InterpreterTest {
     @Test
     fun testDeclarationAST() {
         val inputTokens = listOf(
-            Token(0, TokenType.LET, "let", 0),
-            Token(1, TokenType.IDENTIFIER, "myVar", 0),
-            Token(2, TokenType.COLON, ":", 0),
-            Token(3, TokenType.TYPE, "number", 0),
-            Token(4, TokenType.SEMICOLON, ";", 0)
+            Token(0, TokenType.LET, "let", 0,0),
+            Token(1, TokenType.IDENTIFIER, "myVar", 0,0),
+            Token(2, TokenType.COLON, ":", 0,0),
+            Token(3, TokenType.TYPE, "number", 0,0),
+            Token(4, TokenType.SEMICOLON, ";", 0,0)
         )
 
         val ast = ASTFactory.createAST(ASTType.DECLARATION, inputTokens)
@@ -39,10 +39,10 @@ class InterpreterTest {
     @Test
     fun testAssignationWithoutDeclaredVariableAST() {
         val inputTokens = listOf(
-            Token(1, TokenType.IDENTIFIER, "myVar", 0),
-            Token(2, TokenType.ASSIGNATION, "=", 0),
-            Token(3, TokenType.NUMERIC_LITERAL, "3", 0),
-            Token(4, TokenType.SEMICOLON, ";", 0)
+            Token(1, TokenType.IDENTIFIER, "myVar", 0,0),
+            Token(2, TokenType.ASSIGNATION, "=", 0,0),
+            Token(3, TokenType.NUMERIC_LITERAL, "3", 0,0),
+            Token(4, TokenType.SEMICOLON, ";", 0,0)
         )
 
         val ast = ASTFactory.createAST(ASTType.ASSIGNATION, inputTokens)
@@ -55,20 +55,20 @@ class InterpreterTest {
     @Test
     fun testAssignationAST() {
         val inputTokensFirstLine = listOf(
-            Token(0, TokenType.LET, "let", 0),
-            Token(1, TokenType.IDENTIFIER, "myVar", 0),
-            Token(2, TokenType.COLON, ":", 0),
-            Token(3, TokenType.TYPE, "number", 0),
-            Token(4, TokenType.SEMICOLON, ";", 0)
+            Token(0, TokenType.LET, "let", 0,0),
+            Token(1, TokenType.IDENTIFIER, "myVar", 0,0),
+            Token(2, TokenType.COLON, ":", 0,0),
+            Token(3, TokenType.TYPE, "number", 0,0),
+            Token(4, TokenType.SEMICOLON, ";", 0,0)
         )
 
         val inputTokensSecondLine = listOf(
-            Token(1, TokenType.IDENTIFIER, "myVar", 1),
-            Token(2, TokenType.ASSIGNATION, "=", 1),
-            Token(3, TokenType.NUMERIC_LITERAL, "3", 1),
-            Token(3, TokenType.OPERATOR, "+", 1),
-            Token(3, TokenType.NUMERIC_LITERAL, "3", 1),
-            Token(4, TokenType.SEMICOLON, ";", 1)
+            Token(1, TokenType.IDENTIFIER, "myVar", 1,0),
+            Token(2, TokenType.ASSIGNATION, "=", 1,0),
+            Token(3, TokenType.NUMERIC_LITERAL, "3", 1,0),
+            Token(3, TokenType.OPERATOR, "+", 1,0),
+            Token(3, TokenType.NUMERIC_LITERAL, "3", 1,0),
+            Token(4, TokenType.SEMICOLON, ";", 1,0)
         )
 
         val astFirstLine = ASTFactory.createAST(ASTType.DECLARATION, inputTokensFirstLine)
@@ -87,21 +87,21 @@ class InterpreterTest {
     @Test
     fun testMultipleDeclarations() {
         val inputTokens1 = listOf(
-            Token(0, TokenType.LET, "let", 0),
-            Token(1, TokenType.IDENTIFIER, "myVar", 0),
-            Token(2, TokenType.COLON, ":", 0),
-            Token(3, TokenType.TYPE, "number", 0),
-            Token(4, TokenType.SEMICOLON, ";", 0)
+            Token(0, TokenType.LET, "let", 0,0),
+            Token(1, TokenType.IDENTIFIER, "myVar", 0,0),
+            Token(2, TokenType.COLON, ":", 0,0),
+            Token(3, TokenType.TYPE, "number", 0,0),
+            Token(4, TokenType.SEMICOLON, ";", 0,0)
         )
 
         val ast1 = ASTFactory.createAST(ASTType.DECLARATION, inputTokens1)
 
         val inputTokens2 = listOf(
-            Token(0, TokenType.LET, "let", 0),
-            Token(1, TokenType.IDENTIFIER, "myOtherVar", 0),
-            Token(2, TokenType.COLON, ":", 0),
-            Token(3, TokenType.TYPE, "string", 0),
-            Token(4, TokenType.SEMICOLON, ";", 0)
+            Token(0, TokenType.LET, "let", 0,0),
+            Token(1, TokenType.IDENTIFIER, "myOtherVar", 0,0),
+            Token(2, TokenType.COLON, ":", 0,0),
+            Token(3, TokenType.TYPE, "string", 0,0),
+            Token(4, TokenType.SEMICOLON, ";", 0,0)
         )
 
         val ast2 = ASTFactory.createAST(ASTType.DECLARATION, inputTokens2)
@@ -121,27 +121,27 @@ class InterpreterTest {
     @Test
     fun testFunctionAST() {
         val inputTokensFirstLine = listOf(
-            Token(0, TokenType.LET, "let", 0),
-            Token(1, TokenType.IDENTIFIER, "myVar", 0),
-            Token(2, TokenType.COLON, ":", 0),
-            Token(3, TokenType.TYPE, "number", 0),
-            Token(4, TokenType.SEMICOLON, ";", 0)
+            Token(0, TokenType.LET, "let", 0,0),
+            Token(1, TokenType.IDENTIFIER, "myVar", 0,0),
+            Token(2, TokenType.COLON, ":", 0,0),
+            Token(3, TokenType.TYPE, "number", 0,0),
+            Token(4, TokenType.SEMICOLON, ";", 0,0)
         )
 
         val inputTokensSecondLine = listOf(
-            Token(1, TokenType.IDENTIFIER, "myVar", 1),
-            Token(2, TokenType.ASSIGNATION, "=", 1),
-            Token(3, TokenType.NUMERIC_LITERAL, "3", 1),
-            Token(3, TokenType.OPERATOR, "+", 1),
-            Token(3, TokenType.NUMERIC_LITERAL, "3", 1),
-            Token(4, TokenType.SEMICOLON, ";", 1)
+            Token(1, TokenType.IDENTIFIER, "myVar", 1,0),
+            Token(2, TokenType.ASSIGNATION, "=", 1,0),
+            Token(3, TokenType.NUMERIC_LITERAL, "3", 1,0),
+            Token(3, TokenType.OPERATOR, "+", 1,0),
+            Token(3, TokenType.NUMERIC_LITERAL, "3", 1,0),
+            Token(4, TokenType.SEMICOLON, ";", 1,0)
         )
         val inputTokensThirdLine = listOf(
-            Token(0, TokenType.PRINTLN, "println", 2),
-            Token(1, TokenType.OPEN_PARENTHESIS, "(", 2),
-            Token(2, TokenType.IDENTIFIER, "myVar", 2),
-            Token(3, TokenType.CLOSE_PARENTHESIS, ")", 2),
-            Token(4, TokenType.SEMICOLON, ";", 2)
+            Token(0, TokenType.PRINTLN, "println", 2,0),
+            Token(1, TokenType.OPEN_PARENTHESIS, "(", 2,0),
+            Token(2, TokenType.IDENTIFIER, "myVar", 2,0),
+            Token(3, TokenType.CLOSE_PARENTHESIS, ")", 2,0),
+            Token(4, TokenType.SEMICOLON, ";", 2,0)
         )
 
         val astFirstLine = ASTFactory.createAST(ASTType.DECLARATION, inputTokensFirstLine)
@@ -156,23 +156,23 @@ class InterpreterTest {
     @Test
     fun testDeclarationAssignation() {
         val inputTokensFirstLine = listOf(
-            Token(0, TokenType.LET, "let", 0),
-            Token(1, TokenType.IDENTIFIER, "myVar", 0),
-            Token(2, TokenType.COLON, ":", 0),
-            Token(3, TokenType.TYPE, "string", 0),
-            Token(4, TokenType.ASSIGNATION, "=", 0),
-            Token(5, TokenType.NUMERIC_LITERAL, "3", 0),
-            Token(6, TokenType.OPERATOR, "+", 0),
-            Token(7, TokenType.STRING_LITERAL, "'Hello'", 0),
-            Token(8, TokenType.SEMICOLON, ";", 0)
+            Token(0, TokenType.LET, "let", 0,0),
+            Token(1, TokenType.IDENTIFIER, "myVar", 0,0),
+            Token(2, TokenType.COLON, ":", 0,0),
+            Token(3, TokenType.TYPE, "string", 0,0),
+            Token(4, TokenType.ASSIGNATION, "=", 0,0),
+            Token(5, TokenType.NUMERIC_LITERAL, "3", 0,0),
+            Token(6, TokenType.OPERATOR, "+", 0,0),
+            Token(7, TokenType.STRING_LITERAL, "'Hello'", 0,0),
+            Token(8, TokenType.SEMICOLON, ";", 0,0)
         )
 
         val inputTokensThirdLine = listOf(
-            Token(0, TokenType.PRINTLN, "println", 1),
-            Token(1, TokenType.OPEN_PARENTHESIS, "(", 1),
-            Token(2, TokenType.IDENTIFIER, "myVar", 1),
-            Token(3, TokenType.CLOSE_PARENTHESIS, ")", 1),
-            Token(4, TokenType.SEMICOLON, ";", 1)
+            Token(0, TokenType.PRINTLN, "println", 1,0),
+            Token(1, TokenType.OPEN_PARENTHESIS, "(", 1,0),
+            Token(2, TokenType.IDENTIFIER, "myVar", 1,0),
+            Token(3, TokenType.CLOSE_PARENTHESIS, ")", 1,0),
+            Token(4, TokenType.SEMICOLON, ";", 1,0)
         )
 
         val astFirstLine = ASTFactory.createAST(ASTType.DECLARATION_ASSIGNATION, inputTokensFirstLine)
@@ -185,37 +185,37 @@ class InterpreterTest {
     @Test
     fun testDeclarationAssignation2() {
         val inputTokensFirstLine = listOf(
-            Token(0, TokenType.LET, "let", 0),
-            Token(1, TokenType.IDENTIFIER, "myVar", 0),
-            Token(2, TokenType.COLON, ":", 0),
-            Token(3, TokenType.TYPE, "number", 0),
-            Token(4, TokenType.ASSIGNATION, "=", 0),
-            Token(5, TokenType.NUMERIC_LITERAL, "3", 0),
-            Token(6, TokenType.OPERATOR, "+", 0),
-            Token(7, TokenType.STRING_LITERAL, "5", 0),
-            Token(8, TokenType.SEMICOLON, ";", 0)
+            Token(0, TokenType.LET, "let", 0,0),
+            Token(1, TokenType.IDENTIFIER, "myVar", 0,0),
+            Token(2, TokenType.COLON, ":", 0,0),
+            Token(3, TokenType.TYPE, "number", 0,0),
+            Token(4, TokenType.ASSIGNATION, "=", 0,0),
+            Token(5, TokenType.NUMERIC_LITERAL, "3", 0,0),
+            Token(6, TokenType.OPERATOR, "+", 0,0),
+            Token(7, TokenType.STRING_LITERAL, "5", 0,0),
+            Token(8, TokenType.SEMICOLON, ";", 0,0)
         )
 
         val inputTokensSecondLine = listOf(
-            Token(0, TokenType.LET, "let", 1),
-            Token(1, TokenType.IDENTIFIER, "otherVar", 1),
-            Token(2, TokenType.COLON, ":", 1),
-            Token(3, TokenType.TYPE, "number", 1),
-            Token(4, TokenType.ASSIGNATION, "=", 1),
-            Token(5, TokenType.NUMERIC_LITERAL, "3", 1),
-            Token(6, TokenType.OPERATOR, "+", 1),
-            Token(7, TokenType.STRING_LITERAL, "7", 1),
-            Token(8, TokenType.SEMICOLON, ";", 1)
+            Token(0, TokenType.LET, "let", 1,0),
+            Token(1, TokenType.IDENTIFIER, "otherVar", 1,0),
+            Token(2, TokenType.COLON, ":", 1,0),
+            Token(3, TokenType.TYPE, "number", 1,0),
+            Token(4, TokenType.ASSIGNATION, "=", 1,0),
+            Token(5, TokenType.NUMERIC_LITERAL, "3", 1,0),
+            Token(6, TokenType.OPERATOR, "+", 1,0),
+            Token(7, TokenType.STRING_LITERAL, "7", 1,0),
+            Token(8, TokenType.SEMICOLON, ";", 1,0)
         )
 
         val inputTokensThirdLine = listOf(
-            Token(0, TokenType.PRINTLN, "println", 2),
-            Token(1, TokenType.OPEN_PARENTHESIS, "(", 2),
-            Token(2, TokenType.IDENTIFIER, "myVar", 2),
-            Token(3, TokenType.OPERATOR, "+", 2),
-            Token(4, TokenType.IDENTIFIER, "otherVar", 2),
-            Token(5, TokenType.CLOSE_PARENTHESIS, ")", 2),
-            Token(6, TokenType.SEMICOLON, ";", 2)
+            Token(0, TokenType.PRINTLN, "println", 2,0),
+            Token(1, TokenType.OPEN_PARENTHESIS, "(", 2,0),
+            Token(2, TokenType.IDENTIFIER, "myVar", 2,0),
+            Token(3, TokenType.OPERATOR, "+", 2,0),
+            Token(4, TokenType.IDENTIFIER, "otherVar", 2,0),
+            Token(5, TokenType.CLOSE_PARENTHESIS, ")", 2,0),
+            Token(6, TokenType.SEMICOLON, ";", 2,0)
         )
 
         val astFirstLine = ASTFactory.createAST(ASTType.DECLARATION_ASSIGNATION, inputTokensFirstLine)
@@ -233,29 +233,29 @@ class InterpreterTest {
         fun differentFunctionArgumentsList() = listOf(
             Arguments.of(
                 listOf(
-                    Token(0, TokenType.PRINTLN, "println", 0),
-                    Token(1, TokenType.OPEN_PARENTHESIS, "(", 0),
-                    Token(2, TokenType.NUMERIC_LITERAL, "4", 0),
-                    Token(3, TokenType.CLOSE_PARENTHESIS, ")", 0),
-                    Token(4, TokenType.SEMICOLON, ";", 0)
+                    Token(0, TokenType.PRINTLN, "println", 0,0),
+                    Token(1, TokenType.OPEN_PARENTHESIS, "(", 0,0),
+                    Token(2, TokenType.NUMERIC_LITERAL, "4", 0,0),
+                    Token(3, TokenType.CLOSE_PARENTHESIS, ")", 0,0),
+                    Token(4, TokenType.SEMICOLON, ";", 0,0)
                 )
             ),
             Arguments.of(
                 listOf(
-                    Token(0, TokenType.PRINTLN, "println", 0),
-                    Token(1, TokenType.OPEN_PARENTHESIS, "(", 0),
-                    Token(2, TokenType.STRING_LITERAL, "HELLO", 0),
-                    Token(3, TokenType.CLOSE_PARENTHESIS, ")", 0),
-                    Token(4, TokenType.SEMICOLON, ";", 0)
+                    Token(0, TokenType.PRINTLN, "println", 0,0),
+                    Token(1, TokenType.OPEN_PARENTHESIS, "(", 0,0),
+                    Token(2, TokenType.STRING_LITERAL, "HELLO", 0,0),
+                    Token(3, TokenType.CLOSE_PARENTHESIS, ")", 0,0),
+                    Token(4, TokenType.SEMICOLON, ";", 0,0)
                 )
             ),
             Arguments.of(
                 listOf(
-                    Token(0, TokenType.PRINTLN, "println", 0),
-                    Token(1, TokenType.OPEN_PARENTHESIS, "(", 0),
-                    Token(2, TokenType.STRING_LITERAL, "PRINTING", 0),
-                    Token(3, TokenType.CLOSE_PARENTHESIS, ")", 0),
-                    Token(4, TokenType.SEMICOLON, ";", 0)
+                    Token(0, TokenType.PRINTLN, "println", 0,0),
+                    Token(1, TokenType.OPEN_PARENTHESIS, "(", 0,0),
+                    Token(2, TokenType.STRING_LITERAL, "PRINTING", 0,0),
+                    Token(3, TokenType.CLOSE_PARENTHESIS, ")", 0,0),
+                    Token(4, TokenType.SEMICOLON, ";", 0,0)
                 )
             )
 

@@ -29,10 +29,10 @@ class ParserAssignationASTCreationTest {
     @Test
     fun testAssignationASTCreationWithNumber() {
         val inputTokens = listOf(
-            Token(1, TokenType.IDENTIFIER, "myVar", 0),
-            Token(2, TokenType.ASSIGNATION, "=", 0),
-            Token(3, TokenType.NUMERIC_LITERAL, "3.14", 0),
-            Token(4, TokenType.SEMICOLON, ";", 0)
+            Token(1, TokenType.IDENTIFIER, "myVar", 0, 0),
+            Token(2, TokenType.ASSIGNATION, "=", 0, 0),
+            Token(3, TokenType.NUMERIC_LITERAL, "3.14", 0, 0),
+            Token(4, TokenType.SEMICOLON, ";", 0, 0)
         )
         val resultAST = parser.parse(inputTokens)
         val children = resultAST.getChildren()
@@ -44,10 +44,10 @@ class ParserAssignationASTCreationTest {
     @Test
     fun testAssignationASTCreationWithString() {
         val inputTokens = listOf(
-            Token(1, TokenType.IDENTIFIER, "myVar", 0),
-            Token(2, TokenType.ASSIGNATION, "=", 0),
-            Token(3, TokenType.STRING_LITERAL, "'hello'", 0),
-            Token(4, TokenType.SEMICOLON, ";", 0)
+            Token(1, TokenType.IDENTIFIER, "myVar", 0, 0),
+            Token(2, TokenType.ASSIGNATION, "=", 0, 0),
+            Token(3, TokenType.STRING_LITERAL, "'hello'", 0, 0),
+            Token(4, TokenType.SEMICOLON, ";", 0, 0)
         )
         val resultAST = parser.parse(inputTokens)
         val children = resultAST.getChildren()
@@ -62,26 +62,26 @@ class ParserAssignationASTCreationTest {
         fun invalidTokenLists() = listOf(
             Arguments.of(
                 listOf(
-                    Token(0, TokenType.LET, "let", 0),
-                    Token(1, TokenType.IDENTIFIER, "myVar", 0),
-                    Token(2, TokenType.TYPE, "string", 0),
-                    Token(3, TokenType.SEMICOLON, ";", 0)
+                    Token(0, TokenType.LET, "let", 0, 0),
+                    Token(1, TokenType.IDENTIFIER, "myVar", 0, 0),
+                    Token(2, TokenType.TYPE, "string", 0, 0),
+                    Token(3, TokenType.SEMICOLON, ";", 0, 0)
                 )
             ),
             Arguments.of(
                 listOf(
-                    Token(0, TokenType.LET, "let", 0),
-                    Token(1, TokenType.LET, "let", 0),
-                    Token(2, TokenType.COLON, ":", 0),
-                    Token(3, TokenType.TYPE, "string", 0),
-                    Token(4, TokenType.SEMICOLON, ";", 0)
+                    Token(0, TokenType.LET, "let", 0, 0),
+                    Token(1, TokenType.LET, "let", 0, 0),
+                    Token(2, TokenType.COLON, ":", 0, 0),
+                    Token(3, TokenType.TYPE, "string", 0, 0),
+                    Token(4, TokenType.SEMICOLON, ";", 0, 0)
                 )
             ),
             Arguments.of(
                 listOf(
-                    Token(0, TokenType.LET, "let", 0),
-                    Token(1, TokenType.IDENTIFIER, "myVar", 0),
-                    Token(3, TokenType.SEMICOLON, ";", 0)
+                    Token(0, TokenType.LET, "let", 0, 0),
+                    Token(1, TokenType.IDENTIFIER, "myVar", 0, 0),
+                    Token(3, TokenType.SEMICOLON, ";", 0, 0)
                 )
             )
         )

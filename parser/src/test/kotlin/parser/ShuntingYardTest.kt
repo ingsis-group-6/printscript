@@ -78,9 +78,9 @@ class ShuntingYardTest {
     @Test
     fun testSimpleExpression() {
         val input = listOf(
-            Token(1, TokenType.NUMERIC_LITERAL, "2", 1),
-            Token(2, TokenType.OPERATOR, "+", 1),
-            Token(3, TokenType.NUMERIC_LITERAL, "3", 1)
+            Token(1, TokenType.NUMERIC_LITERAL, "2", 1, 0),
+            Token(2, TokenType.OPERATOR, "+", 1, 0),
+            Token(3, TokenType.NUMERIC_LITERAL, "3", 1, 0)
         )
         val expected = TreeNode("+", TokenType.OPERATOR, TreeNode("2", TokenType.NUMERIC_LITERAL), TreeNode("3", TokenType.NUMERIC_LITERAL))
         assertEquals(expected, ShuntingYard().shuntingYard(input))
@@ -89,13 +89,13 @@ class ShuntingYardTest {
     @Test
     fun testExpressionWithParentheses() {
         val input = listOf(
-            Token(1, TokenType.OPEN_PARENTHESIS, "(", 1),
-            Token(2, TokenType.NUMERIC_LITERAL, "2", 1),
-            Token(3, TokenType.OPERATOR, "+", 1),
-            Token(4, TokenType.NUMERIC_LITERAL, "3", 1),
-            Token(5, TokenType.CLOSE_PARENTHESIS, ")", 1),
-            Token(6, TokenType.OPERATOR, "*", 1),
-            Token(7, TokenType.NUMERIC_LITERAL, "4", 1)
+            Token(1, TokenType.OPEN_PARENTHESIS, "(", 1, 0),
+            Token(2, TokenType.NUMERIC_LITERAL, "2", 1, 0),
+            Token(3, TokenType.OPERATOR, "+", 1, 0),
+            Token(4, TokenType.NUMERIC_LITERAL, "3", 1, 0),
+            Token(5, TokenType.CLOSE_PARENTHESIS, ")", 1, 0),
+            Token(6, TokenType.OPERATOR, "*", 1, 0),
+            Token(7, TokenType.NUMERIC_LITERAL, "4", 1, 0)
         )
         val expected = TreeNode("*", TokenType.OPERATOR, TreeNode("+", TokenType.OPERATOR, TreeNode("2", TokenType.NUMERIC_LITERAL), TreeNode("3", TokenType.NUMERIC_LITERAL)), TreeNode("4", TokenType.NUMERIC_LITERAL))
         assertEquals(expected, ShuntingYard().shuntingYard(input))
@@ -104,11 +104,11 @@ class ShuntingYardTest {
     @Test
     fun testExpressionWithVariables() {
         val input = listOf(
-            Token(1, TokenType.IDENTIFIER, "a", 1),
-            Token(2, TokenType.OPERATOR, "+", 1),
-            Token(3, TokenType.IDENTIFIER, "b", 1),
-            Token(4, TokenType.OPERATOR, "*", 1),
-            Token(5, TokenType.IDENTIFIER, "c", 1)
+            Token(1, TokenType.IDENTIFIER, "a", 1, 0),
+            Token(2, TokenType.OPERATOR, "+", 1, 0),
+            Token(3, TokenType.IDENTIFIER, "b", 1, 0),
+            Token(4, TokenType.OPERATOR, "*", 1, 0),
+            Token(5, TokenType.IDENTIFIER, "c", 1, 0)
         )
         val expected = TreeNode("+", TokenType.OPERATOR, TreeNode("a", TokenType.IDENTIFIER), TreeNode("*", TokenType.OPERATOR, TreeNode("b", TokenType.IDENTIFIER), TreeNode("c", TokenType.IDENTIFIER)))
         assertEquals(expected, ShuntingYard().shuntingYard(input))
@@ -117,9 +117,9 @@ class ShuntingYardTest {
     @Test
     fun testExpressionWithStrings() {
         val input = listOf(
-            Token(1, TokenType.STRING_LITERAL, "Hello", 1),
-            Token(2, TokenType.OPERATOR, "+", 1),
-            Token(3, TokenType.STRING_LITERAL, "world", 1)
+            Token(1, TokenType.STRING_LITERAL, "Hello", 1, 0),
+            Token(2, TokenType.OPERATOR, "+", 1, 0),
+            Token(3, TokenType.STRING_LITERAL, "world", 1, 0)
         )
         val expected = TreeNode("+", TokenType.OPERATOR, TreeNode("Hello", TokenType.STRING_LITERAL), TreeNode("world", TokenType.STRING_LITERAL))
         assertEquals(expected, ShuntingYard().shuntingYard(input))

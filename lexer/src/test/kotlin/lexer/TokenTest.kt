@@ -13,7 +13,7 @@ class TokenTest {
 
     @Test
     fun stringLiteralTest() {
-        val token = Token(0, TokenType.STRING_LITERAL, "'Ricardo mira como anda el Regex!$!@#!'", 0)
+        val token = Token(0, TokenType.STRING_LITERAL, "'Ricardo mira como anda el Regex!$!@#!'", 0, 0)
         val tokenList = listOf<Token>(token)
         val testToken = lexer.extractTokensFromLine("'Ricardo mira como anda el Regex!$!@#!'", 0)
 
@@ -35,19 +35,19 @@ class TokenTest {
         // val stringLine = "let myVar: string = \"hello\";"
         val stringLine = "let   myVar: string = \"hello world!\";"
         val expectedTokens = listOf(
-            Token(0, TokenType.LET, "let", 0),
-            Token(1, TokenType.WHITESPACE, " ", 0),
-            Token(2, TokenType.WHITESPACE, " ", 0),
-            Token(3, TokenType.WHITESPACE, " ", 0),
-            Token(4, TokenType.IDENTIFIER, "myVar", 0),
-            Token(5, TokenType.COLON, ":", 0),
-            Token(6, TokenType.WHITESPACE, " ", 0),
-            Token(7, TokenType.TYPE, "string", 0),
-            Token(8, TokenType.WHITESPACE, " ", 0),
-            Token(9, TokenType.ASSIGNATION, "=", 0),
-            Token(10, TokenType.WHITESPACE, " ", 0),
-            Token(11, TokenType.STRING_LITERAL, "\"hello world!\"", 0),
-            Token(12, TokenType.SEMICOLON, ";", 0)
+            Token(0, TokenType.LET, "let", 0, 0),
+            Token(1, TokenType.WHITESPACE, " ", 0, 3),
+            Token(2, TokenType.WHITESPACE, " ", 0, 4),
+            Token(3, TokenType.WHITESPACE, " ", 0, 5),
+            Token(4, TokenType.IDENTIFIER, "myVar", 0, 6),
+            Token(5, TokenType.COLON, ":", 0, 11),
+            Token(6, TokenType.WHITESPACE, " ", 0, 12),
+            Token(7, TokenType.TYPE, "string", 0, 13),
+            Token(8, TokenType.WHITESPACE, " ", 0, 19),
+            Token(9, TokenType.ASSIGNATION, "=", 0, 20),
+            Token(10, TokenType.WHITESPACE, " ", 0, 21),
+            Token(11, TokenType.STRING_LITERAL, "\"hello world!\"", 0, 22),
+            Token(12, TokenType.SEMICOLON, ";", 0, 36)
         )
         val result = lexer.extractTokensFromLine(stringLine, 0)
         result.map { println(it) }

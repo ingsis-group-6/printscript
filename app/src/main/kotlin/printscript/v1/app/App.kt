@@ -17,17 +17,19 @@ fun main(args: Array<String>) {
     }
 
     try {
-        val sourceFile = File(args[1])
-        if (!sourceFile.exists()) throw java.lang.Exception("File ${args[1]} does not exist.")
+
 
         when (args[0].lowercase(Locale.getDefault())) {
             "lint" -> {
+                val sourceFile = readSourceFile(args)
                 runAppWithFunction(sourceFile, LinterFunction(args[2]))
             }
             "format" -> {
+                val sourceFile = readSourceFile(args)
                 runAppWithFunction(sourceFile, FormatFunction(sourceFile, args[2]))
             }
             "run" -> {
+                val sourceFile = readSourceFile(args)
                 runAppWithFunction(sourceFile, ExecuteFunction())
             }
             "help" -> printHelpMessage()
@@ -36,6 +38,12 @@ fun main(args: Array<String>) {
     } catch (exception: Exception) {
         printInRed(exception)
     }
+}
+
+private fun readSourceFile(args: Array<String>): File {
+    val sourceFile = File(args[1])
+    if (!sourceFile.exists()) throw java.lang.Exception("File ${args[1]} does not exist.")
+    return sourceFile
 }
 
 private fun printHelpMessage() {

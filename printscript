@@ -1,6 +1,9 @@
 #!/bin/bash
 
-kotlinc /app/src/main/kotlin/printscript/v1/app/App.kt  -d exectution-files/app.jar
-kotlinc /app/src/main/kotlin/printscript/v1/app/App.kt -include-runtime -d exectution-files/app.jar
-kotlinc /app/src/main/kotlin/printscript/v1/app/App.kt -include-runtime -d exectution-files/app.jar
-kotlinc /app/src/main/kotlin/printscript/v1/app/App.kt -include-runtime -d exectution-files/app.jar
+# Assign the arguments to variables
+function="$1"
+input_file_path="$2"
+config_file_path="$3"
+
+# Run the gradle command with the arguments
+gradle app:run -q --args "$function $input_file_path $config_file_path"

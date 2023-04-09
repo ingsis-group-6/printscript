@@ -1,4 +1,4 @@
 {
     "caseConvention": "SNAKE_CASE",
-    "printExpressionsEnabled": "true"
+    "printExpressionsEnabled": "false"
 }

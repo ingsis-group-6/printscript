@@ -22,8 +22,8 @@ class IdentifierCaseLinter(private val caseToCheck: CaseConvention) : Linter {
 
     private fun lintCompoundAST(ast: Pair<AST, List<String>>) {
         if (ast.first is DeclarationAssignationAST) {
-            lint(Pair((ast.first as DeclarationAST), ast.second))
-            lint(Pair((ast.first as AssignationAST), ast.second))
+            lint(Pair(((ast.first as DeclarationAssignationAST).getDeclarationAST() as DeclarationAST), ast.second))
+            lint(Pair(((ast.first as DeclarationAssignationAST).getAssignationAST() as AssignationAST), ast.second))
         }
     }
 }

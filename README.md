@@ -1,31 +1,20 @@
-## Para copiar el script de Pre-Commit a .git/hooks
+# Printscript language
+
+## To copy pre-commit script to .git/hooks
 
 ```./gradlew copyPreCommitHook```
 
 
-## Para correr PrintScript
+## To run Printscript
 
-Primero pasar la App a un jar
+```./printscript help``` for instructions.
 
-```kotlinc App.kt -include-runtime -d app.jar```
+```./printscript [function] [source-file] [config-file]```
 
-Despues, correrlo agregando los argumentos necesarios
 
-```java -jar app.jar [args]```
+## Supported functions
 
-# Pasos para el TP
-
-## Lexer
-
-1. El lexer va a recibir archivo, el cual lo va a descomponer el lineas, y al llegar a x lineas, va a cortar y mandarlo como
-   input stream
-2. generar con todos estos input streams una lista de tokens
-3. enviar esta lista al parser
-
-## Parser
-1. recibe una lista de tokens del lexer con un tipo y un value
-2. crea un arbol con todos los tokens y su valor
-
-## Interpreter
-
-### Cosas extra: formatter n shit 
+- Run ```./printscript run [source-file]```
+- Format ```./printscript format [source-file] [config-file]```
+- Lint ```./printscript lint [source-file] [config-file]```
+- Help ```./printscript help```

@@ -5,6 +5,7 @@
 plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
     id 'org.jetbrains.kotlin.jvm'
+    id 'maven-publish'
 }
 
 repositories {
@@ -25,4 +26,22 @@ dependencies {
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/ricardolopezb/printscript")
+            version = "1.0.1-SNAPSHOT"
+            credentials {
+                username = project.properties['GITHUB_ACTOR']
+                password = project.properties['GITHUB_TOKEN']
+            }
+        }
+    }
+}
+task readEnv{
+    print(project.properties['GITHUB_ACTOR'])
 }

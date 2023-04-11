@@ -12,7 +12,7 @@ import parser.interfaces.Parser
 
 class Parser : Parser {
 
-    fun check(tokens: List<Token>): Pair<AST, List<String>> {
+    override fun check(tokens: List<Token>): Pair<AST, List<String>> {
         val errorList = mutableListOf<String>()
         try {
             val ast = parse(tokens)

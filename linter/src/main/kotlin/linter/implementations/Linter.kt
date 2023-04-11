@@ -27,4 +27,6 @@ class Linter(configFileName: String) : Linter {
     override fun lint(ast: Pair<AST, List<String>>) {
         linters.forEach { linter: Linter -> linter.lint(ast) }
     }
+
+    fun getSubLinter(): Set<Linter> = linters
 }

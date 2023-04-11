@@ -2,6 +2,7 @@ package lexer
 
 import lexer.factory.TokenTypeManagerFactory
 import lexer.implementation.Lexer
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.io.File
 
@@ -14,6 +15,12 @@ class LexerTest {
         var lineCount = 0
         file.forEachLine { lineCount++ }
         return lineCount
+    }
+
+    @Test
+    fun lexerCreationTest() {
+        val newLexer = Lexer()
+        Assertions.assertFalse(lexer.equals(newLexer))
     }
 
     @Test

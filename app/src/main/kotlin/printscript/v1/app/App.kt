@@ -17,8 +17,6 @@ fun main(args: Array<String>) {
     }
 
     try {
-
-
         when (args[0].lowercase(Locale.getDefault())) {
             "lint" -> {
                 val sourceFile = readSourceFile(args)

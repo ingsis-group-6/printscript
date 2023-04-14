@@ -1,4 +1,4 @@
-Token(order_id=0, tokenType=LET, value=let, row=0, col=0)
+Token(order_id=0, tokenType=DECLARATOR, value=let, row=0, col=0)
 Token(order_id=1, tokenType=WHITESPACE, value= , row=0, col=3)
 Token(order_id=2, tokenType=WHITESPACE, value= , row=0, col=4)
 Token(order_id=3, tokenType=WHITESPACE, value= , row=0, col=5)

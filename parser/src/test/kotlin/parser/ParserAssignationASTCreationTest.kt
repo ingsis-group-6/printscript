@@ -62,7 +62,7 @@ class ParserAssignationASTCreationTest {
         fun invalidTokenLists() = listOf(
             Arguments.of(
                 listOf(
-                    Token(0, TokenType.LET, "let", 0, 0),
+                    Token(0, TokenType.DECLARATOR, "let", 0, 0),
                     Token(1, TokenType.IDENTIFIER, "myVar", 0, 0),
                     Token(2, TokenType.TYPE, "string", 0, 0),
                     Token(3, TokenType.SEMICOLON, ";", 0, 0)
@@ -70,8 +70,8 @@ class ParserAssignationASTCreationTest {
             ),
             Arguments.of(
                 listOf(
-                    Token(0, TokenType.LET, "let", 0, 0),
-                    Token(1, TokenType.LET, "let", 0, 0),
+                    Token(0, TokenType.DECLARATOR, "let", 0, 0),
+                    Token(1, TokenType.DECLARATOR, "let", 0, 0),
                     Token(2, TokenType.COLON, ":", 0, 0),
                     Token(3, TokenType.TYPE, "string", 0, 0),
                     Token(4, TokenType.SEMICOLON, ";", 0, 0)
@@ -79,7 +79,7 @@ class ParserAssignationASTCreationTest {
             ),
             Arguments.of(
                 listOf(
-                    Token(0, TokenType.LET, "let", 0, 0),
+                    Token(0, TokenType.DECLARATOR, "let", 0, 0),
                     Token(1, TokenType.IDENTIFIER, "myVar", 0, 0),
                     Token(3, TokenType.SEMICOLON, ";", 0, 0)
                 )

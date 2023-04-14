@@ -2,7 +2,7 @@ package interpreter.implementation
 
 import common.ast.implementations.node.TreeNode
 import common.token.TokenType
-import java.lang.Exception
+import kotlin.Exception
 
 class ExpressionTreeEvaluator(private val symbolTable: MutableMap<String, Pair<String, String?>>) {
 
@@ -76,6 +76,9 @@ class ExpressionTreeEvaluator(private val symbolTable: MutableMap<String, Pair<S
             isNumber(token) -> {
                 Pair(token, TokenType.NUMERIC_LITERAL)
             }
+            isBooleanValue(token) -> {
+                throw Exception("Boolean operations not supported.")
+            }
             (symbolTable.contains(token)) -> {
                 if (this.symbolTable.get(key = token)!!.second == null) {
                     throw Exception("Variable not initialized")
@@ -90,6 +93,8 @@ class ExpressionTreeEvaluator(private val symbolTable: MutableMap<String, Pair<S
             else -> throw Exception("Variable $token not assigned")
         }
     }
+
+    private fun isBooleanValue(token: String): Boolean = token == "true" || token == "false"
 
     private fun isNumber(token: String) = token.toDoubleOrNull() != null
 }

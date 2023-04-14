@@ -13,7 +13,7 @@ class FormatterTest {
     @Test
     fun test() {
         val input: List<Token> = listOf(
-            Token(0, TokenType.LET, "let", 0, 0),
+            Token(0, TokenType.DECLARATOR, "let", 0, 0),
             Token(1, TokenType.IDENTIFIER, "a", 0, 0),
             Token(2, TokenType.COLON, ":", 0, 0),
             Token(3, TokenType.TYPE, "number", 0, 0),

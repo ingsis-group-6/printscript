@@ -13,7 +13,8 @@ enum class TokenType {
     IDENTIFIER,
 
     // KEYWORDS
-    LET,
+    DECLARATOR,
+    CONST,
     PRINTLN,
     FUNCTION,
 
@@ -43,5 +44,7 @@ enum class TokenType {
     LESSER_THAN,
     DIFFERENT,
     AND,
-    OR;
+    OR,
+    BOOLEAN_FALSE,
+    BOOLEAN_TRUE
 }

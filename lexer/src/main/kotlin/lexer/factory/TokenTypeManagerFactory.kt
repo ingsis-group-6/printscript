@@ -8,24 +8,26 @@ class TokenTypeManagerFactory {
 
     companion object {
         fun createPrintScriptTokenTypeManager(): TokenTypeManager {
-            val keywords = listOf("let", "number", "string", "println")
+            val keywords = listOf("let", "number", "string", "println", "const", "boolean", "true", "false")
             return TokenTypeManager(generateCheckerList(keywords))
         }
         private fun generateCheckerList(keywords: List<String>): List<TokenTypeChecker> {
             return listOf(
                 TokenTypeChecker(TokenType.ASSIGNATION) { string -> string == "=" },
+                TokenTypeChecker(TokenType.BOOLEAN_TRUE) { string -> string == "true" },
+                TokenTypeChecker(TokenType.BOOLEAN_FALSE) { string -> string == "false" },
                 TokenTypeChecker(TokenType.SEMICOLON) { string -> string == ";" },
                 TokenTypeChecker(TokenType.COLON) { string -> string == ":" },
                 TokenTypeChecker(TokenType.WHITESPACE) { string -> listOf(" ", "\n", "\t").contains(string) },
 
                 TokenTypeChecker(TokenType.IDENTIFIER) { string -> string[0].isLetter() && !keywords.contains(string) },
 
-                TokenTypeChecker(TokenType.LET) { string -> string == "let" },
+                TokenTypeChecker(TokenType.DECLARATOR) { string -> string == "let" || string == "const" },
                 TokenTypeChecker(TokenType.PRINTLN) { string -> string == "println" },
 
 //                TokenTypeChecker(TokenType.NUMBER_TYPE) { string -> string == "number" },
 //                TokenTypeChecker(TokenType.STRING_TYPE) { string -> string == "string" },
-                TokenTypeChecker(TokenType.TYPE) { string -> string == "number" || string == "string" },
+                TokenTypeChecker(TokenType.TYPE) { string -> string == "number" || string == "string" || string == "boolean" },
 
 //                TokenTypeChecker(TokenType.PLUS) { string -> string == "+" },
 //                TokenTypeChecker(TokenType.MINUS) { string -> string == "-" },
@@ -49,6 +51,7 @@ class TokenTypeManagerFactory {
                 TokenTypeChecker(TokenType.DIFFERENT) { string -> string == "!=" },
                 TokenTypeChecker(TokenType.AND) { string -> string == "&&" },
                 TokenTypeChecker(TokenType.OR) { string -> string == "||" }
+
             )
         }
     }

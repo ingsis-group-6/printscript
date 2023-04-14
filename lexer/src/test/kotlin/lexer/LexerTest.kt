@@ -39,4 +39,14 @@ class LexerTest {
         lexer.extractTokensFromFile(File("src/test/resources/ConsecutiveLineFile.txt"))
         assert(countLinesInFile(File("Tokens.txt")) == 15)
     }
+
+    @Test
+    fun testBooleanInput() {
+        val input = "let a: boolean = true;"
+//        val expectedList = listOf(
+//            Token(1, TokenType.LET, "let", 0, 1)
+//        )
+
+        ResultOutput.writeListToFile(lexer.extractTokensFromLine(input, 1), "src/test/resources/outputs/boolean1_output.txt")
+    }
 }

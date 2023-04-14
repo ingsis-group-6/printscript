@@ -14,6 +14,8 @@ class TokenTypeManagerFactory {
         private fun generateCheckerList(keywords: List<String>): List<TokenTypeChecker> {
             return listOf(
                 TokenTypeChecker(TokenType.ASSIGNATION) { string -> string == "=" },
+                TokenTypeChecker(TokenType.BOOLEAN_TRUE) { string -> string == "true" },
+                TokenTypeChecker(TokenType.BOOLEAN_FALSE) { string -> string == "false" },
                 TokenTypeChecker(TokenType.SEMICOLON) { string -> string == ";" },
                 TokenTypeChecker(TokenType.COLON) { string -> string == ":" },
                 TokenTypeChecker(TokenType.WHITESPACE) { string -> listOf(" ", "\n", "\t").contains(string) },
@@ -25,7 +27,7 @@ class TokenTypeManagerFactory {
 
 //                TokenTypeChecker(TokenType.NUMBER_TYPE) { string -> string == "number" },
 //                TokenTypeChecker(TokenType.STRING_TYPE) { string -> string == "string" },
-                TokenTypeChecker(TokenType.TYPE) { string -> string == "number" || string == "string" },
+                TokenTypeChecker(TokenType.TYPE) { string -> string == "number" || string == "string" || string == "boolean" },
 
 //                TokenTypeChecker(TokenType.PLUS) { string -> string == "+" },
 //                TokenTypeChecker(TokenType.MINUS) { string -> string == "-" },
@@ -49,6 +51,7 @@ class TokenTypeManagerFactory {
                 TokenTypeChecker(TokenType.DIFFERENT) { string -> string == "!=" },
                 TokenTypeChecker(TokenType.AND) { string -> string == "&&" },
                 TokenTypeChecker(TokenType.OR) { string -> string == "||" }
+
             )
         }
     }

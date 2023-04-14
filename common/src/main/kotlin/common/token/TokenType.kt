@@ -43,5 +43,7 @@ enum class TokenType {
     LESSER_THAN,
     DIFFERENT,
     AND,
-    OR;
+    OR,
+    BOOLEAN_FALSE,
+    BOOLEAN_TRUE
 }

@@ -12,7 +12,8 @@ import interpreter.output.ConsolePrintOutputter
 import interpreter.output.Outputter
 
 class FunctionInterpreter(
-    private val symbolTable: MutableMap<String, Pair<String, String?>>
+    private val mutableSymbolTable: MutableMap<String, Pair<String, String?>>,
+    private val immutableSymbolTable: MutableMap<String, Pair<String, String?>>
 ) : Interpreter {
 
     private val outputter: Outputter = ConsolePrintOutputter()
@@ -23,39 +24,38 @@ class FunctionInterpreter(
         val currentLine = ast.getTokensInLine().first().row
         when (paramNode) {
             is LeafNode -> {
-                when (paramNode.type) {
-                    TokenType.IDENTIFIER -> {
-                        if (paramNode.getValue() !in symbolTable.keys) {
-                            throw Exception("(Line $currentLine) - Variable ${paramNode.getValue()} is not declared")
-                        }
-                        val identifierValue = symbolTable[paramNode.getValue()]!!.second
-                        if (identifierValue == null) {
-                            throw Exception("(Line $currentLine) - Variable ${paramNode.getValue()} is not initialized")
-                        } else {
-                            outputter.output(identifierValue)
-                        }
-                    }
-
-                    TokenType.STRING_LITERAL -> {
-                        outputter.output(removeStartAndEndStringQuotes(paramNode))
-                    }
-
-                    TokenType.NUMERIC_LITERAL -> {
-                        outputter.output(paramNode.getValue())
-                    }
-
-                    else -> {
-                        throw java.lang.Exception("(Line $currentLine) - Unsupported Operation")
-                    }
+                val outputValue = when (paramNode.type) {
+                    TokenType.IDENTIFIER -> getIdentifierValue(paramNode.getValue(), currentLine)
+                    TokenType.STRING_LITERAL -> removeStartAndEndStringQuotes(paramNode)
+                    TokenType.NUMERIC_LITERAL -> paramNode.getValue()
+                    else -> throw java.lang.Exception("(Line $currentLine) - Unsupported Operation")
                 }
+                outputter.output(outputValue)
             }
             is TreeNode -> {
-                val evaluator = ExpressionTreeEvaluator(symbolTable)
+                val evaluator = ExpressionTreeEvaluator(mutableSymbolTable)
                 outputter.output(Utils.checkIfInteger(evaluator.evaluateExpression(paramNode)).first!!)
             }
             else -> {
             }
         }
+    }
+
+    private fun getIdentifierValue(value: String, currentLine: Int): String {
+        if (value !in mutableSymbolTable.keys && value !in immutableSymbolTable.keys) {
+            throw Exception("(Line $currentLine) - Variable $value is not declared")
+        }
+
+        val valueInMutableVariables = mutableSymbolTable[value]?.second
+        if (valueInMutableVariables != null) {
+            return valueInMutableVariables
+        }
+
+        val valueInImmutableVariables = immutableSymbolTable[value]?.second
+        if (valueInImmutableVariables != null) {
+            return valueInImmutableVariables
+        }
+        throw Exception("(Line $currentLine) - Variable $value is not initialized")
     }
 
     private fun removeStartAndEndStringQuotes(paramNode: Node) = paramNode.getValue().substring(1).dropLast(1)

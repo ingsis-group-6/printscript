@@ -28,7 +28,7 @@ class ParserDeclarationASTCreationTest {
     @Test
     fun testDeclarationASTCreationWithNumberType() {
         val inputTokens = listOf(
-            Token(0, TokenType.LET, "let", 0, 0),
+            Token(0, TokenType.DECLARATOR, "let", 0, 0),
             Token(1, TokenType.IDENTIFIER, "myVar", 0, 0),
             Token(2, TokenType.COLON, ":", 0, 0),
             Token(3, TokenType.TYPE, "number", 0, 0),
@@ -36,7 +36,7 @@ class ParserDeclarationASTCreationTest {
         )
         val resultAST = parser.parse(inputTokens)
         val children = resultAST.getChildren()
-        assertTrue(children.contains(LeafNode(TokenType.LET, "let")))
+        assertTrue(children.contains(LeafNode(TokenType.DECLARATOR, "let")))
         assertTrue(children.contains(LeafNode(TokenType.IDENTIFIER, "myVar")))
         assertTrue(children.contains(LeafNode(TokenType.TYPE, "number")))
         assertEquals(3, children.size)
@@ -45,7 +45,7 @@ class ParserDeclarationASTCreationTest {
     @Test
     fun testDeclarationASTCreationWithStringType() {
         val inputTokens = listOf(
-            Token(0, TokenType.LET, "let", 0, 0),
+            Token(0, TokenType.DECLARATOR, "let", 0, 0),
             Token(1, TokenType.IDENTIFIER, "myVar", 0, 0),
             Token(2, TokenType.COLON, ":", 0, 0),
             Token(3, TokenType.TYPE, "string", 0, 0),
@@ -53,7 +53,7 @@ class ParserDeclarationASTCreationTest {
         )
         val resultAST = parser.parse(inputTokens)
         val children = resultAST.getChildren()
-        assertTrue(children.contains(LeafNode(TokenType.LET, "let")))
+        assertTrue(children.contains(LeafNode(TokenType.DECLARATOR, "let")))
         assertTrue(children.contains(LeafNode(TokenType.IDENTIFIER, "myVar")))
         assertTrue(children.contains(LeafNode(TokenType.TYPE, "string")))
         assertEquals(3, children.size)
@@ -65,7 +65,7 @@ class ParserDeclarationASTCreationTest {
         fun invalidTokenLists() = listOf(
             Arguments.of(
                 listOf(
-                    Token(0, TokenType.LET, "let", 0, 0),
+                    Token(0, TokenType.DECLARATOR, "let", 0, 0),
                     Token(1, TokenType.IDENTIFIER, "myVar", 0, 0),
                     Token(2, TokenType.TYPE, "string", 0, 0),
                     Token(3, TokenType.SEMICOLON, ";", 0, 0)
@@ -73,8 +73,8 @@ class ParserDeclarationASTCreationTest {
             ),
             Arguments.of(
                 listOf(
-                    Token(0, TokenType.LET, "let", 0, 0),
-                    Token(1, TokenType.LET, "let", 0, 0),
+                    Token(0, TokenType.DECLARATOR, "let", 0, 0),
+                    Token(1, TokenType.DECLARATOR, "let", 0, 0),
                     Token(2, TokenType.COLON, ":", 0, 0),
                     Token(3, TokenType.TYPE, "string", 0, 0),
                     Token(4, TokenType.SEMICOLON, ";", 0, 0)
@@ -82,7 +82,7 @@ class ParserDeclarationASTCreationTest {
             ),
             Arguments.of(
                 listOf(
-                    Token(0, TokenType.LET, "let", 0, 0),
+                    Token(0, TokenType.DECLARATOR, "let", 0, 0),
                     Token(1, TokenType.IDENTIFIER, "myVar", 0, 0),
                     Token(3, TokenType.SEMICOLON, ";", 0, 0)
                 )

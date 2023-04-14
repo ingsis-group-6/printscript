@@ -42,9 +42,9 @@ class LexerTest {
 
     @Test
     fun testBooleanInput() {
-        val input = "let a: boolean = true;"
+        val input = "const myVar: boolean = true;"
 //        val expectedList = listOf(
-//            Token(1, TokenType.LET, "let", 0, 1)
+//            Token(1, TokenType.DECLARATOR, "let", 0, 1)
 //        )
 
         ResultOutput.writeListToFile(lexer.extractTokensFromLine(input, 1), "src/test/resources/outputs/boolean1_output.txt")

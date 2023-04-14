@@ -9,25 +9,26 @@ import interpreter.interfaces.Interpreter
 
 class Interpreter : Interpreter {
 
-    private val symbolTable = mutableMapOf<String, Pair<String, String?>>()
+    private val mutableSymbolTable = mutableMapOf<String, Pair<String, String?>>()
+    private val immutableSymbolTable = mutableMapOf<String, Pair<String, String?>>()
 
     override fun interpret(ast: AST) {
         return when (ast) {
             is DeclarationAST -> {
-                DeclarationInterpreter(symbolTable).interpret(ast)
+                DeclarationInterpreter(mutableSymbolTable, immutableSymbolTable).interpret(ast)
             }
 
             is DeclarationAssignationAST -> {
-                DeclarationInterpreter(symbolTable).interpret(ast.getDeclarationAST())
-                AssignationInterpreter(symbolTable).interpret(ast.getAssignationAST())
+                DeclarationInterpreter(mutableSymbolTable, immutableSymbolTable).interpret(ast.getDeclarationAST())
+                AssignationInterpreter(mutableSymbolTable, immutableSymbolTable).interpret(ast.getAssignationAST())
             }
 
             is AssignationAST -> {
-                AssignationInterpreter(symbolTable).interpret(ast)
+                AssignationInterpreter(mutableSymbolTable, immutableSymbolTable).interpret(ast)
             }
 
             is FunctionAST -> {
-                FunctionInterpreter(symbolTable).interpret(ast)
+                FunctionInterpreter(mutableSymbolTable, immutableSymbolTable).interpret(ast)
             }
 
             else -> {
@@ -36,6 +37,6 @@ class Interpreter : Interpreter {
         }
     }
     fun getSymbolTable(): Map<String, Pair<String, String?>> {
-        return this.symbolTable
+        return this.mutableSymbolTable
     }
 }

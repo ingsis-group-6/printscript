@@ -13,7 +13,8 @@ enum class TokenType {
     IDENTIFIER,
 
     // KEYWORDS
-    LET,
+    DECLARATOR,
+    CONST,
     PRINTLN,
     FUNCTION,
 

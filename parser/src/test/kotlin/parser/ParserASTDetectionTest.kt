@@ -11,7 +11,7 @@ class ParserASTDetectionTest {
     @Test
     fun testCorrectDelaractionASTCreation() {
         val tokens = TokenTypeListGenerator.generateTokenTypes(
-            "LET",
+            "DECLARATOR",
             "IDENTIFIER",
             "COLON",
             "TYPE",
@@ -49,7 +49,7 @@ class ParserASTDetectionTest {
     @Test
     fun testCorrectDeclarationAssignationASTCreation() {
         val tokens = TokenTypeListGenerator.generateTokenTypes(
-            "LET",
+            "DECLARATOR",
             "IDENTIFIER",
             "COLON",
             "TYPE",
@@ -62,7 +62,7 @@ class ParserASTDetectionTest {
 
         Assertions.assertEquals(ASTType.DECLARATION_ASSIGNATION, ast1)
         val tokens2 = TokenTypeListGenerator.generateTokenTypes(
-            "LET",
+            "DECLARATOR",
             "IDENTIFIER",
             "COLON",
             "TYPE",

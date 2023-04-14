@@ -65,7 +65,9 @@ class AssignationAST(private val tokens: List<Token>) : AST {
             TokenType.CLOSE_PARENTHESIS,
             TokenType.IDENTIFIER,
             TokenType.NUMERIC_LITERAL,
-            TokenType.STRING_LITERAL
+            TokenType.STRING_LITERAL,
+            TokenType.BOOLEAN_TRUE,
+            TokenType.BOOLEAN_FALSE
         )
 
         return rightHandSide.all { token: Token -> validTokenTypes.contains(token.tokenType) }
@@ -140,6 +142,8 @@ class ShuntingYard {
     private fun isStringOrNumberValue(token: Token) = token.tokenType in setOf(
         TokenType.STRING_LITERAL,
         TokenType.NUMERIC_LITERAL,
-        TokenType.IDENTIFIER
+        TokenType.IDENTIFIER,
+        TokenType.BOOLEAN_TRUE,
+        TokenType.BOOLEAN_FALSE
     )
 }

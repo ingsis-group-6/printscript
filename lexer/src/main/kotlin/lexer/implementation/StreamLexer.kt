@@ -11,7 +11,6 @@ import java.io.Reader
 import java.util.LinkedList
 import java.util.Optional
 import java.util.Queue
-import javax.swing.text.html.Option
 
 class StreamLexer(
     file: File,
@@ -19,7 +18,6 @@ class StreamLexer(
     private val tokenChars: List<Char>
 ) {
     constructor(file: File) : this(file, TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(';', ':', '(', ')', ' ', '\n', '\t', '+', '=', '-', '*', '/')) {}
-
 
     private val reader: Reader = FileReader(file)
     private var soFar: String = ""
@@ -32,9 +30,9 @@ class StreamLexer(
     private var pendingTokens: Queue<Optional<Token>> = LinkedList()
 
     fun lexToken(): Optional<Token> {
-        if(pendingTokens.isNotEmpty()) return pendingTokens.poll()
+        if (pendingTokens.isNotEmpty()) return pendingTokens.poll()
         val currentCharAsInt = reader.read()
-        if(currentCharAsInt != -1) {
+        if (currentCharAsInt != -1) {
             val currentChar = currentCharAsInt.toChar()
             if (StringReadingChecker.isPartOfString(currentChar)) {
                 soFar += currentChar
@@ -49,15 +47,15 @@ class StreamLexer(
                 if (soFar != "") {
                     pendingTokens.offer(currentCharOptional)
                     toReturn = checkIfToken(soFar)
-                } else
+                } else {
                     toReturn = currentCharOptional
+                }
                 soFar = ""
                 return toReturn
             }
-
+        } else {
+            return Optional.empty<Token>()
         }
-        else
-           return Optional.empty<Token>()
     }
 
     private fun checkIfToken(soFar: String): Optional<Token> {
@@ -68,9 +66,5 @@ class StreamLexer(
             }
         }
         return Optional.empty<Token>()
-
     }
-
-
-
 }

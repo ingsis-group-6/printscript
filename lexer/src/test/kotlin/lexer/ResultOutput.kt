@@ -10,6 +10,6 @@ object ResultOutput {
 
     fun <T> writeLineToFile(itemToWrite: T, fileName: String) {
         val file = File(fileName)
-        file.appendText(itemToWrite.toString()+'\n')
+        file.appendText(itemToWrite.toString() + '\n')
     }
 }

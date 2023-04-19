@@ -6,14 +6,12 @@ import java.io.File
 
 class StreamLexerTest {
 
-
     @Test
-    fun testTokenExtraction(){
+    fun testTokenExtraction() {
         val file = File("src/test/resources/StreamLexerTest1.txt")
         val tokenProvider = FileTokenProvider(file)
         repeat(100) {
             ResultOutput.writeLineToFile(tokenProvider.getToken(), "StreamLexerTest1_output.txt")
         }
-
     }
 }

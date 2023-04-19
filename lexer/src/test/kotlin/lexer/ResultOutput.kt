@@ -7,4 +7,9 @@ object ResultOutput {
         val file = File(fileName)
         file.writeText(list.joinToString("\n") { it.toString() })
     }
+
+    fun <T> writeLineToFile(itemToWrite: T, fileName: String) {
+        val file = File(fileName)
+        file.appendText(itemToWrite.toString()+'\n')
+    }
 }

@@ -17,7 +17,7 @@ class Parser : Parser {
         try {
             val ast = parse(tokens)
             return Pair(ast, errorList)
-        } catch (exc: InvalidTokenInputException) {
+        } catch (exc: Exception) {
             errorList.add(exc.message!!)
             return Pair(EmptyAST, errorList)
         }

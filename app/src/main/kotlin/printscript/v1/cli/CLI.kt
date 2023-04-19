@@ -12,8 +12,7 @@ import printscript.v1.app.PrintscriptFunction
 import java.io.File
 import java.util.*
 
-class PrintScript : CliktCommand(help = "Printscript") {
-
+class PrintScript : CliktCommand(name = "printscript", help = "Printscript") {
     override fun run() = Unit
 }
 class Run : CliktCommand(help = "Run a Printscript file") {

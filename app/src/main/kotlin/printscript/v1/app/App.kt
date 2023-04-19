@@ -8,5 +8,6 @@ import printscript.v1.cli.Format
 import printscript.v1.cli.Lint
 import printscript.v1.cli.PrintScript
 import printscript.v1.cli.Run
-fun main(args: Array<String>) =
+fun main(args: Array<String>) {
     PrintScript().subcommands(Run(), Lint(), Format()).main(args)
+}

@@ -1,6 +1,5 @@
 package lexer
 
-import common.token.Token
 import lexer.provider.FileTokenProvider
 import org.junit.jupiter.api.Test
 import java.io.File

@@ -12,4 +12,8 @@ object ResultOutput {
         val file = File(fileName)
         file.appendText(itemToWrite.toString() + '\n')
     }
+    fun clearFile(fileName: String) {
+        val file = File(fileName)
+        file.writeText("")
+    }
 }

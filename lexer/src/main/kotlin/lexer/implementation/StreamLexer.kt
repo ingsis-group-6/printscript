@@ -34,6 +34,7 @@ class StreamLexer(
         val currentCharAsInt = reader.read()
         if (currentCharAsInt != -1) {
             val currentChar = currentCharAsInt.toChar()
+            if(currentChar == '\n') currentRow++
             if (StringReadingChecker.isPartOfString(currentChar)) {
                 soFar += currentChar
                 return Optional.empty()

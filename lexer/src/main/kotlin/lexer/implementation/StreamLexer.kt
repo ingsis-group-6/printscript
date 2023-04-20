@@ -56,7 +56,6 @@ class StreamLexer(
             }
             soFar = ""
             return toReturn
-
         }
     }
 
@@ -67,7 +66,6 @@ class StreamLexer(
             if (tokenTypeChecker.validateType(soFar)) {
                 currentOrderId++
                 return Optional.of(tokenGeneratorFunction(currentOrderId, tokenTypeChecker.tokenType, soFar, currentRow, 0))
-
             }
         }
         return Optional.empty<Token>()

@@ -1,20 +1,25 @@
 package printscript.v1.app
 
+import formatter.implementations.FormattedTextWriter
+import formatter.implementations.StreamedFormatter
 import interpreter.implementation.StreamInterpreter
 import lexer.provider.FileTokenProvider
 import parser.provider.ASTProvider
 import java.io.File
 
-fun main(){
+fun main() {
     try {
         val fileName = "print-stream.ps"
         val tokenProvider = FileTokenProvider(File(fileName))
         val astProvider = ASTProvider(tokenProvider)
-        val streamInterpreter = StreamInterpreter(astProvider)
+//        val streamInterpreter = StreamInterpreter(astProvider)
+//
+//        streamInterpreter.interpret()
 
-        streamInterpreter.interpret()
-    }
-    catch (exception: Exception) {
+        val ftw = FormattedTextWriter(File(fileName))
+        val streamedFormatter = StreamedFormatter(astProvider, ftw, "formatter_config.json")
+        streamedFormatter.format()
+    } catch (exception: Exception) {
         printInRed(exception)
     }
 }

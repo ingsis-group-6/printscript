@@ -2,7 +2,6 @@ package printscript.v1.app
 
 import formatter.implementations.FormattedTextWriter
 import formatter.implementations.StreamedFormatter
-import interpreter.implementation.StreamInterpreter
 import lexer.provider.FileTokenProvider
 import parser.provider.ASTProvider
 import java.io.File

@@ -39,13 +39,11 @@ class FormatFunction(fileToWrite: File, configFileName: String) : PrintscriptFun
     }
 }
 
-
-
 interface PrintscriptStreamedFunction {
     fun execute()
 }
 
-class StreamedExecution(sourceFile: File): PrintscriptStreamedFunction {
+class StreamedExecution(sourceFile: File) : PrintscriptStreamedFunction {
     private val tokenProvider = FileTokenProvider(sourceFile)
     private val astProvider = ASTProvider(tokenProvider)
     private val streamInterpreter = StreamInterpreter(astProvider)
@@ -53,10 +51,9 @@ class StreamedExecution(sourceFile: File): PrintscriptStreamedFunction {
     override fun execute() {
         streamInterpreter.interpret()
     }
-
 }
 
-class StreamedFormat(sourceFile: File, configFileName: String): PrintscriptStreamedFunction {
+class StreamedFormat(sourceFile: File, configFileName: String) : PrintscriptStreamedFunction {
     private val tokenProvider = FileTokenProvider(sourceFile)
     private val astProvider = ASTProvider(tokenProvider)
     private val ftw = FormattedTextWriter(sourceFile)
@@ -64,5 +61,4 @@ class StreamedFormat(sourceFile: File, configFileName: String): PrintscriptStrea
     override fun execute() {
         streamedFormatter.format()
     }
-
 }

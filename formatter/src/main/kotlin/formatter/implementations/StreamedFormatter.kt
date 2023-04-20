@@ -1,7 +1,6 @@
 package formatter.implementations
 
 import common.providers.ast.ASTProvider
-import java.io.File
 
 class StreamedFormatter(
     private val astProvider: ASTProvider,
@@ -28,5 +27,4 @@ class StreamedFormatter(
      *
      *
      */
-
 }

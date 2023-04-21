@@ -27,7 +27,17 @@ class ASTProvider(private val tokenProvider: TokenProvider) : ASTProvider, ASTEr
         }
     }
 
-    override fun checkASTCreation(tokens: List<Token>): Pair<AST, List<String>> {
-        return parser.check(tokens)
+    override fun checkASTCreation(): Optional<Pair<AST, List<String>>> {
+        val tokenProviderResult = tokenProvider.getToken()
+        if (tokenProviderResult.isEmpty) return Optional.empty()
+
+        tokensReceivedSoFar.add(tokenProviderResult.get())
+        if (tokensReceivedSoFar.last().tokenType == TokenType.SEMICOLON) {
+            val astCheckResult = parser.check(tokensReceivedSoFar)
+            tokensReceivedSoFar.clear()
+            return Optional.of(astCheckResult)
+        } else {
+            return Optional.empty()
+        }
     }
 }

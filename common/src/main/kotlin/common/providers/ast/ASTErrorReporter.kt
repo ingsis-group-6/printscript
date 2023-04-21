@@ -2,8 +2,9 @@ package common.providers.ast
 
 import common.ast.AST
 import common.token.Token
+import java.util.*
 
 interface ASTErrorReporter {
 
-    fun checkASTCreation(tokens: List<Token>): Pair<AST, List<String>>
+    fun checkASTCreation(): Optional<Pair<AST, List<String>>>
 }

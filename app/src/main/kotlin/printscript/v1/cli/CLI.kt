@@ -5,10 +5,11 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import common.token.Token
 import common.token.TokenType
 import lexer.implementation.Lexer
-import printscript.v1.app.ExecuteFunction
-import printscript.v1.app.FormatFunction
-import printscript.v1.app.LinterFunction
+
 import printscript.v1.app.PrintscriptFunction
+import printscript.v1.app.StreamedExecution
+import printscript.v1.app.StreamedFormat
+import printscript.v1.app.StreamedLint
 import java.io.File
 import java.util.*
 
@@ -19,7 +20,8 @@ class Run : CliktCommand(help = "Run a Printscript file") {
 
     private val sourceFile by argument(help = "The source file to run")
     override fun run() {
-        CLIUtils.runAppWithFunction(File(sourceFile), ExecuteFunction())
+        // CLIUtils.runAppWithFunction(File(sourceFile), ExecuteFunction())
+        StreamedExecution(File(sourceFile)).execute()
     }
 }
 
@@ -28,7 +30,10 @@ class Lint : CliktCommand(help = "Lint a Printscript file") {
     private val sourceFile by argument(help = "The source file to lint")
     private val configFile by argument(help = "The config file to use")
     override fun run() {
-        CLIUtils.runAppWithFunction(File(sourceFile), LinterFunction(configFile))
+        // CLIUtils.runAppWithFunction(File(sourceFile), LinterFunction(configFile))
+        println(File(sourceFile))
+        StreamedLint(File(sourceFile), configFile).execute()
+
     }
 }
 
@@ -38,7 +43,10 @@ class Format : CliktCommand(help = "Format a Printscript file") {
     private val configFile by argument(help = "The config file to use")
 
     override fun run() {
-        CLIUtils.runAppWithFunction(File(sourceFile), FormatFunction(sourceFile, configFile))
+
+        // CLIUtils.runAppWithFunction(File(sourceFile), FormatFunction(sourceFile, configFile))
+        StreamedFormat(File(sourceFile), configFile).execute()
+
     }
 }
 

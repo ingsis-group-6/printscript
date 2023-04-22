@@ -4,6 +4,7 @@ import common.ast.AST
 import common.ast.implementations.asts.AssignationAST
 import common.ast.implementations.asts.DeclarationAST
 import common.ast.implementations.asts.DeclarationAssignationAST
+import common.ast.implementations.asts.EndOfFileAST
 import common.ast.implementations.asts.FunctionAST
 import interpreter.interfaces.Interpreter
 
@@ -29,6 +30,10 @@ class Interpreter : Interpreter {
 
             is FunctionAST -> {
                 FunctionInterpreter(mutableSymbolTable, immutableSymbolTable).interpret(ast)
+            }
+
+            is EndOfFileAST -> {
+                EOFInterpreter().interpret(ast)
             }
 
             else -> {

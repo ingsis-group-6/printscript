@@ -4,6 +4,7 @@ import common.ast.AST
 import common.ast.implementations.asts.AssignationAST
 import common.ast.implementations.asts.DeclarationAST
 import common.ast.implementations.asts.DeclarationAssignationAST
+import common.ast.implementations.asts.EndOfFileAST
 import common.ast.implementations.asts.FunctionAST
 import common.config.reader.formatter.FormatterRules
 import common.token.Token
@@ -15,6 +16,7 @@ class Formatter(configFileName: String) : Formatter {
 
     override fun format(ast: AST): String {
         val tokensInLine = ast.getTokensInLine()
+
         return when (ast) {
             is FunctionAST -> {
                 formatFunctionAST(tokensInLine)
@@ -28,8 +30,15 @@ class Formatter(configFileName: String) : Formatter {
             is DeclarationAssignationAST -> {
                 formatDeclarationAssignationAST(tokensInLine)
             }
+            is EndOfFileAST -> {
+                formatEOFAST(tokensInLine)
+            }
             else -> { "" }
         }
+    }
+
+    private fun formatEOFAST(tokensInLine: List<Token>): String {
+        return "EOF"
     }
 
     fun createWhitespaceString(n: Int): String {

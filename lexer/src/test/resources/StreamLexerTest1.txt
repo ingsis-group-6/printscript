@@ -1,0 +1,2 @@
+let letter: number;
+letter = 3;

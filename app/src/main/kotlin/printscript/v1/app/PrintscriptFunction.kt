@@ -1,10 +1,16 @@
 package printscript.v1.app
 
 import common.token.Token
+import formatter.implementations.FormattedTextWriter
 import formatter.implementations.Formatter
+import formatter.implementations.StreamedFormatter
 import interpreter.implementation.Interpreter
+import interpreter.implementation.StreamInterpreter
+import lexer.provider.FileTokenProvider
 import linter.implementations.Linter
+import linter.implementations.StreamedLinter
 import parser.implementation.Parser
+import parser.provider.ASTProvider
 import java.io.File
 
 interface PrintscriptFunction {
@@ -34,15 +40,35 @@ class FormatFunction(fileToWrite: String, configFileName: String) : PrintscriptF
     }
 }
 
-class FormattedTextWriter(private val fileToWrite: File) {
+interface PrintscriptStreamedFunction {
+    fun execute()
+}
 
-    private var hasStarted = false
+class StreamedExecution(sourceFile: File) : PrintscriptStreamedFunction {
+    private val tokenProvider = FileTokenProvider(sourceFile)
+    private val astProvider = ASTProvider(tokenProvider)
+    private val streamInterpreter = StreamInterpreter(astProvider)
 
-    fun writeLine(line: String) {
-        if (!hasStarted) {
-            fileToWrite.writeText("")
-            hasStarted = true
-        }
-        fileToWrite.appendText(line)
+    override fun execute() {
+        streamInterpreter.interpret()
+    }
+}
+
+class StreamedFormat(sourceFile: File, configFileName: String) : PrintscriptStreamedFunction {
+    private val tokenProvider = FileTokenProvider(sourceFile)
+    private val astProvider = ASTProvider(tokenProvider)
+    private val ftw = FormattedTextWriter(sourceFile)
+    private val streamedFormatter = StreamedFormatter(astProvider, ftw, configFileName)
+    override fun execute() {
+        streamedFormatter.format()
+    }
+}
+
+class StreamedLint(sourceFile: File, configFileName: String) : PrintscriptStreamedFunction {
+    private val tokenProvider = FileTokenProvider(sourceFile)
+    private val astProvider = ASTProvider(tokenProvider)
+    private val streamedLinter = StreamedLinter(astProvider, configFileName)
+    override fun execute() {
+        streamedLinter.lint()
     }
 }

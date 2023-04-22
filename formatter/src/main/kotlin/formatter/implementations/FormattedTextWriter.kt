@@ -8,7 +8,7 @@ class FormattedTextWriter(private val fileToWrite: File) {
 
     fun writeLine(line: String) {
         if (!hasStarted) {
-            fileToWrite.writeText("")
+            fileToWrite.writeText("") // borra el file
             hasStarted = true
         }
         fileToWrite.appendText(line)

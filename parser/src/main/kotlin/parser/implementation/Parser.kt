@@ -45,6 +45,7 @@ class Parser : Parser {
             inputTokenTypes.contains(TokenType.DECLARATOR) && !inputTokenTypes.contains(TokenType.ASSIGNATION) -> ASTType.DECLARATION
             inputTokenTypes.contains(TokenType.ASSIGNATION) -> ASTType.DECLARATION_ASSIGNATION
             inputTokenTypes.first() == TokenType.PRINTLN || inputTokenTypes.first() == TokenType.FUNCTION -> ASTType.FUNCTION
+            inputTokenTypes.first() == TokenType.EOF -> ASTType.EOF
             else -> throw Exception("(Line $row) - Malformed Expression. AST not detected.")
         }
         return foundAST

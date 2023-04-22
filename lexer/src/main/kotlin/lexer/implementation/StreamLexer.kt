@@ -11,7 +11,6 @@ import java.io.Reader
 import java.util.LinkedList
 import java.util.Optional
 import java.util.Queue
-import kotlin.system.exitProcess
 
 class StreamLexer(
     file: File,
@@ -34,10 +33,12 @@ class StreamLexer(
         if (pendingTokens.isNotEmpty()) return pendingTokens.poll()
 
         val currentCharAsInt = reader.read()
-        if (currentCharAsInt == -1) exitProcess(0)
+        if (currentCharAsInt == -1) return Optional.of(Token(currentOrderId, TokenType.EOF, "", currentRow, 0))
 
         val currentChar = currentCharAsInt.toChar()
-        if (currentChar == '\n') currentRow++
+        if (currentChar == '\n') {
+            currentRow++
+        }
 
         if (StringReadingChecker.isPartOfString(currentChar)) {
             soFar += currentChar

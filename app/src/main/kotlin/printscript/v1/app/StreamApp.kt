@@ -2,7 +2,6 @@ package printscript.v1.app
 
 import interpreter.implementation.StreamInterpreter
 import lexer.provider.FileTokenProvider
-import linter.implementations.StreamedLinter
 import parser.provider.ASTProvider
 import java.io.File
 

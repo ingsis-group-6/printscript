@@ -8,6 +8,7 @@ import interpreter.implementation.Interpreter
 import interpreter.implementation.StreamInterpreter
 import lexer.provider.FileTokenProvider
 import linter.implementations.Linter
+import linter.implementations.StreamedLinter
 import parser.implementation.Parser
 import parser.provider.ASTProvider
 import java.io.File
@@ -30,10 +31,10 @@ class LinterFunction(configFileName: String) : PrintscriptFunction {
     }
 }
 
-class FormatFunction(fileToWrite: File, configFileName: String) : PrintscriptFunction {
+class FormatFunction(fileToWrite: String, configFileName: String) : PrintscriptFunction {
     private val parser = Parser()
     private val formatter = Formatter(configFileName)
-    private val ftw = FormattedTextWriter(fileToWrite)
+    private val ftw = FormattedTextWriter(File(fileToWrite))
     override fun execute(tokenLine: List<Token>) {
         ftw.writeLine(formatter.format(parser.parse(tokenLine)))
     }
@@ -61,4 +62,14 @@ class StreamedFormat(sourceFile: File, configFileName: String) : PrintscriptStre
     override fun execute() {
         streamedFormatter.format()
     }
+}
+
+class StreamedLint(sourceFile: File, configFileName: String): PrintscriptStreamedFunction {
+    private val tokenProvider = FileTokenProvider(sourceFile)
+    private val astProvider = ASTProvider(tokenProvider)
+    private val streamedLinter = StreamedLinter(astProvider, "linter_config.json")
+    override fun execute() {
+        streamedLinter.lint()
+    }
+
 }

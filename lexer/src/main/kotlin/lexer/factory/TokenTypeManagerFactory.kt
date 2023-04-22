@@ -8,7 +8,7 @@ class TokenTypeManagerFactory {
 
     companion object {
         fun createPrintScriptTokenTypeManager(): TokenTypeManager {
-            val keywords = listOf("let", "number", "string", "println", "const", "boolean", "true", "false")
+            val keywords = listOf("let", "number", "string", "readInput", "println", "const", "boolean", "true", "false")
             return TokenTypeManager(generateCheckerList(keywords))
         }
         private fun generateCheckerList(keywords: List<String>): List<TokenTypeChecker> {
@@ -24,6 +24,11 @@ class TokenTypeManagerFactory {
 
                 TokenTypeChecker(TokenType.DECLARATOR) { string -> string == "let" || string == "const" },
                 TokenTypeChecker(TokenType.PRINTLN) { string -> string == "println" },
+                TokenTypeChecker(TokenType.READ_INPUT) { string -> string == "readInput" },
+                TokenTypeChecker(TokenType.IF) { string -> string == "if" },
+                TokenTypeChecker(TokenType.ELSE) { string -> string == "else" },
+                TokenTypeChecker(TokenType.OPEN_CURLY_BRACKETS) { string -> string == "{" },
+                TokenTypeChecker(TokenType.CLOSE_CURLY_BRACKETS) { string -> string == "}" },
 
 //                TokenTypeChecker(TokenType.NUMBER_TYPE) { string -> string == "number" },
 //                TokenTypeChecker(TokenType.STRING_TYPE) { string -> string == "string" },

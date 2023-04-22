@@ -12,5 +12,5 @@ object Utils {
         return rhsValue1
     }
 
-    private fun isWhole(parsed: Double) = parsed % 1 == 0.0
+    fun isWhole(parsed: Double) = parsed % 1 == 0.0
 }

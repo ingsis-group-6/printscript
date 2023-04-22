@@ -16,6 +16,7 @@ enum class TokenType {
     DECLARATOR,
     CONST,
     PRINTLN,
+    READ_INPUT,
     FUNCTION,
 
     // TYPES
@@ -31,6 +32,10 @@ enum class TokenType {
     OPEN_PARENTHESIS,
     CLOSE_PARENTHESIS,
     OPERATOR,
+    OPEN_CURLY_BRACKETS,
+    CLOSE_CURLY_BRACKETS,
+    IF,
+    ELSE,
 
     // DECLARATIONS
     NUMERIC_LITERAL,

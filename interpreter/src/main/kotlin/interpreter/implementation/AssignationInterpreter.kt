@@ -118,7 +118,7 @@ class AssignationInterpreter(
                 evaluator.evaluateExpression(rhs)
             }
             is ReadInputNode -> {
-                val inputValue = when(rhs.messageType) {
+                val inputValue = when (rhs.messageType) {
                     TokenType.IDENTIFIER -> {
                         val identifierData = getIdentifierValue(rhs.message)
                         readValueFromConsole(identifierData.second)
@@ -139,7 +139,7 @@ class AssignationInterpreter(
     }
 
     private fun tokenTypeOf(stringSimplifiedType: String): TokenType {
-        return when(stringSimplifiedType) {
+        return when (stringSimplifiedType) {
             "number" -> TokenType.NUMERIC_LITERAL
             "string" -> TokenType.STRING_LITERAL
             "boolean" -> TokenType.BOOLEAN_TRUE
@@ -148,19 +148,19 @@ class AssignationInterpreter(
     }
 
     private fun interpretInputText(inputValue: String?, typeToAssign: String): Pair<String?, TokenType> {
-        if(inputValue == null) return Pair(null, tokenTypeOf(typeToAssign))
-        return when(typeToAssign) {
+        if (inputValue == null) return Pair(null, tokenTypeOf(typeToAssign))
+        return when (typeToAssign) {
             "number" -> {
-                val parsedValue =inputValue.toDoubleOrNull()
-                if(parsedValue == null) throw Exception("(Line $currentLine) - Type mismatch in input. Expected $typeToAssign.")
+                val parsedValue = inputValue.toDoubleOrNull()
+                if (parsedValue == null) throw Exception("(Line $currentLine) - Type mismatch in input. Expected $typeToAssign.")
                 Pair(inputValue, tokenTypeOf(typeToAssign))
             }
             "string" -> {
                 Pair(inputValue, tokenTypeOf(typeToAssign))
             }
             "boolean" -> {
-                val parsedValue =toBooleanOrNull(inputValue)
-                if(parsedValue == null) throw Exception("(Line $currentLine) - Type mismatch in input. Expected $typeToAssign.")
+                val parsedValue = toBooleanOrNull(inputValue)
+                if (parsedValue == null) throw Exception("(Line $currentLine) - Type mismatch in input. Expected $typeToAssign.")
                 Pair(inputValue, tokenTypeOf(typeToAssign))
             }
             else -> Pair(inputValue, tokenTypeOf(typeToAssign))
@@ -168,18 +168,16 @@ class AssignationInterpreter(
     }
 
     private fun toBooleanOrNull(inputValue: String): Boolean? {
-        return when(inputValue.lowercase()) {
+        return when (inputValue.lowercase()) {
             "true" -> true
             "false" -> false
             else -> null
         }
-
     }
 
     private fun readValueFromConsole(message: String): String? {
         println(message)
         return readlnOrNull()
-
     }
 
     fun getIdentifierValue(identifierKey: String): Pair<String, String> {
@@ -194,7 +192,6 @@ class AssignationInterpreter(
         throw Exception("$identifierKey not initialized")
     }
 
-
     private fun checkIfIdentifierWasDeclared(ast: AssignationAST) {
         val identifier = ast.getIdentifier()
 
@@ -205,8 +202,5 @@ class AssignationInterpreter(
         if (identifier in immutableSymbolTable && immutableSymbolTable[identifier]!!.second != null) {
             throw Exception("(Line $currentLine) - Variable ${ast.getIdentifier()} is immutable")
         }
-
     }
-
-
 }

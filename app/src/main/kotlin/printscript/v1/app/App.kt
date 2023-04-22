@@ -38,7 +38,6 @@ fun main(args: Array<String>) {
     }
 }
 
-
 private fun readSourceFile(args: Array<String>): File {
     val sourceFile = File(args[1])
     if (!sourceFile.exists()) throw java.lang.Exception("File ${args[1]} does not exist.")

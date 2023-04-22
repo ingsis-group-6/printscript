@@ -3,6 +3,7 @@ package common.ast
 import common.ast.implementations.asts.AssignationAST
 import common.ast.implementations.asts.DeclarationAST
 import common.ast.implementations.asts.DeclarationAssignationAST
+import common.ast.implementations.asts.EndOfFileAST
 import common.ast.implementations.asts.FunctionAST
 import common.token.Token
 
@@ -14,6 +15,7 @@ object ASTFactory {
             ASTType.DECLARATION -> DeclarationAST(tokens)
             ASTType.DECLARATION_ASSIGNATION -> DeclarationAssignationAST(tokens)
             ASTType.FUNCTION -> FunctionAST(tokens)
+            ASTType.EOF -> EndOfFileAST
         }
     }
 }

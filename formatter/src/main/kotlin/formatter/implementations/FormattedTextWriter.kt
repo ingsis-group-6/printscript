@@ -1,16 +1,19 @@
 package formatter.implementations
 
 import java.io.File
+import kotlin.system.exitProcess
 
 class FormattedTextWriter(private val fileToWrite: File) {
 
-    private var hasStarted = false
+    private var tempFile = File("temp.ps")
 
     fun writeLine(line: String) {
-        if (!hasStarted) {
-            fileToWrite.writeText("") // borra el file
-            hasStarted = true
+        if (line === "EOF") {
+            tempFile.copyTo(fileToWrite, overwrite = true)
+            tempFile.delete()
+            exitProcess(0)
+        } else {
+            tempFile.appendText(line)
         }
-        fileToWrite.appendText(line)
     }
 }

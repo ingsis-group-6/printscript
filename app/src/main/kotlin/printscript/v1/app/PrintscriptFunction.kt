@@ -64,12 +64,11 @@ class StreamedFormat(sourceFile: File, configFileName: String) : PrintscriptStre
     }
 }
 
-class StreamedLint(sourceFile: File, configFileName: String): PrintscriptStreamedFunction {
+class StreamedLint(sourceFile: File, configFileName: String) : PrintscriptStreamedFunction {
     private val tokenProvider = FileTokenProvider(sourceFile)
     private val astProvider = ASTProvider(tokenProvider)
     private val streamedLinter = StreamedLinter(astProvider, "linter_config.json")
     override fun execute() {
         streamedLinter.lint()
     }
-
 }

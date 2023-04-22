@@ -16,9 +16,8 @@ class Run : CliktCommand(help = "Run a Printscript file") {
 
     private val sourceFile by argument(help = "The source file to run")
     override fun run() {
-        //CLIUtils.runAppWithFunction(File(sourceFile), ExecuteFunction())
+        // CLIUtils.runAppWithFunction(File(sourceFile), ExecuteFunction())
         StreamedExecution(File(sourceFile)).execute()
-
     }
 }
 
@@ -27,7 +26,7 @@ class Lint : CliktCommand(help = "Lint a Printscript file") {
     private val sourceFile by argument(help = "The source file to lint")
     private val configFile by argument(help = "The config file to use")
     override fun run() {
-        //CLIUtils.runAppWithFunction(File(sourceFile), LinterFunction(configFile))
+        // CLIUtils.runAppWithFunction(File(sourceFile), LinterFunction(configFile))
         StreamedLint(File(sourceFile), configFile).execute()
     }
 }
@@ -38,7 +37,7 @@ class Format : CliktCommand(help = "Format a Printscript file") {
     private val configFile by argument(help = "The config file to use")
 
     override fun run() {
-        //CLIUtils.runAppWithFunction(File(sourceFile), FormatFunction(sourceFile, configFile))
+        // CLIUtils.runAppWithFunction(File(sourceFile), FormatFunction(sourceFile, configFile))
         StreamedFormat(File(sourceFile), configFile).execute()
     }
 }

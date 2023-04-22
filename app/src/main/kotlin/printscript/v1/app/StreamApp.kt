@@ -1,7 +1,5 @@
 package printscript.v1.app
 
-import formatter.implementations.FormattedTextWriter
-import formatter.implementations.StreamedFormatter
 import lexer.provider.FileTokenProvider
 import linter.implementations.StreamedLinter
 import parser.provider.ASTProvider
@@ -13,7 +11,6 @@ fun main() {
         val tokenProvider = FileTokenProvider(File(fileName))
         val astProvider = ASTProvider(tokenProvider)
 
-
 //        val streamInterpreter = StreamInterpreter(astProvider)
 //        streamInterpreter.interpret()
 
@@ -23,7 +20,6 @@ fun main() {
 
         val streamedLinter = StreamedLinter(astProvider, "linter_config.json")
         streamedLinter.lint()
-
     } catch (exception: Exception) {
         printInRed(exception)
     }

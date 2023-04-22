@@ -1,7 +1,6 @@
 package common.providers.ast
 
 import common.ast.AST
-import common.token.Token
 import java.util.*
 
 interface ASTErrorReporter {

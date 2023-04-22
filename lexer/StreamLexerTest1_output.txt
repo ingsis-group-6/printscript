@@ -1,0 +1,37 @@
+Optional.empty
+Optional.empty
+Optional.empty
+Optional[Token(order_id=2, tokenType=DECLARATOR, value=let, row=1, col=0)]
+Optional[Token(order_id=1, tokenType=WHITESPACE, value= , row=1, col=0)]
+Optional.empty
+Optional.empty
+Optional.empty
+Optional.empty
+Optional.empty
+Optional.empty
+Optional[Token(order_id=4, tokenType=IDENTIFIER, value=letter, row=1, col=0)]
+Optional[Token(order_id=3, tokenType=COLON, value=:, row=1, col=0)]
+Optional[Token(order_id=5, tokenType=WHITESPACE, value= , row=1, col=0)]
+Optional.empty
+Optional.empty
+Optional.empty
+Optional.empty
+Optional.empty
+Optional.empty
+Optional[Token(order_id=7, tokenType=TYPE, value=number, row=1, col=0)]
+Optional[Token(order_id=6, tokenType=SEMICOLON, value=;, row=1, col=0)]
+Optional[Token(order_id=8, tokenType=WHITESPACE, value=
+, row=2, col=0)]
+Optional.empty
+Optional.empty
+Optional.empty
+Optional.empty
+Optional.empty
+Optional.empty
+Optional[Token(order_id=10, tokenType=IDENTIFIER, value=letter, row=2, col=0)]
+Optional[Token(order_id=9, tokenType=WHITESPACE, value= , row=2, col=0)]
+Optional[Token(order_id=11, tokenType=ASSIGNATION, value==, row=2, col=0)]
+Optional[Token(order_id=12, tokenType=WHITESPACE, value= , row=2, col=0)]
+Optional.empty
+Optional[Token(order_id=14, tokenType=NUMERIC_LITERAL, value=3, row=2, col=0)]
+Optional[Token(order_id=13, tokenType=SEMICOLON, value=;, row=2, col=0)]

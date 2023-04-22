@@ -4,12 +4,14 @@ import common.ast.AST
 import common.ast.implementations.asts.AssignationAST
 import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
+import common.ast.implementations.node.ReadInputNode
 import common.ast.implementations.node.TreeNode
 import common.token.TokenType
 import interpreter.Utils
 import interpreter.interfaces.Interpreter
 import java.lang.AssertionError
-import java.lang.Exception
+import kotlin.Exception
+import kotlin.collections.HashMap
 
 class AssignationInterpreter(
     private val mutableSymbolTable: MutableMap<String, Pair<String, String?>>,
@@ -26,11 +28,11 @@ class AssignationInterpreter(
 
         checkIfIdentifierWasDeclared(ast)
         val identifier = ast.getIdentifier()
-        val type = mutableSymbolTable[identifier]?.first ?: immutableSymbolTable[identifier]?.first
+        val typeToAssign = mutableSymbolTable[identifier]?.first ?: immutableSymbolTable[identifier]?.first
 
         val rhs = ast.getRhsNode() // ID, LITERAL, EXPRESSION TREE
 
-        val rhsValue: Pair<String?, TokenType> = Utils.checkIfInteger(evaluateRhs(rhs))
+        val rhsValue: Pair<String?, TokenType> = Utils.checkIfInteger(evaluateRhs(rhs, typeToAssign))
 
         val rhsCalculatedValueType = rhsValue.second
 
@@ -38,7 +40,7 @@ class AssignationInterpreter(
             TokenType.IDENTIFIER -> {
                 try {
                     val rhsValueFirst = rhsValue.first
-                    val typeString = type.toString()
+                    val typeString = typeToAssign.toString()
                     val rhsValueInMutable = rhsValueFirst in mutableSymbolTable.keys
                     val rhsValueInImmutable = rhsValueFirst in immutableSymbolTable.keys
                     val identifierInMutable = identifier in mutableSymbolTable.keys
@@ -48,8 +50,8 @@ class AssignationInterpreter(
                         rhs.getValue() in mutableSymbolTable.keys &&
                             (rhsValueInMutable || rhsValueInImmutable) &&
                             (
-                                (rhsValueInMutable && mutableSymbolTable[rhsValueFirst]!!.first == type) ||
-                                    (rhsValueInImmutable && immutableSymbolTable[rhsValueFirst]!!.first == type)
+                                (rhsValueInMutable && mutableSymbolTable[rhsValueFirst]!!.first == typeToAssign) ||
+                                    (rhsValueInImmutable && immutableSymbolTable[rhsValueFirst]!!.first == typeToAssign)
                                 )
                     )
 
@@ -73,11 +75,11 @@ class AssignationInterpreter(
 
             TokenType.NUMERIC_LITERAL, TokenType.STRING_LITERAL, TokenType.BOOLEAN_TRUE, TokenType.BOOLEAN_FALSE -> {
                 val simplifiedType = getSimplifiedType(rhsValue)
-                if (type != simplifiedType) throw Exception("(Line $currentLine) - Type mismatch in $identifier assignation")
+                if (typeToAssign != simplifiedType) throw Exception("(Line $currentLine) - Type mismatch in $identifier assignation")
                 if (identifier in mutableSymbolTable.keys) {
-                    mutableSymbolTable[identifier] = Pair(type.toString(), rhsValue.first)
+                    mutableSymbolTable[identifier] = Pair(typeToAssign.toString(), rhsValue.first)
                 } else {
-                    immutableSymbolTable[identifier] = Pair(type.toString(), rhsValue.first)
+                    immutableSymbolTable[identifier] = Pair(typeToAssign.toString(), rhsValue.first)
                 }
             }
 
@@ -95,8 +97,8 @@ class AssignationInterpreter(
             else -> ""
         }
 
-    private fun evaluateRhs(rhs: Node): Pair<String?, TokenType> {
-        val foundValue: Pair<String?, TokenType> = when (rhs) {
+    private fun evaluateRhs(rhs: Node, typeToAssign: String?): Pair<String?, TokenType> {
+        val foundValue = when (rhs) {
             is LeafNode -> {
                 if (rhs.type == TokenType.IDENTIFIER ||
                     rhs.type == TokenType.STRING_LITERAL ||
@@ -115,6 +117,19 @@ class AssignationInterpreter(
                 val evaluator = ExpressionTreeEvaluator(copyMap)
                 evaluator.evaluateExpression(rhs)
             }
+            is ReadInputNode -> {
+                val inputValue = when(rhs.messageType) {
+                    TokenType.IDENTIFIER -> {
+                        val identifierData = getIdentifierValue(rhs.message)
+                        readValueFromConsole(identifierData.second)
+                    }
+                    TokenType.STRING_LITERAL -> {
+                        readValueFromConsole(rhs.message)
+                    }
+                    else -> ""
+                }
+                interpretInputText(inputValue, typeToAssign!!)
+            }
             else -> {
                 throw Exception("(Line $currentLine) - Unsupported operation")
             }
@@ -122,6 +137,63 @@ class AssignationInterpreter(
 
         return foundValue
     }
+
+    private fun tokenTypeOf(stringSimplifiedType: String): TokenType {
+        return when(stringSimplifiedType) {
+            "number" -> TokenType.NUMERIC_LITERAL
+            "string" -> TokenType.STRING_LITERAL
+            "boolean" -> TokenType.BOOLEAN_TRUE
+            else -> TokenType.STRING_LITERAL
+        }
+    }
+
+    private fun interpretInputText(inputValue: String?, typeToAssign: String): Pair<String?, TokenType> {
+        if(inputValue == null) return Pair(null, tokenTypeOf(typeToAssign))
+        return when(typeToAssign) {
+            "number" -> {
+                val parsedValue =inputValue.toDoubleOrNull()
+                if(parsedValue == null) throw Exception("(Line $currentLine) - Type mismatch in input. Expected $typeToAssign.")
+                Pair(inputValue, tokenTypeOf(typeToAssign))
+            }
+            "string" -> {
+                Pair(inputValue, tokenTypeOf(typeToAssign))
+            }
+            "boolean" -> {
+                val parsedValue =toBooleanOrNull(inputValue)
+                if(parsedValue == null) throw Exception("(Line $currentLine) - Type mismatch in input. Expected $typeToAssign.")
+                Pair(inputValue, tokenTypeOf(typeToAssign))
+            }
+            else -> Pair(inputValue, tokenTypeOf(typeToAssign))
+        }
+    }
+
+    private fun toBooleanOrNull(inputValue: String): Boolean? {
+        return when(inputValue.lowercase()) {
+            "true" -> true
+            "false" -> false
+            else -> null
+        }
+
+    }
+
+    private fun readValueFromConsole(message: String): String? {
+        println(message)
+        return readlnOrNull()
+
+    }
+
+    fun getIdentifierValue(identifierKey: String): Pair<String, String> {
+        if (identifierKey in this.mutableSymbolTable.keys) {
+            return mutableSymbolTable[identifierKey] as Pair<String, String>
+        }
+
+        if (identifierKey in this.immutableSymbolTable.keys) {
+            return immutableSymbolTable[identifierKey] as Pair<String, String>
+        }
+
+        throw Exception("$identifierKey not initialized")
+    }
+
 
     private fun checkIfIdentifierWasDeclared(ast: AssignationAST) {
         val identifier = ast.getIdentifier()
@@ -134,19 +206,7 @@ class AssignationInterpreter(
             throw Exception("(Line $currentLine) - Variable ${ast.getIdentifier()} is immutable")
         }
 
-//        if (ast.getIdentifier() !in mutableSymbolTable.keys) {
-//            println("no es mutable")
-//            if (ast.getIdentifier() !in immutableSymbolTable.keys) {
-//                println("tampoco es inmutable, osea no esta declarada digamo")
-//                throw Exception("(Line $currentLine) - Variable ${ast.getIdentifier()} is not declared")
-//            } else {
-//                println("es un const")
-//                if(immutableSymbolTable[ast.getIdentifier()]!!.second != null){
-//                    println("es const pero ya tiene valor degamo")
-//                    throw Exception("(Line $currentLine) - Variable ${ast.getIdentifier()} is immutable")
-//                }
-//
-//            }
-//        }
     }
+
+
 }

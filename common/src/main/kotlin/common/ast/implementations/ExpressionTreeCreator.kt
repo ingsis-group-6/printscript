@@ -15,6 +15,7 @@ object ExpressionTreeCreator {
         return shuntingYard.shuntingYard(rhs)
     }
 
+    //TODO:modularizar
     private fun isValidMathExpression(tokens: List<Token>): Boolean {
         val tokenValues = tokens.map { token: Token -> token.value }
 

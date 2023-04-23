@@ -1,7 +1,14 @@
+let a: number = 5;
+println("a es: " + a);
+
 if(true) {
-    println(3);
+    let b: number = 10;
     if(true) {
-        println(5);
+        println(a);
+        println(b);
+        println(a+b);
+    } else {
+        println("entro al else");
     }
 } else {
     println("hello");

@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource
 
 class InterpreterTest {
 
-    private val interpreter: Interpreter = Interpreter()
+    private val interpreter: Interpreter = Interpreter(Scope(mutableMapOf(), mutableMapOf(), EmptyScope))
 
     @Test
     fun testDeclarationAST() {

@@ -8,12 +8,12 @@ import common.ast.implementations.node.TreeNode
 import common.token.TokenType
 import interpreter.Utils
 import interpreter.interfaces.Interpreter
+import interpreter.interfaces.Scope
 import interpreter.output.ConsolePrintOutputter
 import interpreter.output.Outputter
 
 class FunctionInterpreter(
-    private val mutableSymbolTable: MutableMap<String, Pair<String, String?>>,
-    private val immutableSymbolTable: MutableMap<String, Pair<String, String?>>
+    private val scope: Scope
 ) : Interpreter {
 
     private val outputter: Outputter = ConsolePrintOutputter()
@@ -33,7 +33,7 @@ class FunctionInterpreter(
                 outputter.output(outputValue)
             }
             is TreeNode -> {
-                val evaluator = ExpressionTreeEvaluator(mutableSymbolTable)
+                val evaluator = ExpressionTreeEvaluator(scope.getAllVariables())
                 outputter.output(Utils.checkIfInteger(evaluator.evaluateExpression(paramNode)).first!!)
             }
             else -> {
@@ -42,20 +42,13 @@ class FunctionInterpreter(
     }
 
     private fun getIdentifierValue(value: String, currentLine: Int): String {
-        if (value !in mutableSymbolTable.keys && value !in immutableSymbolTable.keys) {
+        // if (value !in mutableSymbolTable.keys && value !in immutableSymbolTable.keys) {
+        if (!scope.existsVariable(value)) {
             throw Exception("(Line $currentLine) - Variable $value is not declared")
         }
 
-        val valueInMutableVariables = mutableSymbolTable[value]?.second
-        if (valueInMutableVariables != null) {
-            return valueInMutableVariables
-        }
-
-        val valueInImmutableVariables = immutableSymbolTable[value]?.second
-        if (valueInImmutableVariables != null) {
-            return valueInImmutableVariables
-        }
-        throw Exception("(Line $currentLine) - Variable $value is not initialized")
+        return (scope.findVariableData(value, currentLine).second)
+            ?: throw Exception("(Line $currentLine) - Variable $value is not initialized")
     }
 
     private fun removeStartAndEndStringQuotes(paramNode: Node) = paramNode.getValue().substring(1).dropLast(1)

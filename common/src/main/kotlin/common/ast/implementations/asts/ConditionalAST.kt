@@ -1,10 +1,13 @@
 package common.ast.implementations.asts
 
 import common.ast.AST
+import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
 import common.token.Token
 
-class ConditionalAST(private val condition: Token, ifASTs: List<AST>, elseASTs: List<AST>) : AST {
+class ConditionalAST(conditionToken: Token, ifASTs: List<AST>, elseASTs: List<AST>) : AST {
+    private val condition = LeafNode(conditionToken.tokenType, conditionToken.value)
+    private val currentLine = conditionToken.row
     private val ifBlock = BlockAST(ifASTs)
     private val elseBlock = BlockAST(elseASTs)
 
@@ -23,4 +26,10 @@ class ConditionalAST(private val condition: Token, ifASTs: List<AST>, elseASTs: 
     override fun getTokensInLine(): List<Token> {
         TODO("Not yet implemented")
     }
+
+    fun getCondition(): Node {
+        return condition
+    }
+
+    fun getCurrentLine() = this.currentLine
 }

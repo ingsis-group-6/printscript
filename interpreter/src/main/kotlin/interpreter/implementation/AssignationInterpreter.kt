@@ -9,13 +9,13 @@ import common.ast.implementations.node.TreeNode
 import common.token.TokenType
 import interpreter.Utils
 import interpreter.interfaces.Interpreter
+import interpreter.interfaces.Scope
 import java.lang.AssertionError
 import kotlin.Exception
 import kotlin.collections.HashMap
 
 class AssignationInterpreter(
-    private val mutableSymbolTable: MutableMap<String, Pair<String, String?>>,
-    private val immutableSymbolTable: MutableMap<String, Pair<String, String?>>
+    private val scope: Scope
 ) : Interpreter {
 
     private var currentLine: Int? = null
@@ -28,7 +28,7 @@ class AssignationInterpreter(
 
         checkIfIdentifierWasDeclared(ast)
         val identifier = ast.getIdentifier()
-        val typeToAssign = mutableSymbolTable[identifier]?.first ?: immutableSymbolTable[identifier]?.first
+        val typeToAssign = scope.findVariableData(identifier, currentLine!!).first
 
         val rhs = ast.getRhsNode() // ID, LITERAL, EXPRESSION TREE
 
@@ -41,31 +41,30 @@ class AssignationInterpreter(
                 try {
                     val rhsValueFirst = rhsValue.first
                     val typeString = typeToAssign.toString()
-                    val rhsValueInMutable = rhsValueFirst in mutableSymbolTable.keys
-                    val rhsValueInImmutable = rhsValueFirst in immutableSymbolTable.keys
-                    val identifierInMutable = identifier in mutableSymbolTable.keys
-                    val identifierInImmutable = identifier in immutableSymbolTable.keys
+                    val rhsValueInMutable = scope.existsMutableVariable(rhsValueFirst)
+                    val rhsValueInImmutable = scope.existsImmutableVariable(rhsValueFirst)
+                    val identifierInMutable = scope.existsMutableVariable(identifier)
+                    val identifierInImmutable = scope.existsImmutableVariable(identifier)
 
                     assert(
-                        rhs.getValue() in mutableSymbolTable.keys &&
+                        rhs.getValue() in scope.getMutableVariables().keys &&
                             (rhsValueInMutable || rhsValueInImmutable) &&
                             (
-                                (rhsValueInMutable && mutableSymbolTable[rhsValueFirst]!!.first == typeToAssign) ||
-                                    (rhsValueInImmutable && immutableSymbolTable[rhsValueFirst]!!.first == typeToAssign)
+                                (rhsValueInMutable && scope.findVariableData(rhsValueFirst!!, currentLine!!)!!.first == typeToAssign) // || (rhsValueInImmutable && immutableSymbolTable[rhsValueFirst]!!.first == typeToAssign)
                                 )
                     )
 
                     if (rhsValueInMutable) {
                         if (identifierInMutable) {
-                            mutableSymbolTable[identifier] = Pair(typeString, mutableSymbolTable[rhsValueFirst]!!.second)
+                            scope.putMutableVariable(identifier, Pair(typeString, scope.findVariableData(rhsValueFirst!!, currentLine!!)!!.second), currentLine!!) // mutableSymbolTable[identifier] = Pair(typeString, mutableSymbolTable[rhsValueFirst]!!.second)
                         } else {
-                            immutableSymbolTable[identifier] = Pair(typeString, mutableSymbolTable[rhsValueFirst]!!.second)
+                            scope.putImmutableVariable(identifier, Pair(typeString, scope.findVariableData(rhsValueFirst!!, currentLine!!)!!.second), currentLine!!) // immutableSymbolTable[identifier] = Pair(typeString, mutableSymbolTable[rhsValueFirst]!!.second)
                         }
                     } else {
                         if (identifierInImmutable) {
-                            immutableSymbolTable[identifier] = Pair(typeString, immutableSymbolTable[rhsValueFirst]!!.second)
+                            scope.putImmutableVariable(identifier, Pair(typeString, scope.findVariableData(rhsValueFirst!!, currentLine!!)!!.second), currentLine!!) // immutableSymbolTable[identifier] = Pair(typeString, immutableSymbolTable[rhsValueFirst]!!.second)
                         } else {
-                            mutableSymbolTable[identifier] = Pair(typeString, immutableSymbolTable[rhsValueFirst]!!.second)
+                            scope.putMutableVariable(identifier, Pair(typeString, scope.findVariableData(rhsValueFirst!!, currentLine!!)!!.second), currentLine!!) // mutableSymbolTable[identifier] = Pair(typeString, immutableSymbolTable[rhsValueFirst]!!.second)
                         }
                     }
                 } catch (error: AssertionError) {
@@ -76,10 +75,10 @@ class AssignationInterpreter(
             TokenType.NUMERIC_LITERAL, TokenType.STRING_LITERAL, TokenType.BOOLEAN_TRUE, TokenType.BOOLEAN_FALSE -> {
                 val simplifiedType = getSimplifiedType(rhsValue)
                 if (typeToAssign != simplifiedType) throw Exception("(Line $currentLine) - Type mismatch in $identifier assignation")
-                if (identifier in mutableSymbolTable.keys) {
-                    mutableSymbolTable[identifier] = Pair(typeToAssign.toString(), rhsValue.first)
+                if (scope.existsMutableVariable(identifier!!)) {
+                    scope.putMutableVariable(identifier, Pair(typeToAssign.toString(), rhsValue.first), currentLine!!) // mutableSymbolTable[identifier] = Pair(typeToAssign.toString(), rhsValue.first)
                 } else {
-                    immutableSymbolTable[identifier] = Pair(typeToAssign.toString(), rhsValue.first)
+                    scope.putImmutableVariable(identifier, Pair(typeToAssign.toString(), rhsValue.first), currentLine!!) // immutableSymbolTable[identifier] = Pair(typeToAssign.toString(), rhsValue.first)
                 }
             }
 
@@ -112,8 +111,8 @@ class AssignationInterpreter(
                 }
             }
             is TreeNode -> {
-                val copyMap = HashMap(mutableSymbolTable)
-                copyMap.putAll(immutableSymbolTable)
+                val copyMap = HashMap(scope.getMutableVariables())
+                copyMap.putAll(scope.getImmutableVariables())
                 val evaluator = ExpressionTreeEvaluator(copyMap)
                 evaluator.evaluateExpression(rhs)
             }
@@ -182,12 +181,15 @@ class AssignationInterpreter(
     }
 
     fun getIdentifierValue(identifierKey: String): Pair<String, String> {
-        if (identifierKey in this.mutableSymbolTable.keys) {
-            return mutableSymbolTable[identifierKey] as Pair<String, String>
-        }
-
-        if (identifierKey in this.immutableSymbolTable.keys) {
-            return immutableSymbolTable[identifierKey] as Pair<String, String>
+//        if (identifierKey in this.mutableSymbolTable.keys) {
+//            return mutableSymbolTable[identifierKey] as Pair<String, String>
+//        }
+//
+//        if (identifierKey in this.immutableSymbolTable.keys) {
+//            return immutableSymbolTable[identifierKey] as Pair<String, String>
+//        }
+        if (scope.existsVariable(identifierKey)) {
+            return scope.findVariableData(identifierKey, currentLine!!) as Pair<String, String>
         }
 
         throw Exception("$identifierKey not initialized")
@@ -196,11 +198,11 @@ class AssignationInterpreter(
     private fun checkIfIdentifierWasDeclared(ast: AssignationAST) {
         val identifier = ast.getIdentifier()
 
-        if (identifier !in mutableSymbolTable.keys && identifier !in immutableSymbolTable.keys) {
+        if (!scope.existsVariable(identifier)) {
             throw Exception("(Line $currentLine) - Variable $identifier is not declared")
         }
 
-        if (identifier in immutableSymbolTable && immutableSymbolTable[identifier]!!.second != null) {
+        if (scope.existsImmutableVariable(identifier) && scope.findVariableData(identifier, currentLine!!).second != null) {
             throw Exception("(Line $currentLine) - Variable ${ast.getIdentifier()} is immutable")
         }
     }

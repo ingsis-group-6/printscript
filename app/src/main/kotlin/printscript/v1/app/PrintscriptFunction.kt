@@ -4,6 +4,8 @@ import common.token.Token
 import formatter.implementations.FormattedTextWriter
 import formatter.implementations.Formatter
 import formatter.implementations.StreamedFormatter
+import interpreter.EmptyScope
+import interpreter.Scope
 import interpreter.implementation.Interpreter
 import interpreter.implementation.StreamInterpreter
 import lexer.provider.FileTokenProvider
@@ -19,7 +21,7 @@ interface PrintscriptFunction {
 
 class ExecuteFunction : PrintscriptFunction {
     private val parser = Parser()
-    private val interpreter = Interpreter()
+    private val interpreter = Interpreter(Scope(mutableMapOf(), mutableMapOf(), EmptyScope))
     override fun execute(tokenLine: List<Token>) = interpreter.interpret(parser.parse(tokenLine))
 }
 

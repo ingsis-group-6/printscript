@@ -4,7 +4,7 @@ import common.ast.implementations.node.TreeNode
 import common.token.TokenType
 import kotlin.Exception
 
-class ExpressionTreeEvaluator(private val symbolTable: MutableMap<String, Pair<String, String?>>) {
+class ExpressionTreeEvaluator(private val symbolTable: Map<String, Pair<String, String?>>) {
 
     fun evaluateExpression(node: TreeNode): Pair<String?, TokenType> =
         when (node.headToken) {
@@ -28,7 +28,7 @@ class ExpressionTreeEvaluator(private val symbolTable: MutableMap<String, Pair<S
             "/" -> evaluateBinaryOperation(node, Double::div)
             else -> evaluateLiteral(node.headToken)
         }
-    fun getIdentifierValue(expression: Pair<String?, TokenType>, symbolTable: MutableMap<String, Pair<String, String?>>): Pair<String?, TokenType> {
+    fun getIdentifierValue(expression: Pair<String?, TokenType>, symbolTable: Map<String, Pair<String, String?>>): Pair<String?, TokenType> {
         return when (expression.second) {
             TokenType.IDENTIFIER -> {
                 val (type, value) = symbolTable.get(expression.first)

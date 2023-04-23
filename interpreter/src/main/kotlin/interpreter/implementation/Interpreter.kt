@@ -2,38 +2,50 @@ package interpreter.implementation
 
 import common.ast.AST
 import common.ast.implementations.asts.AssignationAST
+import common.ast.implementations.asts.ConditionalAST
 import common.ast.implementations.asts.DeclarationAST
 import common.ast.implementations.asts.DeclarationAssignationAST
 import common.ast.implementations.asts.EndOfFileAST
 import common.ast.implementations.asts.FunctionAST
+import interpreter.Scope
 import interpreter.interfaces.Interpreter
 
-class Interpreter : Interpreter {
+class Interpreter(
+    private val scope: Scope
 
-    private val mutableSymbolTable = mutableMapOf<String, Pair<String, String?>>()
-    private val immutableSymbolTable = mutableMapOf<String, Pair<String, String?>>()
+) : Interpreter {
 
     override fun interpret(ast: AST) {
         return when (ast) {
             is DeclarationAST -> {
-                DeclarationInterpreter(mutableSymbolTable, immutableSymbolTable).interpret(ast)
+                DeclarationInterpreter(scope).interpret(ast)
             }
 
             is DeclarationAssignationAST -> {
-                DeclarationInterpreter(mutableSymbolTable, immutableSymbolTable).interpret(ast.getDeclarationAST())
-                AssignationInterpreter(mutableSymbolTable, immutableSymbolTable).interpret(ast.getAssignationAST())
+                DeclarationInterpreter(scope).interpret(ast.getDeclarationAST())
+                AssignationInterpreter(scope).interpret(ast.getAssignationAST())
             }
 
             is AssignationAST -> {
-                AssignationInterpreter(mutableSymbolTable, immutableSymbolTable).interpret(ast)
+                AssignationInterpreter(scope).interpret(ast)
             }
 
             is FunctionAST -> {
-                FunctionInterpreter(mutableSymbolTable, immutableSymbolTable).interpret(ast)
+                FunctionInterpreter(scope).interpret(ast)
             }
 
             is EndOfFileAST -> {
                 EOFInterpreter().interpret(ast)
+            }
+            is ConditionalAST -> {
+//                val scope = interpreter.Scope(mutableSymbolTable, immutableSymbolTable)
+//                ConditionalInterpreter(startScope).interpret(ast)
+                val scope = interpreter.Scope(
+                    mutableMapOf(),
+                    mutableMapOf(),
+                    scope
+                )
+                ConditionalInterpreter(scope).interpret(ast)
             }
 
             else -> {
@@ -42,6 +54,6 @@ class Interpreter : Interpreter {
         }
     }
     fun getSymbolTable(): Map<String, Pair<String, String?>> {
-        return this.mutableSymbolTable
+        return scope.getAllVariables()
     }
 }

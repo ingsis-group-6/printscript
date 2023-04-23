@@ -14,7 +14,7 @@ class Lexer(
     private val tokenChars: List<Char>
 ) : Lexer { // chars que separan las palabras, pero representan una operacion y se incluyen como token
 
-    constructor() : this(TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(';', ':', '(', ')', ' ', '\n', '\t', '+', '=', '-', '*', '/')) {}
+    constructor() : this(TokenTypeManagerFactory.createPrintScriptTokenTypeManager("1.0"), listOf(';', ':', '(', ')', ' ', '\n', '\t', '+', '=', '-', '*', '/')) {}
 
     override fun extractTokensFromFile(file: File) {
         val scanner = Scanner(file)

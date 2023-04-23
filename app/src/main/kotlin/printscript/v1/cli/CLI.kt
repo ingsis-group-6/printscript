@@ -2,6 +2,7 @@ package printscript.v1.cli
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
+import com.github.ajalt.clikt.parameters.arguments.optional
 import common.token.Token
 import common.token.TokenType
 import lexer.implementation.Lexer
@@ -18,9 +19,11 @@ class PrintScript : CliktCommand(name = "printscript", help = "Printscript") {
 class Run : CliktCommand(help = "Run a Printscript file") {
 
     private val sourceFile by argument(help = "The source file to run")
+    private val version by argument(help = "Printscript version to run (optional)").optional()
     override fun run() {
         // CLIUtils.runAppWithFunction(File(sourceFile), ExecuteFunction())
-        StreamedExecution(File(sourceFile)).execute()
+        println("executing version $version")
+        StreamedExecution(File(sourceFile), version.toString()).execute()
     }
 }
 
@@ -28,10 +31,11 @@ class Lint : CliktCommand(help = "Lint a Printscript file") {
 
     private val sourceFile by argument(help = "The source file to lint")
     private val configFile by argument(help = "The config file to use")
+    private val version by argument(help = "Printscript version to run (optional)").optional()
     override fun run() {
         // CLIUtils.runAppWithFunction(File(sourceFile), LinterFunction(configFile))
         println(File(sourceFile))
-        StreamedLint(File(sourceFile), configFile).execute()
+        StreamedLint(File(sourceFile), configFile, version.toString()).execute()
     }
 }
 
@@ -39,10 +43,11 @@ class Format : CliktCommand(help = "Format a Printscript file") {
 
     private val sourceFile by argument(help = "The source file to format")
     private val configFile by argument(help = "The config file to use")
+    private val version by argument(help = "Printscript version to run (optional)").optional()
 
     override fun run() {
         // CLIUtils.runAppWithFunction(File(sourceFile), FormatFunction(sourceFile, configFile))
-        StreamedFormat(File(sourceFile), configFile).execute()
+        StreamedFormat(File(sourceFile), configFile, version.toString()).execute()
     }
 }
 

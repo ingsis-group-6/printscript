@@ -46,8 +46,8 @@ interface PrintscriptStreamedFunction {
     fun execute()
 }
 
-class StreamedExecution(sourceFile: File) : PrintscriptStreamedFunction {
-    private val tokenProvider = FileTokenProvider(sourceFile)
+class StreamedExecution(sourceFile: File, version: String) : PrintscriptStreamedFunction {
+    private val tokenProvider = FileTokenProvider(sourceFile, version)
     private val astProvider = ASTProvider(tokenProvider)
     private val streamInterpreter = StreamInterpreter(astProvider)
 
@@ -56,8 +56,8 @@ class StreamedExecution(sourceFile: File) : PrintscriptStreamedFunction {
     }
 }
 
-class StreamedFormat(sourceFile: File, configFileName: String) : PrintscriptStreamedFunction {
-    private val tokenProvider = FileTokenProvider(sourceFile)
+class StreamedFormat(sourceFile: File, configFileName: String, version: String) : PrintscriptStreamedFunction {
+    private val tokenProvider = FileTokenProvider(sourceFile, version)
     private val astProvider = ASTProvider(tokenProvider)
     private val ftw = FormattedTextWriter(sourceFile)
     private val streamedFormatter = StreamedFormatter(astProvider, ftw, configFileName)
@@ -66,8 +66,8 @@ class StreamedFormat(sourceFile: File, configFileName: String) : PrintscriptStre
     }
 }
 
-class StreamedLint(sourceFile: File, configFileName: String) : PrintscriptStreamedFunction {
-    private val tokenProvider = FileTokenProvider(sourceFile)
+class StreamedLint(sourceFile: File, configFileName: String, version: String) : PrintscriptStreamedFunction {
+    private val tokenProvider = FileTokenProvider(sourceFile, version)
     private val astProvider = ASTProvider(tokenProvider)
     private val streamedLinter = StreamedLinter(astProvider, configFileName)
     override fun execute() {

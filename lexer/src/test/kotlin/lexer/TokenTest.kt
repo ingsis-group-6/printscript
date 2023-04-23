@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 
 class TokenTest {
 
-    private val lexer = Lexer(TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(';', ':', ' '))
+    private val lexer = Lexer(TokenTypeManagerFactory.createPrintScriptTokenTypeManager("1.1"), listOf(';', ':', ' '))
 
     @Test
     fun stringLiteralTest() {

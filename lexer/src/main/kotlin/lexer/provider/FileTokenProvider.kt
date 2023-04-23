@@ -11,4 +11,8 @@ class FileTokenProvider(file: File) : TokenProvider {
     override fun getToken(): Optional<Token> {
         return lexer.lexToken()
     }
+
+    override fun peekToken(): Token {
+        return lexer.peekToken()
+    }
 }

@@ -5,7 +5,6 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import common.token.Token
 import common.token.TokenType
 import lexer.implementation.Lexer
-
 import printscript.v1.app.PrintscriptFunction
 import printscript.v1.app.StreamedExecution
 import printscript.v1.app.StreamedFormat
@@ -33,7 +32,6 @@ class Lint : CliktCommand(help = "Lint a Printscript file") {
         // CLIUtils.runAppWithFunction(File(sourceFile), LinterFunction(configFile))
         println(File(sourceFile))
         StreamedLint(File(sourceFile), configFile).execute()
-
     }
 }
 
@@ -43,10 +41,8 @@ class Format : CliktCommand(help = "Format a Printscript file") {
     private val configFile by argument(help = "The config file to use")
 
     override fun run() {
-
         // CLIUtils.runAppWithFunction(File(sourceFile), FormatFunction(sourceFile, configFile))
         StreamedFormat(File(sourceFile), configFile).execute()
-
     }
 }
 

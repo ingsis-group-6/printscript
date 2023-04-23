@@ -17,7 +17,7 @@ class StreamLexer(
     private val list: TokenTypeManager,
     private val tokenChars: List<Char>
 ) {
-    constructor(file: File) : this(file, TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(';', ':', '(', ')', ' ', '\n', '\t', '+', '=', '-', '*', '/')) {}
+    constructor(file: File) : this(file, TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(';', ':', '(', ')', ' ', '\n', '\t', '+', '=', '-', '*', '/', '{', '}')) {}
 
     private val reader: Reader = FileReader(file)
     private var soFar: String = ""
@@ -70,5 +70,17 @@ class StreamLexer(
             }
         }
         return Optional.empty<Token>()
+    }
+
+    fun peekToken(): Token {
+        if (pendingTokens.isNotEmpty() && pendingTokens.peek().get().tokenType != TokenType.WHITESPACE) return pendingTokens.peek().get()
+        var nextToken = lexToken()
+        while (nextToken.isEmpty || nextToken.get().tokenType == TokenType.WHITESPACE) {
+            nextToken = lexToken()
+        }
+        val tokenToReturn = nextToken.get().copy()
+        pendingTokens.offer(nextToken)
+
+        return tokenToReturn
     }
 }

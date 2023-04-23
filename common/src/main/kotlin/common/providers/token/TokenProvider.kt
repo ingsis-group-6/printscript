@@ -5,4 +5,5 @@ import java.util.*
 
 interface TokenProvider {
     fun getToken(): Optional<Token>
+    fun peekToken(): Token
 }

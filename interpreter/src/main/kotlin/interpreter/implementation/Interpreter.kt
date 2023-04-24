@@ -11,14 +11,14 @@ import interpreter.Scope
 import interpreter.interfaces.Interpreter
 import interpreter.output.ConsolePrintOutputter
 import interpreter.output.Outputter
-import java.io.Console
 
 class Interpreter(
     private val scope: Scope,
-    private val outputter: Outputter
+    private val outputter: Outputter,
+    private val isEOF: BooleanWrapper
 ) : Interpreter {
 
-    constructor(scope: Scope): this(scope, ConsolePrintOutputter())
+    constructor(scope: Scope) : this(scope, ConsolePrintOutputter(), BooleanWrapper(false))
 
     override fun interpret(ast: AST) {
         return when (ast) {
@@ -40,7 +40,7 @@ class Interpreter(
             }
 
             is EndOfFileAST -> {
-                EOFInterpreter().interpret(ast)
+                EOFInterpreter(isEOF).interpret(ast)
             }
             is ConditionalAST -> {
 //                val scope = interpreter.Scope(mutableSymbolTable, immutableSymbolTable)

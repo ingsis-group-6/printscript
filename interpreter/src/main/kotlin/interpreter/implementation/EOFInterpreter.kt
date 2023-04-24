@@ -2,10 +2,9 @@ package interpreter.implementation
 
 import common.ast.AST
 import interpreter.interfaces.Interpreter
-import kotlin.system.exitProcess
 
-class EOFInterpreter : Interpreter {
+class EOFInterpreter(private var isEOF: BooleanWrapper) : Interpreter {
     override fun interpret(ast: AST) {
-        exitProcess(0)
+        isEOF.setValue(true)
     }
 }

@@ -7,12 +7,20 @@ import interpreter.interfaces.Interpreter
 import interpreter.output.Outputter
 
 class StreamInterpreter(private val astProvider: ASTProvider, outputter: Outputter) {
-    private val interpreter = Interpreter(Scope(mutableMapOf(), mutableMapOf(), EmptyScope), outputter)
+    private var isEOF = BooleanWrapper(false)
+    private val interpreter = Interpreter(Scope(mutableMapOf(), mutableMapOf(), EmptyScope), outputter, isEOF)
+
     fun interpret() {
         val astProviderResult = astProvider.getAST()
         if (astProviderResult.isPresent) {
             interpreter.interpret(astProviderResult.get())
         }
-        interpret()
+        if (!isEOF.booleanValue) interpret()
+    }
+}
+
+class BooleanWrapper(var booleanValue: Boolean) {
+    fun setValue(newValue: Boolean) {
+        booleanValue = newValue
     }
 }

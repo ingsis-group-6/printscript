@@ -23,7 +23,6 @@ class Run : CliktCommand(help = "Run a Printscript file") {
     private val version by argument(help = "Printscript version to run (optional)").optional()
     override fun run() {
         // CLIUtils.runAppWithFunction(File(sourceFile), ExecuteFunction())
-        println("executing version $version")
         StreamedExecution(File(sourceFile), version.toString(), ConsolePrintOutputter()).execute()
     }
 }

@@ -9,6 +9,7 @@ import java.io.FileReader
 import java.io.Reader
 import java.util.LinkedList
 import java.util.Optional
+import java.util.PriorityQueue
 import java.util.Queue
 
 class StreamLexer(
@@ -25,7 +26,9 @@ class StreamLexer(
 
     private var currentOrderId = 0
     private var currentRow = 1
-    private var pendingTokens: Queue<Optional<Token>> = LinkedList()
+    private var pendingTokens = PriorityQueue<Optional<Token>>(Comparator{
+        token1, token2 -> token1.get().order_id.compareTo(token2.get().order_id)
+    })
 
     fun lexToken(): Optional<Token> {
         if (pendingTokens.isNotEmpty()) return pendingTokens.poll()
@@ -49,7 +52,13 @@ class StreamLexer(
             val currentCharOptional = checkIfToken(currentChar.toString())
             val toReturn: Optional<Token> = if (soFar != "") {
                 pendingTokens.offer(currentCharOptional)
-                checkIfToken(soFar)
+                val soFarToken = checkIfToken(soFar)
+
+                val breakCharTokenOrderId = currentCharOptional.get().order_id
+                currentCharOptional.get().order_id = soFarToken.get().order_id
+                soFarToken.get().order_id = breakCharTokenOrderId
+
+                soFarToken
             } else {
                 currentCharOptional
             }
@@ -78,7 +87,19 @@ class StreamLexer(
         }
         val tokenToReturn = nextToken.get().copy()
         pendingTokens.offer(nextToken)
+//        forceFirstPosition(nextToken)
 
         return tokenToReturn
     }
+
+//    private fun forceFirstPosition(token: Optional<Token>) {
+//        val auxQueue: Queue<Optional<Token>> = LinkedList()
+//        while(pendingTokens.isNotEmpty()){
+//            auxQueue.offer(pendingTokens.poll())
+//        }
+//        pendingTokens.offer(token)
+//        while(auxQueue.isNotEmpty()){
+//            pendingTokens.offer(auxQueue.poll())
+//        }
+//    }
 }

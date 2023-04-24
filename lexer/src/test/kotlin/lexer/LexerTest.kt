@@ -8,7 +8,7 @@ import java.io.File
 class LexerTest {
 
     private val lexer =
-        Lexer(TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(';', ':', '(', ')', ' ', '\n', '\t', '+', '=', '-', '*', '/'))
+        Lexer(TokenTypeManagerFactory.createPrintScriptTokenTypeManager("1.1"), listOf(';', ':', '(', ')', ' ', '\n', '\t', '+', '=', '-', '*', '/'))
 
     private fun countLinesInFile(file: File): Int {
         var lineCount = 0

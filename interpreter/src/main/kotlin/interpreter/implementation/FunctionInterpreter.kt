@@ -13,10 +13,12 @@ import interpreter.output.ConsolePrintOutputter
 import interpreter.output.Outputter
 
 class FunctionInterpreter(
-    private val scope: Scope
+    private val scope: Scope,
+    private val outputter: Outputter
 ) : Interpreter {
 
-    private val outputter: Outputter = ConsolePrintOutputter()
+//    private val outputter: Outputter = ConsolePrintOutputter()
+    constructor(scope: Scope) : this(scope, ConsolePrintOutputter()) {}
 
     override fun interpret(ast: AST) {
         ast as FunctionAST

@@ -6,7 +6,7 @@ import java.io.File
 fun main() {
 //    try {
     val fileName = "print.ps"
-    val tokenProvider = FileTokenProvider(File(fileName))
+    val tokenProvider = FileTokenProvider(File(fileName), "1.1")
 //        val astProvider = ASTProvider(tokenProvider)
 //
 // //        val streamInterpreter = StreamInterpreter(astProvider)

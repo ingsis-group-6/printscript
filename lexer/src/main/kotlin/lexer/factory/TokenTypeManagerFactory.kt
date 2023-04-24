@@ -3,13 +3,24 @@ package lexer.factory
 import TokenTypeManager
 import common.token.TokenType
 import lexer.implementation.TokenTypeChecker
+import kotlin.Exception
 
 class TokenTypeManagerFactory {
 
     companion object {
-        fun createPrintScriptTokenTypeManager(): TokenTypeManager {
-            val keywords = listOf("let", "number", "string", "readInput", "println", "const", "boolean", "true", "false", "if", "else")
-            return TokenTypeManager(generateCheckerList(keywords))
+        fun createPrintScriptTokenTypeManager(version: String): TokenTypeManager {
+            return when (version) {
+                "1.0" -> {
+                    val keywords = listOf("let", "number", "string", "println")
+                    TokenTypeManager(generateCheckerList(keywords))
+                }
+                "1.1" -> {
+                    val keywords = listOf("let", "number", "string", "readInput", "println", "const", "boolean", "true", "false", "if", "else")
+                    TokenTypeManager(generateCheckerList(keywords))
+                }
+
+                else -> throw Exception("Invalid version")
+            }
         }
         private fun generateCheckerList(keywords: List<String>): List<TokenTypeChecker> {
             return listOf(

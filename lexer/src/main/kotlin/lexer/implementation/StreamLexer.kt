@@ -2,7 +2,6 @@ package lexer.implementation
 
 import common.token.Token
 import common.token.TokenType
-import lexer.factory.TokenTypeManagerFactory
 import lexer.`interface`.TokenTypeManager
 import lexer.util.StringReadingChecker
 import java.io.File
@@ -17,7 +16,6 @@ class StreamLexer(
     private val list: TokenTypeManager,
     private val tokenChars: List<Char>
 ) {
-    constructor(file: File) : this(file, TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(';', ':', '(', ')', ' ', '\n', '\t', '+', '=', '-', '*', '/', '{', '}')) {}
 
     private val reader: Reader = FileReader(file)
     private var soFar: String = ""

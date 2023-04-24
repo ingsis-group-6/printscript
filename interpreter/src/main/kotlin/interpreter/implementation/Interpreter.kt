@@ -9,11 +9,16 @@ import common.ast.implementations.asts.EndOfFileAST
 import common.ast.implementations.asts.FunctionAST
 import interpreter.Scope
 import interpreter.interfaces.Interpreter
+import interpreter.output.ConsolePrintOutputter
+import interpreter.output.Outputter
+import java.io.Console
 
 class Interpreter(
-    private val scope: Scope
-
+    private val scope: Scope,
+    private val outputter: Outputter
 ) : Interpreter {
+
+    constructor(scope: Scope): this(scope, ConsolePrintOutputter())
 
     override fun interpret(ast: AST) {
         return when (ast) {
@@ -31,7 +36,7 @@ class Interpreter(
             }
 
             is FunctionAST -> {
-                FunctionInterpreter(scope).interpret(ast)
+                FunctionInterpreter(scope, outputter).interpret(ast)
             }
 
             is EndOfFileAST -> {

@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.optional
 import common.token.Token
 import common.token.TokenType
+import interpreter.output.ConsolePrintOutputter
 import lexer.implementation.Lexer
 import printscript.v1.app.PrintscriptFunction
 import printscript.v1.app.StreamedExecution
@@ -23,7 +24,7 @@ class Run : CliktCommand(help = "Run a Printscript file") {
     override fun run() {
         // CLIUtils.runAppWithFunction(File(sourceFile), ExecuteFunction())
         println("executing version $version")
-        StreamedExecution(File(sourceFile), version.toString()).execute()
+        StreamedExecution(File(sourceFile), version.toString(), ConsolePrintOutputter()).execute()
     }
 }
 

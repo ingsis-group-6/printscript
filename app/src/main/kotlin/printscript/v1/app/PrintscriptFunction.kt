@@ -8,6 +8,7 @@ import interpreter.EmptyScope
 import interpreter.Scope
 import interpreter.implementation.Interpreter
 import interpreter.implementation.StreamInterpreter
+import interpreter.output.Outputter
 import lexer.provider.FileTokenProvider
 import linter.implementations.Linter
 import linter.implementations.StreamedLinter
@@ -46,10 +47,10 @@ interface PrintscriptStreamedFunction {
     fun execute()
 }
 
-class StreamedExecution(sourceFile: File, version: String) : PrintscriptStreamedFunction {
+class StreamedExecution(sourceFile: File, version: String, outputter: Outputter) : PrintscriptStreamedFunction {
     private val tokenProvider = FileTokenProvider(sourceFile, version)
     private val astProvider = ASTProvider(tokenProvider)
-    private val streamInterpreter = StreamInterpreter(astProvider)
+    private val streamInterpreter = StreamInterpreter(astProvider, outputter)
 
     override fun execute() {
         streamInterpreter.interpret()

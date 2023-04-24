@@ -7,10 +7,8 @@ import lexer.util.StringReadingChecker
 import java.io.File
 import java.io.FileReader
 import java.io.Reader
-import java.util.LinkedList
 import java.util.Optional
 import java.util.PriorityQueue
-import java.util.Queue
 
 class StreamLexer(
     file: File,
@@ -26,9 +24,12 @@ class StreamLexer(
 
     private var currentOrderId = 0
     private var currentRow = 1
-    private var pendingTokens = PriorityQueue<Optional<Token>>(Comparator{
-        token1, token2 -> token1.get().order_id.compareTo(token2.get().order_id)
-    })
+    private var pendingTokens = PriorityQueue<Optional<Token>>(
+        Comparator {
+                token1, token2 ->
+            token1.get().order_id.compareTo(token2.get().order_id)
+        }
+    )
 
     fun lexToken(): Optional<Token> {
         if (pendingTokens.isNotEmpty()) return pendingTokens.poll()

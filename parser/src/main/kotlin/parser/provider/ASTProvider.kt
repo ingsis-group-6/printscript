@@ -28,7 +28,12 @@ class ASTProvider(private val tokenProvider: TokenProvider) : ASTProvider, ASTEr
             val ast = parser.parse(tokensReceivedSoFar)
             tokensReceivedSoFar.clear()
             return Optional.of(ast)
-        } else if (tokenProviderResult.isPresent && tokenProviderResult.get().tokenType === TokenType.EOF) {
+        }
+        else if(tokenProviderResult.isPresent && tokenProvider.peekToken().tokenType == TokenType.EOF) {
+            val ast = parser.parse(tokensReceivedSoFar)
+            return Optional.of(ast)
+        }
+        else if (tokenProviderResult.isPresent && tokenProviderResult.get().tokenType == TokenType.EOF) {
             return Optional.of(parser.parse(listOf(tokenProviderResult.get())))
         } else {
             return Optional.empty()

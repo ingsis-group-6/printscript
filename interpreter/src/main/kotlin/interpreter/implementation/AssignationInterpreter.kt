@@ -176,8 +176,9 @@ class AssignationInterpreter(
 
     private fun readValueFromConsole(message: String): String? {
         println(message)
-        val input = readLine() // todo ver porque desde la terminal no espera al input
-        return input
+        val input = readlnOrNull() // todo ver porque desde la terminal no espera al input
+
+        return input ?: "[INPUT NOT READ]"
     }
 
     fun getIdentifierValue(identifierKey: String): Pair<String, String> {

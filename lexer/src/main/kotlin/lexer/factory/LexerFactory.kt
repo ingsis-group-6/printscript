@@ -1,11 +1,11 @@
 package lexer.factory
 
 import lexer.implementation.StreamLexer
-import java.io.File
+import java.io.InputStream
 
 object LexerFactory {
 
-    fun createLexer(file: File, version: String): StreamLexer {
-        return StreamLexer(file, TokenTypeManagerFactory.createPrintScriptTokenTypeManager(version), listOf(';', ':', '(', ')', ' ', '\n', '\t', '+', '=', '-', '*', '/', '{', '}'))
+    fun createLexer(stream: InputStream, version: String): StreamLexer {
+        return StreamLexer(stream, TokenTypeManagerFactory.createPrintScriptTokenTypeManager(version), listOf(';', ':', '(', ')', ' ', '\n', '\t', '+', '=', '-', '*', '/', '{', '}'))
     }
 }

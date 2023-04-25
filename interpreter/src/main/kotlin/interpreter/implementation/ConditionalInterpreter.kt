@@ -8,17 +8,22 @@ import common.ast.implementations.node.Node
 import common.token.TokenType
 import interpreter.Scope
 import interpreter.interfaces.Interpreter
+import interpreter.output.Outputter
 import kotlin.Exception
 
 class ConditionalInterpreter(
-    private val scope: Scope
+    private val scope: Scope,
+    private val outputter: Outputter,
+    private val isEOF: BooleanWrapper
 ) : Interpreter {
     override fun interpret(ast: AST) {
         ast as ConditionalAST
         val conditionNode = ast.getCondition()
         val condition: Boolean = evaluateConditionNode(conditionNode, ast.getCurrentLine())
         val blockInterpreter = BlockInterpreter(
-            Scope(mutableMapOf(), mutableMapOf(), scope)
+            Scope(mutableMapOf(), mutableMapOf(), scope),
+            outputter,
+            isEOF
         )
         if (condition) {
             blockInterpreter.interpret(ast.getIfBlock())

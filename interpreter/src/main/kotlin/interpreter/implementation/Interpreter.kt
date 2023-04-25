@@ -50,7 +50,7 @@ class Interpreter(
                     mutableMapOf(),
                     scope
                 )
-                ConditionalInterpreter(scope).interpret(ast)
+                ConditionalInterpreter(scope, outputter, isEOF).interpret(ast)
             }
 
             else -> {

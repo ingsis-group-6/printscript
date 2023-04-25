@@ -13,7 +13,7 @@ class BlockAST(private val containedASTs: List<AST>) : AST {
     }
 
     override fun getTokensInLine(): List<Token> {
-        TODO("Not yet implemented")
+        return listOf()
     }
 
     fun getContainedASTs(): List<AST> {

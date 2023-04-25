@@ -24,7 +24,7 @@ class ConditionalAST(conditionToken: Token, ifASTs: List<AST>, elseASTs: List<AS
     }
 
     override fun getTokensInLine(): List<Token> {
-        TODO("Not yet implemented")
+        return listOf()
     }
 
     fun getCondition(): Node {

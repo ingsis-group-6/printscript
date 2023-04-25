@@ -7,3 +7,5 @@ config_file_path="$3"
 
 # Run the gradle command with the arguments
 gradle app:run -q --args "$function $input_file_path $config_file_path"
+
+# java -jar app/build/libs/app-1.1.10-SNAPSHOT.jar $function $input_file_path $config_file_path

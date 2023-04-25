@@ -12,6 +12,7 @@ import printscript.v1.app.StreamedExecution
 import printscript.v1.app.StreamedFormat
 import printscript.v1.app.StreamedLint
 import java.io.File
+import java.io.FileInputStream
 import java.util.*
 
 class PrintScript : CliktCommand(name = "printscript", help = "Printscript") {
@@ -24,7 +25,7 @@ class Run : CliktCommand(help = "Run a Printscript file") {
     override fun run() {
         // CLIUtils.runAppWithFunction(File(sourceFile), ExecuteFunction())
         println("Current version: $version")
-        StreamedExecution(File(sourceFile), version.toString(), ConsolePrintOutputter()).execute()
+        StreamedExecution(FileInputStream(File(sourceFile)), version.toString(), ConsolePrintOutputter()).execute()
     }
 }
 

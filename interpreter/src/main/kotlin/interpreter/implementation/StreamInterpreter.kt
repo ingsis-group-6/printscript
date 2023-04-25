@@ -10,7 +10,7 @@ class StreamInterpreter(private val astProvider: ASTProvider, outputter: Outputt
     private var isEOF = BooleanWrapper(false)
     private val interpreter = Interpreter(Scope(mutableMapOf(), mutableMapOf(), EmptyScope), outputter, isEOF)
 
-    fun interpret() {
+    tailrec fun interpret() {
         val astProviderResult = astProvider.getAST()
         if (astProviderResult.isPresent) {
             interpreter.interpret(astProviderResult.get())

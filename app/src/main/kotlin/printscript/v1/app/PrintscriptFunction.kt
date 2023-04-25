@@ -16,6 +16,7 @@ import parser.implementation.Parser
 import parser.provider.ASTProvider
 import java.io.File
 import java.io.FileInputStream
+import java.io.InputStream
 
 interface PrintscriptFunction {
     fun execute(tokenLine: List<Token>)
@@ -48,9 +49,8 @@ interface PrintscriptStreamedFunction {
     fun execute()
 }
 
-class StreamedExecution(sourceFile: File, version: String, outputter: Outputter) : PrintscriptStreamedFunction {
-
-    private val tokenProvider = FileTokenProvider(FileInputStream(sourceFile), version)
+class StreamedExecution(sourceFileStream: InputStream, version: String, outputter: Outputter) : PrintscriptStreamedFunction {
+    private val tokenProvider = FileTokenProvider(sourceFileStream, version)
     private val astProvider = ASTProvider(tokenProvider)
     private val streamInterpreter = StreamInterpreter(astProvider, outputter)
 

@@ -15,6 +15,8 @@ import linter.implementations.StreamedLinter
 import parser.implementation.Parser
 import parser.provider.ASTProvider
 import java.io.File
+import java.io.FileInputStream
+import java.io.InputStream
 
 interface PrintscriptFunction {
     fun execute(tokenLine: List<Token>)
@@ -47,8 +49,8 @@ interface PrintscriptStreamedFunction {
     fun execute()
 }
 
-class StreamedExecution(sourceFile: File, version: String, outputter: Outputter) : PrintscriptStreamedFunction {
-    private val tokenProvider = FileTokenProvider(sourceFile, version)
+class StreamedExecution(sourceFileStream: InputStream, version: String, outputter: Outputter) : PrintscriptStreamedFunction {
+    private val tokenProvider = FileTokenProvider(sourceFileStream, version)
     private val astProvider = ASTProvider(tokenProvider)
     private val streamInterpreter = StreamInterpreter(astProvider, outputter)
 
@@ -58,7 +60,7 @@ class StreamedExecution(sourceFile: File, version: String, outputter: Outputter)
 }
 
 class StreamedFormat(sourceFile: File, configFileName: String, version: String) : PrintscriptStreamedFunction {
-    private val tokenProvider = FileTokenProvider(sourceFile, version)
+    private val tokenProvider = FileTokenProvider(FileInputStream(sourceFile), version)
     private val astProvider = ASTProvider(tokenProvider)
     private val ftw = FormattedTextWriter(sourceFile)
     private val streamedFormatter = StreamedFormatter(astProvider, ftw, configFileName)
@@ -68,7 +70,7 @@ class StreamedFormat(sourceFile: File, configFileName: String, version: String) 
 }
 
 class StreamedLint(sourceFile: File, configFileName: String, version: String) : PrintscriptStreamedFunction {
-    private val tokenProvider = FileTokenProvider(sourceFile, version)
+    private val tokenProvider = FileTokenProvider(FileInputStream(sourceFile), version)
     private val astProvider = ASTProvider(tokenProvider)
     private val streamedLinter = StreamedLinter(astProvider, configFileName)
     override fun execute() {

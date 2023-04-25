@@ -4,19 +4,19 @@ import common.token.Token
 import common.token.TokenType
 import lexer.`interface`.TokenTypeManager
 import lexer.util.StringReadingChecker
-import java.io.File
-import java.io.FileReader
+import java.io.InputStream
+import java.io.InputStreamReader
 import java.io.Reader
 import java.util.Optional
 import java.util.PriorityQueue
 
 class StreamLexer(
-    file: File,
+    stream: InputStream,
     private val list: TokenTypeManager,
     private val tokenChars: List<Char>
 ) {
 
-    private val reader: Reader = FileReader(file)
+    private val reader: Reader = InputStreamReader(stream)
     private var soFar: String = ""
     private val tokenGeneratorFunction: (Int, TokenType, String, Int, Int) -> Token =
         { orderId, tokenType, value, row, col -> Token(orderId, tokenType, value, row, col) }

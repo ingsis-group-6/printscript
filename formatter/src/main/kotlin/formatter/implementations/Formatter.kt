@@ -1,9 +1,12 @@
 package formatter.implementations
 
-import common.ast.AST
+import common.ast.implementations.asts.AST
 import common.ast.implementations.asts.AssignationAST
+import common.ast.implementations.asts.BlockAST
+import common.ast.implementations.asts.ConditionalAST
 import common.ast.implementations.asts.DeclarationAST
 import common.ast.implementations.asts.DeclarationAssignationAST
+import common.ast.implementations.asts.EmptyAST
 import common.ast.implementations.asts.EndOfFileAST
 import common.ast.implementations.asts.FunctionAST
 import common.config.reader.formatter.FormatterRules
@@ -11,7 +14,7 @@ import common.token.Token
 import common.token.TokenType
 import formatter.`interface`.Formatter
 
-class Formatter(configFileName: String) : Formatter {
+class Formatter<T>(configFileName: String) : Formatter<AST> {
     private val formatterRules = FormatterRules(configFileName)
 
     override fun format(ast: AST): String {
@@ -33,7 +36,10 @@ class Formatter(configFileName: String) : Formatter {
             is EndOfFileAST -> {
                 formatEOFAST(tokensInLine)
             }
-            else -> { "" }
+
+            is BlockAST -> TODO()
+            is ConditionalAST -> TODO()
+            EmptyAST -> TODO()
         }
     }
 
@@ -46,21 +52,21 @@ class Formatter(configFileName: String) : Formatter {
     }
 
     // PRINTLN ( [EXPR | LITERAL | ID] ) ;
-    fun formatFunctionAST(tokens: List<Token>): String {
+    private fun formatFunctionAST(tokens: List<Token>): String {
         return if (tokens.first().tokenType == TokenType.PRINTLN) {
             "println(" + formatExpression(tokens.subList(2, tokens.lastIndex - 1)) + ");\n"
         } else {
             "${tokens.first().value}(" + formatExpression(tokens.subList(2, tokens.lastIndex - 1)) + ");\n"
         }
     }
-    fun formatExpression(tokens: List<Token>): String {
+    private fun formatExpression(tokens: List<Token>): String {
         if (tokens.isEmpty()) return ""
         if (tokens.size == 1) return tokens.first().value
         return tokens.map { it.value }.joinToString(separator = createWhitespaceString(formatterRules.spacesBetweenTokens))
     } // 4, /, 2 -> "4 / 2";
 
     // [ID] [=] [LITERAL | EXPRESSION | ID] [SEMICOLON]
-    fun formatAssignationAST(tokens: List<Token>): String =
+    private fun formatAssignationAST(tokens: List<Token>): String =
         tokens[0].value +
             createWhitespaceString(formatterRules.custom.spaceBeforeAndAfterAssignationOperator) +
             tokens[1].value +
@@ -70,7 +76,7 @@ class Formatter(configFileName: String) : Formatter {
             "\n"
 
     //
-    fun formatDeclarationAST(tokens: List<Token>): String =
+    private fun formatDeclarationAST(tokens: List<Token>): String =
         tokens[0].value +
             createWhitespaceString(formatterRules.spacesBetweenTokens) +
             tokens[1].value +
@@ -81,7 +87,7 @@ class Formatter(configFileName: String) : Formatter {
             tokens[4].value +
             "\n"
 
-    fun formatDeclarationAssignationAST(tokens: List<Token>): String {
+    private fun formatDeclarationAssignationAST(tokens: List<Token>): String {
         val declarationString = formatDeclarationAST(tokens.subList(0, 5))
         val expressionString = formatExpression(tokens.subList(5, tokens.lastIndex))
 

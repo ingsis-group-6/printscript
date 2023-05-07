@@ -1,12 +1,14 @@
 package interpreter.implementation
 
-import common.ast.AST
-import common.ast.implementations.asts.AssignationAST
-import common.ast.implementations.asts.ConditionalAST
+import common.ast.implementations.asts.AST
 import common.ast.implementations.asts.DeclarationAST
 import common.ast.implementations.asts.DeclarationAssignationAST
-import common.ast.implementations.asts.EndOfFileAST
+import common.ast.implementations.asts.AssignationAST
 import common.ast.implementations.asts.FunctionAST
+import common.ast.implementations.asts.EndOfFileAST
+import common.ast.implementations.asts.EmptyAST
+import common.ast.implementations.asts.ConditionalAST
+import common.ast.implementations.asts.BlockAST
 import interpreter.Scope
 import interpreter.input.ConsoleInputter
 import interpreter.input.Inputter
@@ -19,7 +21,7 @@ class Interpreter(
     private val inputter: Inputter,
     private val outputter: Outputter,
     private val isEOF: BooleanWrapper
-) : Interpreter {
+) : Interpreter<AST> {
 
     constructor(scope: Scope) : this(scope, ConsoleInputter(), ConsolePrintOutputter(), BooleanWrapper(false))
 
@@ -30,8 +32,8 @@ class Interpreter(
             }
 
             is DeclarationAssignationAST -> {
-                DeclarationInterpreter(scope).interpret(ast.getDeclarationAST())
-                AssignationInterpreter(scope, inputter, outputter).interpret(ast.getAssignationAST())
+                DeclarationInterpreter(scope).interpret(ast.getDeclarationAST() as DeclarationAST)
+                AssignationInterpreter(scope, inputter, outputter).interpret(ast.getAssignationAST() as AssignationAST)
             }
 
             is AssignationAST -> {
@@ -46,9 +48,7 @@ class Interpreter(
                 EOFInterpreter(isEOF).interpret(ast)
             }
             is ConditionalAST -> {
-//                val scope = interpreter.Scope(mutableSymbolTable, immutableSymbolTable)
-//                ConditionalInterpreter(startScope).interpret(ast)
-                val scope = interpreter.Scope(
+                val scope = Scope(
                     mutableMapOf(),
                     mutableMapOf(),
                     scope
@@ -56,9 +56,8 @@ class Interpreter(
                 ConditionalInterpreter(scope, inputter, outputter, isEOF).interpret(ast)
             }
 
-            else -> {
-                throw Exception("Invalid AST")
-            }
+            is BlockAST -> TODO()
+            EmptyAST -> TODO()
         }
     }
     fun getSymbolTable(): Map<String, Pair<String, String?>> {

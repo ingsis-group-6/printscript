@@ -1,10 +1,11 @@
 package interpreter.implementation
 
-import common.ast.AST
 import common.ast.implementations.asts.BlockAST
 import common.ast.implementations.asts.ConditionalAST
 import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
+import common.ast.implementations.node.ReadInputNode
+import common.ast.implementations.node.TreeNode
 import common.token.TokenType
 import interpreter.Scope
 import interpreter.input.Inputter
@@ -17,9 +18,8 @@ class ConditionalInterpreter(
     private val inputter: Inputter,
     private val outputter: Outputter,
     private val isEOF: BooleanWrapper
-) : Interpreter {
-    override fun interpret(ast: AST) {
-        ast as ConditionalAST
+) : Interpreter<ConditionalAST> {
+    override fun interpret(ast: ConditionalAST) {
         val conditionNode = ast.getCondition()
         val condition: Boolean = evaluateConditionNode(conditionNode, ast.getCurrentLine())
         val blockInterpreter = BlockInterpreter(
@@ -32,7 +32,7 @@ class ConditionalInterpreter(
             blockInterpreter.interpret(ast.getIfBlock())
         } else {
             if ((ast.getElseBlock() as BlockAST).isEmpty()) return
-            blockInterpreter.interpret(ast.getElseBlock())
+            blockInterpreter.interpret(ast.getElseBlock() as BlockAST)
         }
     }
 
@@ -57,13 +57,15 @@ class ConditionalInterpreter(
                 }
             }
 
-            else -> {
-                throw Exception("($currentLine) - Unsupported operation.")
-            }
+//            else -> {
+//                throw Exception("($currentLine) - Unsupported operation.")
+//            }
 
 //            is ReadInputNode -> {
 //                throw Exception("($currentLine) - Boolean expressions not supported.")
 //            }
+            is ReadInputNode -> throw Exception("($currentLine) - Boolean expressions not supported.")
+            is TreeNode -> throw Exception("($currentLine) - Expressions not supported.")
         }
     }
 

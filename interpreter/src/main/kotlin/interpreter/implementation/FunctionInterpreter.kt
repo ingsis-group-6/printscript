@@ -1,9 +1,9 @@
 package interpreter.implementation
 
-import common.ast.AST
 import common.ast.implementations.asts.FunctionAST
 import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
+import common.ast.implementations.node.ReadInputNode
 import common.ast.implementations.node.TreeNode
 import common.token.TokenType
 import interpreter.Utils
@@ -15,12 +15,11 @@ import interpreter.output.Outputter
 class FunctionInterpreter(
     private val scope: Scope,
     private val outputter: Outputter
-) : Interpreter {
+) : Interpreter<FunctionAST> {
 
-//    private val outputter: Outputter = ConsolePrintOutputter()
     constructor(scope: Scope) : this(scope, ConsolePrintOutputter()) {}
 
-    override fun interpret(ast: AST) {
+    override fun interpret(ast: FunctionAST) {
         ast as FunctionAST
         val paramNode = ast.getParamNode()
         val currentLine = ast.getTokensInLine().first().row
@@ -38,8 +37,8 @@ class FunctionInterpreter(
                 val evaluator = ExpressionTreeEvaluator(scope.getAllVariables())
                 outputter.output(Utils.checkIfInteger(evaluator.evaluateExpression(paramNode)).first!!)
             }
-            else -> {
-            }
+
+            is ReadInputNode -> TODO()
         }
     }
 

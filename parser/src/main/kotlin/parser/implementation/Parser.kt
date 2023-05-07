@@ -1,8 +1,8 @@
 package parser.implementation
 
-import common.ast.AST
 import common.ast.ASTFactory
 import common.ast.ASTType
+import common.ast.implementations.asts.AST
 import common.ast.implementations.asts.EmptyAST
 import common.token.Token
 import common.token.TokenType

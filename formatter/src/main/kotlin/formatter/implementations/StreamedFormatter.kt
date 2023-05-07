@@ -7,7 +7,7 @@ class StreamedFormatter(
     private val ftw: FormattedTextWriter,
     configFile: String
 ) {
-    private val formatter = Formatter(configFile)
+    private val formatter = Formatter<Any>(configFile)
 
     fun format() {
         val astProviderResult = astProvider.getAST()

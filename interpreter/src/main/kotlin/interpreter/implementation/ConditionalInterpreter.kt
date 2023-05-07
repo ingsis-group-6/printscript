@@ -19,9 +19,8 @@ class ConditionalInterpreter(
     private val inputter: Inputter,
     private val outputter: Outputter,
     private val isEOF: BooleanWrapper
-) : Interpreter {
-    override fun interpret(ast: AST) {
-        ast as ConditionalAST
+) : Interpreter<ConditionalAST> {
+    override fun interpret(ast: ConditionalAST) {
         val conditionNode = ast.getCondition()
         val condition: Boolean = evaluateConditionNode(conditionNode, ast.getCurrentLine())
         val blockInterpreter = BlockInterpreter(
@@ -34,7 +33,7 @@ class ConditionalInterpreter(
             blockInterpreter.interpret(ast.getIfBlock())
         } else {
             if ((ast.getElseBlock() as BlockAST).isEmpty()) return
-            blockInterpreter.interpret(ast.getElseBlock())
+            blockInterpreter.interpret(ast.getElseBlock() as BlockAST)
         }
     }
 

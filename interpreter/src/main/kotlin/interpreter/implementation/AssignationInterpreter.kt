@@ -20,13 +20,11 @@ class AssignationInterpreter(
     private val scope: Scope,
     private val inputter: Inputter,
     private val outputter: Outputter
-) : Interpreter {
+) : Interpreter<AssignationAST> {
 
     private var currentLine: Int? = null
     private var currentColumn: Int? = null
-    override fun interpret(ast: AST) {
-        ast as AssignationAST
-
+    override fun interpret(ast: AssignationAST) {
         currentLine = ast.getTokensInLine().first().row
         currentColumn = ast.getTokensInLine().first().col
 

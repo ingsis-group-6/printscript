@@ -2,7 +2,7 @@ package interpreter.interfaces
 
 import common.ast.implementations.asts.AST
 
-interface Interpreter {
+interface Interpreter<T: AST> {
 
-    fun interpret(ast: AST)
+    fun interpret(ast: T)
 }

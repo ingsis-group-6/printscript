@@ -16,12 +16,11 @@ import interpreter.output.Outputter
 class FunctionInterpreter(
     private val scope: Scope,
     private val outputter: Outputter
-) : Interpreter {
+) : Interpreter<FunctionAST> {
 
-//    private val outputter: Outputter = ConsolePrintOutputter()
     constructor(scope: Scope) : this(scope, ConsolePrintOutputter()) {}
 
-    override fun interpret(ast: AST) {
+    override fun interpret(ast: FunctionAST) {
         ast as FunctionAST
         val paramNode = ast.getParamNode()
         val currentLine = ast.getTokensInLine().first().row

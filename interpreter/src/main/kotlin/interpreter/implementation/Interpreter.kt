@@ -13,7 +13,7 @@ class Interpreter(
     private val inputter: Inputter,
     private val outputter: Outputter,
     private val isEOF: BooleanWrapper
-) : Interpreter {
+) : Interpreter<AST> {
 
     constructor(scope: Scope) : this(scope, ConsoleInputter(), ConsolePrintOutputter(), BooleanWrapper(false))
 
@@ -24,8 +24,8 @@ class Interpreter(
             }
 
             is DeclarationAssignationAST -> {
-                DeclarationInterpreter(scope).interpret(ast.getDeclarationAST())
-                AssignationInterpreter(scope, inputter, outputter).interpret(ast.getAssignationAST())
+                DeclarationInterpreter(scope).interpret(ast.getDeclarationAST() as DeclarationAST)
+                AssignationInterpreter(scope, inputter, outputter).interpret(ast.getAssignationAST() as AssignationAST)
             }
 
             is AssignationAST -> {
@@ -40,8 +40,6 @@ class Interpreter(
                 EOFInterpreter(isEOF).interpret(ast)
             }
             is ConditionalAST -> {
-//                val scope = interpreter.Scope(mutableSymbolTable, immutableSymbolTable)
-//                ConditionalInterpreter(startScope).interpret(ast)
                 val scope = Scope(
                     mutableMapOf(),
                     mutableMapOf(),

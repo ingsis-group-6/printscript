@@ -7,9 +7,13 @@ import interpreter.interfaces.Interpreter
 import interpreter.interfaces.Scope
 import interpreter.output.Outputter
 
-class BlockInterpreter(private val scope: Scope, private val inputter: Inputter, private val outputter: Outputter, private val booleanWrapper: BooleanWrapper) : Interpreter {
-    override fun interpret(ast: AST) {
-        ast as BlockAST
+class BlockInterpreter(
+    private val scope: Scope,
+    private val inputter: Inputter,
+    private val outputter: Outputter,
+    private val booleanWrapper: BooleanWrapper
+) : Interpreter<BlockAST> {
+    override fun interpret(ast: BlockAST) {
         val interpreter = Interpreter(
             interpreter.Scope(mutableMapOf(), mutableMapOf(), scope),
             inputter,

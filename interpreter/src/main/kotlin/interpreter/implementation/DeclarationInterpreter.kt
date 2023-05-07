@@ -7,14 +7,12 @@ import interpreter.interfaces.Scope
 
 class DeclarationInterpreter(
     private val scope: Scope
-) : Interpreter {
+) : Interpreter<DeclarationAST> {
 
-    override fun interpret(ast: AST) {
-        ast as DeclarationAST
+    override fun interpret(ast: DeclarationAST) {
         val identifier = ast.getIdentifier()
         val declarator = ast.getDeclarator()
         val currentLine = ast.getTokensInLine().first().row
-        // if (identifier in mutableSymbolTable.keys || identifier in immutableSymbolTable.keys) throw Exception("(Line $currentLine) - Variable ${ast.getIdentifier()} is already declared")
         if (scope.existsVariable(identifier)) throw Exception("(Line $currentLine) - Variable ${ast.getIdentifier()} is already declared")
         val type = ast.getType()
         if (declarator == "let") {
@@ -22,7 +20,5 @@ class DeclarationInterpreter(
         } else {
             scope.putImmutableVariable(identifier, Pair(type, null), currentLine)
         }
-        // mutableSymbolTable[identifier] = Pair(type, null) else
-        // immutableSymbolTable[identifier] = Pair(type, null)
     }
 }

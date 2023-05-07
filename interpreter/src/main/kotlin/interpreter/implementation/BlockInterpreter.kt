@@ -1,6 +1,6 @@
 package interpreter.implementation
 
-import common.ast.AST
+import common.ast.implementations.asts.AST
 import common.ast.implementations.asts.BlockAST
 import interpreter.input.Inputter
 import interpreter.interfaces.Interpreter

@@ -1,6 +1,6 @@
 package interpreter.interfaces
 
-import common.ast.AST
+import common.ast.implementations.asts.AST
 
 interface Interpreter {
 

@@ -1,9 +1,10 @@
 package interpreter.implementation
 
-import common.ast.AST
+import common.ast.implementations.asts.AST
 import common.ast.implementations.asts.FunctionAST
 import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
+import common.ast.implementations.node.ReadInputNode
 import common.ast.implementations.node.TreeNode
 import common.token.TokenType
 import interpreter.Utils
@@ -38,8 +39,8 @@ class FunctionInterpreter(
                 val evaluator = ExpressionTreeEvaluator(scope.getAllVariables())
                 outputter.output(Utils.checkIfInteger(evaluator.evaluateExpression(paramNode)).first!!)
             }
-            else -> {
-            }
+
+            is ReadInputNode -> TODO()
         }
     }
 

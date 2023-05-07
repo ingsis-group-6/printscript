@@ -1,6 +1,6 @@
 package interpreter.implementation
 
-import common.ast.AST
+import common.ast.implementations.asts.AST
 import common.ast.implementations.asts.DeclarationAST
 import interpreter.interfaces.Interpreter
 import interpreter.interfaces.Scope

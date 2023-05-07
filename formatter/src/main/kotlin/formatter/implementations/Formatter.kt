@@ -1,11 +1,6 @@
 package formatter.implementations
 
-import common.ast.AST
-import common.ast.implementations.asts.AssignationAST
-import common.ast.implementations.asts.DeclarationAST
-import common.ast.implementations.asts.DeclarationAssignationAST
-import common.ast.implementations.asts.EndOfFileAST
-import common.ast.implementations.asts.FunctionAST
+import common.ast.implementations.asts.*
 import common.config.reader.formatter.FormatterRules
 import common.token.Token
 import common.token.TokenType
@@ -33,7 +28,10 @@ class Formatter(configFileName: String) : Formatter {
             is EndOfFileAST -> {
                 formatEOFAST(tokensInLine)
             }
-            else -> { "" }
+
+            is BlockAST -> TODO()
+            is ConditionalAST -> TODO()
+            EmptyAST -> TODO()
         }
     }
 

@@ -1,10 +1,12 @@
 package interpreter.implementation
 
-import common.ast.AST
+import common.ast.implementations.asts.AST
 import common.ast.implementations.asts.BlockAST
 import common.ast.implementations.asts.ConditionalAST
 import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
+import common.ast.implementations.node.ReadInputNode
+import common.ast.implementations.node.TreeNode
 import common.token.TokenType
 import interpreter.Scope
 import interpreter.input.Inputter
@@ -57,13 +59,15 @@ class ConditionalInterpreter(
                 }
             }
 
-            else -> {
-                throw Exception("($currentLine) - Unsupported operation.")
-            }
+//            else -> {
+//                throw Exception("($currentLine) - Unsupported operation.")
+//            }
 
 //            is ReadInputNode -> {
 //                throw Exception("($currentLine) - Boolean expressions not supported.")
 //            }
+            is ReadInputNode -> throw Exception("($currentLine) - Boolean expressions not supported.")
+            is TreeNode -> throw Exception("($currentLine) - Expressions not supported.")
         }
     }
 

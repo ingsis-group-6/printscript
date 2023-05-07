@@ -1,12 +1,6 @@
 package interpreter.implementation
 
-import common.ast.AST
-import common.ast.implementations.asts.AssignationAST
-import common.ast.implementations.asts.ConditionalAST
-import common.ast.implementations.asts.DeclarationAST
-import common.ast.implementations.asts.DeclarationAssignationAST
-import common.ast.implementations.asts.EndOfFileAST
-import common.ast.implementations.asts.FunctionAST
+import common.ast.implementations.asts.*
 import interpreter.Scope
 import interpreter.input.ConsoleInputter
 import interpreter.input.Inputter
@@ -48,7 +42,7 @@ class Interpreter(
             is ConditionalAST -> {
 //                val scope = interpreter.Scope(mutableSymbolTable, immutableSymbolTable)
 //                ConditionalInterpreter(startScope).interpret(ast)
-                val scope = interpreter.Scope(
+                val scope = Scope(
                     mutableMapOf(),
                     mutableMapOf(),
                     scope
@@ -56,9 +50,8 @@ class Interpreter(
                 ConditionalInterpreter(scope, inputter, outputter, isEOF).interpret(ast)
             }
 
-            else -> {
-                throw Exception("Invalid AST")
-            }
+            is BlockAST -> TODO()
+            EmptyAST -> TODO()
         }
     }
     fun getSymbolTable(): Map<String, Pair<String, String?>> {

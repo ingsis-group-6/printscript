@@ -1,6 +1,6 @@
 package linter.implementations
 
-import common.ast.AST
+import common.ast.implementations.asts.AST
 import common.ast.implementations.asts.EndOfFileAST
 import common.config.reader.JsonReader
 import common.config.reader.linter.LinterConfigInput

@@ -1,6 +1,6 @@
 package common.providers.ast
 
-import common.ast.AST
+import common.ast.implementations.asts.AST
 import java.util.*
 
 interface ASTErrorReporter {

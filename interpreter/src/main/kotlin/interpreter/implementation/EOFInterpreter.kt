@@ -1,6 +1,6 @@
 package interpreter.implementation
 
-import common.ast.AST
+import common.ast.implementations.asts.AST
 import interpreter.interfaces.Interpreter
 
 class EOFInterpreter(private var isEOF: BooleanWrapper) : Interpreter {

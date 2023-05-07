@@ -1,6 +1,6 @@
 package parser.provider
 
-import common.ast.AST
+import common.ast.implementations.asts.AST
 import common.ast.implementations.asts.ConditionalAST
 import common.providers.ast.ASTErrorReporter
 import common.providers.ast.ASTProvider

@@ -1,9 +1,9 @@
-package common.ast
+package common.ast.implementations.asts
 
 import common.ast.implementations.node.Node
 import common.token.Token
 
-interface AST {
+sealed interface AST {
 
     fun getChildren(): List<Node>
     fun getTokensInLine(): List<Token>

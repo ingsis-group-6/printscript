@@ -1,6 +1,6 @@
 package interpreter.implementation
 
-import common.ast.AST
+import common.ast.implementations.asts.AST
 import common.ast.implementations.asts.AssignationAST
 import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
@@ -132,9 +132,6 @@ class AssignationInterpreter(
                     else -> ""
                 }
                 interpretInputText(inputValue, typeToAssign!!)
-            }
-            else -> {
-                throw Exception("(Line $currentLine) - Unsupported operation")
             }
         }
 

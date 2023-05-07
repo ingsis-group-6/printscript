@@ -1,4 +1,3 @@
 package formatter.implementations.ast.formatters
 
-class ExpressionFormatter {
-}
+class ExpressionFormatter

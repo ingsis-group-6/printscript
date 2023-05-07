@@ -1,6 +1,5 @@
 package interpreter.implementation
 
-import common.ast.implementations.asts.AST
 import common.ast.implementations.asts.EndOfFileAST
 import interpreter.interfaces.Interpreter
 

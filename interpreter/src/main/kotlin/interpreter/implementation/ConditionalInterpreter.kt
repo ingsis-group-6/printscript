@@ -1,6 +1,5 @@
 package interpreter.implementation
 
-import common.ast.implementations.asts.AST
 import common.ast.implementations.asts.BlockAST
 import common.ast.implementations.asts.ConditionalAST
 import common.ast.implementations.node.LeafNode

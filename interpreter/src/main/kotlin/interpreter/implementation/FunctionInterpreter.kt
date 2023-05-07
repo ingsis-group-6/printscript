@@ -1,6 +1,5 @@
 package interpreter.implementation
 
-import common.ast.implementations.asts.AST
 import common.ast.implementations.asts.FunctionAST
 import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node

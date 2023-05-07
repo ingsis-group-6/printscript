@@ -1,6 +1,14 @@
 package interpreter.implementation
 
-import common.ast.implementations.asts.*
+import common.ast.implementations.asts.AST
+import common.ast.implementations.asts.DeclarationAST
+import common.ast.implementations.asts.DeclarationAssignationAST
+import common.ast.implementations.asts.AssignationAST
+import common.ast.implementations.asts.FunctionAST
+import common.ast.implementations.asts.EndOfFileAST
+import common.ast.implementations.asts.EmptyAST
+import common.ast.implementations.asts.ConditionalAST
+import common.ast.implementations.asts.BlockAST
 import interpreter.Scope
 import interpreter.input.ConsoleInputter
 import interpreter.input.Inputter

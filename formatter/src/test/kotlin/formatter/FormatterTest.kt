@@ -1,15 +1,8 @@
 package formatter
 
-import common.token.Token
-import common.token.TokenType
-import formatter.implementations.Formatter
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Disabled
-import org.junit.jupiter.api.Test
-
 class FormatterTest {
 
-    //private var formatter: Formatter = Formatter("../formatter_config.json")
+    // private var formatter: Formatter = Formatter("../formatter_config.json")
 
 //    @Disabled
 //    @Test

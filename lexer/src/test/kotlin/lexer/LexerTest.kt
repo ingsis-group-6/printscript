@@ -8,7 +8,7 @@ import java.io.File
 class LexerTest {
 
     private val lexer =
-        Lexer(TokenTypeManagerFactory.createPrintScriptTokenTypeManager(), listOf(';', ':', '(', ')', ' ', '\n', '\t', '+', '=', '-', '*', '/'))
+        Lexer(TokenTypeManagerFactory.createPrintScriptTokenTypeManager("1.1"), listOf(';', ':', '(', ')', ' ', '\n', '\t', '+', '=', '-', '*', '/'))
 
     private fun countLinesInFile(file: File): Int {
         var lineCount = 0
@@ -38,5 +38,15 @@ class LexerTest {
     fun testConsecutiveLine() {
         lexer.extractTokensFromFile(File("src/test/resources/ConsecutiveLineFile.txt"))
         assert(countLinesInFile(File("Tokens.txt")) == 15)
+    }
+
+    @Test
+    fun testBooleanInput() {
+        val input = "const myVar: boolean = true;"
+//        val expectedList = listOf(
+//            Token(1, TokenType.DECLARATOR, "let", 0, 1)
+//        )
+
+        ResultOutput.writeListToFile(lexer.extractTokensFromLine(input, 1), "src/test/resources/outputs/boolean1_output.txt")
     }
 }

@@ -1,19 +1,23 @@
 package interpreter.implementation
 
-import common.ast.AST
 import common.ast.implementations.asts.DeclarationAST
 import interpreter.interfaces.Interpreter
+import interpreter.interfaces.Scope
 
 class DeclarationInterpreter(
-    private val symbolTable: MutableMap<String, Pair<String, String?>>
-) : Interpreter {
+    private val scope: Scope
+) : Interpreter<DeclarationAST> {
 
-    override fun interpret(ast: AST) {
-        ast as DeclarationAST
+    override fun interpret(ast: DeclarationAST) {
         val identifier = ast.getIdentifier()
+        val declarator = ast.getDeclarator()
         val currentLine = ast.getTokensInLine().first().row
-        if (identifier in symbolTable.keys) throw Exception("(Line $currentLine) - Variable ${ast.getIdentifier()} is already declared")
+        if (scope.existsVariable(identifier)) throw Exception("(Line $currentLine) - Variable ${ast.getIdentifier()} is already declared")
         val type = ast.getType()
-        symbolTable[identifier] = Pair(type, null)
+        if (declarator == "let") {
+            scope.putMutableVariable(identifier, Pair(type, null), currentLine)
+        } else {
+            scope.putImmutableVariable(identifier, Pair(type, null), currentLine)
+        }
     }
 }

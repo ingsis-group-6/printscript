@@ -1,9 +1,9 @@
 package common.ast.implementations.asts
 
-import common.ast.AST
 import common.ast.implementations.ExpressionTreeCreator
 import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
+import common.ast.implementations.node.ReadInputNode
 import common.ast.implementations.node.TreeNode
 import common.exceptions.InvalidTokenInputException
 import common.token.Token
@@ -22,6 +22,7 @@ class AssignationAST(private val tokens: List<Token>) : AST {
         identifierLeafNode = LeafNode(TokenType.IDENTIFIER, tokens.first().value)
 
         val rhs = extractRHS(tokens)
+
         valueNode =
             if (rhs.size == 1) {
                 LeafNode(
@@ -32,12 +33,24 @@ class AssignationAST(private val tokens: List<Token>) : AST {
                         rhs.first().value
                     }
                 )
+            } else if (isReadInput(rhs)) {
+                ReadInputNode(rhs[2].value, rhs[2].tokenType)
             } else {
                 ExpressionTreeCreator.createExpressionNode(rhs)
             }
     }
 
     //  5 + ( 3 * ( 2 + 1 ) )
+    private fun isReadInput(tokens: List<Token>): Boolean {
+        return tokens.size == 4 &&
+            tokens.first().tokenType == TokenType.READ_INPUT &&
+            validateReadInputMessage(tokens)
+    }
+
+    private fun validateReadInputMessage(tokens: List<Token>): Boolean {
+        if (tokens[2].tokenType == TokenType.STRING_LITERAL || tokens[2].tokenType == TokenType.IDENTIFIER) return true
+        throw java.lang.Exception("(Line ${tokens.first().row}) - Invalid message provided for ReadInput function.")
+    }
 
     private fun validateInputTokens(tokens: List<Token>): Boolean {
         val validBody =
@@ -58,6 +71,7 @@ class AssignationAST(private val tokens: List<Token>) : AST {
         throw java.lang.Exception("(Line ${tokens.first().row}) - Invalid number of tokens in line.")
     }
 
+    // TODO : renombrar
     private fun validateRightHandSide(rightHandSide: List<Token>): Boolean {
         val validTokenTypes = listOf(
             TokenType.OPERATOR,
@@ -65,7 +79,10 @@ class AssignationAST(private val tokens: List<Token>) : AST {
             TokenType.CLOSE_PARENTHESIS,
             TokenType.IDENTIFIER,
             TokenType.NUMERIC_LITERAL,
-            TokenType.STRING_LITERAL
+            TokenType.STRING_LITERAL,
+            TokenType.BOOLEAN_TRUE,
+            TokenType.BOOLEAN_FALSE,
+            TokenType.READ_INPUT
         )
 
         return rightHandSide.all { token: Token -> validTokenTypes.contains(token.tokenType) }
@@ -84,6 +101,7 @@ class AssignationAST(private val tokens: List<Token>) : AST {
     fun getRhsNode(): Node = this.valueNode
 }
 
+// TODO: modularizar
 class ShuntingYard {
 
     fun shuntingYard(tokens: List<Token>): Node {
@@ -140,6 +158,8 @@ class ShuntingYard {
     private fun isStringOrNumberValue(token: Token) = token.tokenType in setOf(
         TokenType.STRING_LITERAL,
         TokenType.NUMERIC_LITERAL,
-        TokenType.IDENTIFIER
+        TokenType.IDENTIFIER,
+        TokenType.BOOLEAN_TRUE,
+        TokenType.BOOLEAN_FALSE
     )
 }

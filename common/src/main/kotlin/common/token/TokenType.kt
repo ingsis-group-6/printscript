@@ -13,8 +13,10 @@ enum class TokenType {
     IDENTIFIER,
 
     // KEYWORDS
-    LET,
+    DECLARATOR,
+    CONST,
     PRINTLN,
+    READ_INPUT,
     FUNCTION,
 
     // TYPES
@@ -30,6 +32,10 @@ enum class TokenType {
     OPEN_PARENTHESIS,
     CLOSE_PARENTHESIS,
     OPERATOR,
+    OPEN_CURLY_BRACKETS,
+    CLOSE_CURLY_BRACKETS,
+    IF,
+    ELSE,
 
     // DECLARATIONS
     NUMERIC_LITERAL,
@@ -43,5 +49,7 @@ enum class TokenType {
     LESSER_THAN,
     DIFFERENT,
     AND,
-    OR;
+    OR,
+    BOOLEAN_FALSE,
+    BOOLEAN_TRUE
 }

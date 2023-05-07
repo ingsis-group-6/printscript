@@ -1,6 +1,6 @@
 package linter.implementations
 
-import common.ast.AST
+import common.ast.implementations.asts.AST
 import common.ast.implementations.asts.AssignationAST
 import common.ast.implementations.asts.DeclarationAST
 import common.ast.implementations.asts.DeclarationAssignationAST

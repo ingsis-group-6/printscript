@@ -1,6 +1,5 @@
 package common.ast.implementations.asts
 
-import common.ast.AST
 import common.ast.implementations.node.Node
 import common.exceptions.InvalidTokenInputException
 import common.token.Token

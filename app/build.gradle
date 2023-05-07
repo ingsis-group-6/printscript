@@ -12,19 +12,20 @@ plugins {
 
 dependencies {
     implementation 'org.apache.commons:commons-text'
+    implementation("com.github.ajalt.clikt:clikt:3.5.2")
     implementation project(':lexer')
     implementation project(':parser')
     implementation project(':interpreter')
     implementation project(':common')
     implementation project(':linter')
     implementation project(':formatter')
-
 }
 
 application {
     // Define the main class for the application.
     mainClass = 'printscript.v1.app.AppKt'
 }
+
 
 
 

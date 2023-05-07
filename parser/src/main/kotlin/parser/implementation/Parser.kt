@@ -1,10 +1,9 @@
 package parser.implementation
 
-import common.ast.AST
 import common.ast.ASTFactory
 import common.ast.ASTType
+import common.ast.implementations.asts.AST
 import common.ast.implementations.asts.EmptyAST
-import common.exceptions.InvalidTokenInputException
 import common.token.Token
 import common.token.TokenType
 import parser.exceptions.EmptyTokenInputException
@@ -17,7 +16,7 @@ class Parser : Parser {
         try {
             val ast = parse(tokens)
             return Pair(ast, errorList)
-        } catch (exc: InvalidTokenInputException) {
+        } catch (exc: Exception) {
             errorList.add(exc.message!!)
             return Pair(EmptyAST, errorList)
         }
@@ -43,9 +42,10 @@ class Parser : Parser {
     fun detectASTType(inputTokenTypes: List<TokenType>, row: Int): ASTType {
         val foundAST = when {
             inputTokenTypes.first() == TokenType.IDENTIFIER -> ASTType.ASSIGNATION
-            inputTokenTypes.contains(TokenType.LET) && !inputTokenTypes.contains(TokenType.ASSIGNATION) -> ASTType.DECLARATION
+            inputTokenTypes.contains(TokenType.DECLARATOR) && !inputTokenTypes.contains(TokenType.ASSIGNATION) -> ASTType.DECLARATION
             inputTokenTypes.contains(TokenType.ASSIGNATION) -> ASTType.DECLARATION_ASSIGNATION
             inputTokenTypes.first() == TokenType.PRINTLN || inputTokenTypes.first() == TokenType.FUNCTION -> ASTType.FUNCTION
+            inputTokenTypes.first() == TokenType.EOF -> ASTType.EOF
             else -> throw Exception("(Line $row) - Malformed Expression. AST not detected.")
         }
         return foundAST

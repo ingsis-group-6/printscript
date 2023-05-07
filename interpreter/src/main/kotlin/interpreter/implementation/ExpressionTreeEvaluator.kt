@@ -2,9 +2,9 @@ package interpreter.implementation
 
 import common.ast.implementations.node.TreeNode
 import common.token.TokenType
-import java.lang.Exception
+import kotlin.Exception
 
-class ExpressionTreeEvaluator(private val symbolTable: MutableMap<String, Pair<String, String?>>) {
+class ExpressionTreeEvaluator(private val symbolTable: Map<String, Pair<String, String?>>) {
 
     fun evaluateExpression(node: TreeNode): Pair<String?, TokenType> =
         when (node.headToken) {
@@ -28,7 +28,7 @@ class ExpressionTreeEvaluator(private val symbolTable: MutableMap<String, Pair<S
             "/" -> evaluateBinaryOperation(node, Double::div)
             else -> evaluateLiteral(node.headToken)
         }
-    fun getIdentifierValue(expression: Pair<String?, TokenType>, symbolTable: MutableMap<String, Pair<String, String?>>): Pair<String?, TokenType> {
+    fun getIdentifierValue(expression: Pair<String?, TokenType>, symbolTable: Map<String, Pair<String, String?>>): Pair<String?, TokenType> {
         return when (expression.second) {
             TokenType.IDENTIFIER -> {
                 val (type, value) = symbolTable.get(expression.first)
@@ -76,6 +76,9 @@ class ExpressionTreeEvaluator(private val symbolTable: MutableMap<String, Pair<S
             isNumber(token) -> {
                 Pair(token, TokenType.NUMERIC_LITERAL)
             }
+            isBooleanValue(token) -> {
+                throw Exception("Boolean operations not supported.")
+            }
             (symbolTable.contains(token)) -> {
                 if (this.symbolTable.get(key = token)!!.second == null) {
                     throw Exception("Variable not initialized")
@@ -90,6 +93,8 @@ class ExpressionTreeEvaluator(private val symbolTable: MutableMap<String, Pair<S
             else -> throw Exception("Variable $token not assigned")
         }
     }
+
+    private fun isBooleanValue(token: String): Boolean = token == "true" || token == "false"
 
     private fun isNumber(token: String) = token.toDoubleOrNull() != null
 }

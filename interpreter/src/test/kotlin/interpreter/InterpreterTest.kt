@@ -15,12 +15,12 @@ import org.junit.jupiter.params.provider.MethodSource
 
 class InterpreterTest {
 
-    private val interpreter: Interpreter = Interpreter()
+    private val interpreter: Interpreter = Interpreter(Scope(mutableMapOf(), mutableMapOf(), EmptyScope))
 
     @Test
     fun testDeclarationAST() {
         val inputTokens = listOf(
-            Token(0, TokenType.LET, "let", 0, 0),
+            Token(0, TokenType.DECLARATOR, "let", 0, 0),
             Token(1, TokenType.IDENTIFIER, "myVar", 0, 0),
             Token(2, TokenType.COLON, ":", 0, 0),
             Token(3, TokenType.TYPE, "number", 0, 0),
@@ -55,7 +55,7 @@ class InterpreterTest {
     @Test
     fun testAssignationAST() {
         val inputTokensFirstLine = listOf(
-            Token(0, TokenType.LET, "let", 0, 0),
+            Token(0, TokenType.DECLARATOR, "let", 0, 0),
             Token(1, TokenType.IDENTIFIER, "myVar", 0, 0),
             Token(2, TokenType.COLON, ":", 0, 0),
             Token(3, TokenType.TYPE, "number", 0, 0),
@@ -87,7 +87,7 @@ class InterpreterTest {
     @Test
     fun testMultipleDeclarations() {
         val inputTokens1 = listOf(
-            Token(0, TokenType.LET, "let", 0, 0),
+            Token(0, TokenType.DECLARATOR, "let", 0, 0),
             Token(1, TokenType.IDENTIFIER, "myVar", 0, 0),
             Token(2, TokenType.COLON, ":", 0, 0),
             Token(3, TokenType.TYPE, "number", 0, 0),
@@ -97,7 +97,7 @@ class InterpreterTest {
         val ast1 = ASTFactory.createAST(ASTType.DECLARATION, inputTokens1)
 
         val inputTokens2 = listOf(
-            Token(0, TokenType.LET, "let", 0, 0),
+            Token(0, TokenType.DECLARATOR, "let", 0, 0),
             Token(1, TokenType.IDENTIFIER, "myOtherVar", 0, 0),
             Token(2, TokenType.COLON, ":", 0, 0),
             Token(3, TokenType.TYPE, "string", 0, 0),
@@ -121,7 +121,7 @@ class InterpreterTest {
     @Test
     fun testFunctionAST() {
         val inputTokensFirstLine = listOf(
-            Token(0, TokenType.LET, "let", 0, 0),
+            Token(0, TokenType.DECLARATOR, "let", 0, 0),
             Token(1, TokenType.IDENTIFIER, "myVar", 0, 0),
             Token(2, TokenType.COLON, ":", 0, 0),
             Token(3, TokenType.TYPE, "number", 0, 0),
@@ -156,7 +156,7 @@ class InterpreterTest {
     @Test
     fun testDeclarationAssignation() {
         val inputTokensFirstLine = listOf(
-            Token(0, TokenType.LET, "let", 0, 0),
+            Token(0, TokenType.DECLARATOR, "let", 0, 0),
             Token(1, TokenType.IDENTIFIER, "myVar", 0, 0),
             Token(2, TokenType.COLON, ":", 0, 0),
             Token(3, TokenType.TYPE, "string", 0, 0),
@@ -185,7 +185,7 @@ class InterpreterTest {
     @Test
     fun testDeclarationAssignation2() {
         val inputTokensFirstLine = listOf(
-            Token(0, TokenType.LET, "let", 0, 0),
+            Token(0, TokenType.DECLARATOR, "let", 0, 0),
             Token(1, TokenType.IDENTIFIER, "myVar", 0, 0),
             Token(2, TokenType.COLON, ":", 0, 0),
             Token(3, TokenType.TYPE, "number", 0, 0),
@@ -197,7 +197,7 @@ class InterpreterTest {
         )
 
         val inputTokensSecondLine = listOf(
-            Token(0, TokenType.LET, "let", 1, 0),
+            Token(0, TokenType.DECLARATOR, "let", 1, 0),
             Token(1, TokenType.IDENTIFIER, "otherVar", 1, 0),
             Token(2, TokenType.COLON, ":", 1, 0),
             Token(3, TokenType.TYPE, "number", 1, 0),

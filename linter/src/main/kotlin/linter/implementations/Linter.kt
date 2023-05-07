@@ -1,10 +1,12 @@
 package linter.implementations
 
-import common.ast.AST
+import common.ast.implementations.asts.AST
+import common.ast.implementations.asts.EndOfFileAST
 import common.config.reader.JsonReader
 import common.config.reader.linter.LinterConfigInput
 import linter.factory.LinterFactory
 import linter.`interface`.Linter
+import kotlin.system.exitProcess
 
 class Linter(configFileName: String) : Linter {
 
@@ -25,6 +27,7 @@ class Linter(configFileName: String) : Linter {
     }
 
     override fun lint(ast: Pair<AST, List<String>>) {
+        if (ast.first is EndOfFileAST) exitProcess(0)
         linters.forEach { linter: Linter -> linter.lint(ast) }
     }
 }

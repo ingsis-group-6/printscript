@@ -7,12 +7,14 @@ import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
 import common.token.TokenType
 import interpreter.Scope
+import interpreter.input.Inputter
 import interpreter.interfaces.Interpreter
 import interpreter.output.Outputter
 import kotlin.Exception
 
 class ConditionalInterpreter(
     private val scope: Scope,
+    private val inputter: Inputter,
     private val outputter: Outputter,
     private val isEOF: BooleanWrapper
 ) : Interpreter {
@@ -22,6 +24,7 @@ class ConditionalInterpreter(
         val condition: Boolean = evaluateConditionNode(conditionNode, ast.getCurrentLine())
         val blockInterpreter = BlockInterpreter(
             Scope(mutableMapOf(), mutableMapOf(), scope),
+            inputter,
             outputter,
             isEOF
         )

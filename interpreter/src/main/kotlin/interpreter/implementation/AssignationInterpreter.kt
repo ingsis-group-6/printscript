@@ -8,14 +8,18 @@ import common.ast.implementations.node.ReadInputNode
 import common.ast.implementations.node.TreeNode
 import common.token.TokenType
 import interpreter.Utils
+import interpreter.input.Inputter
 import interpreter.interfaces.Interpreter
 import interpreter.interfaces.Scope
+import interpreter.output.Outputter
 import java.lang.AssertionError
 import kotlin.Exception
 import kotlin.collections.HashMap
 
 class AssignationInterpreter(
-    private val scope: Scope
+    private val scope: Scope,
+    private val inputter: Inputter,
+    private val outputter: Outputter
 ) : Interpreter {
 
     private var currentLine: Int? = null
@@ -120,10 +124,10 @@ class AssignationInterpreter(
                 val inputValue = when (rhs.messageType) {
                     TokenType.IDENTIFIER -> {
                         val identifierData = getIdentifierValue(rhs.message)
-                        readValueFromConsole(identifierData.second)
+                        readValueFromInput(identifierData.second)
                     }
                     TokenType.STRING_LITERAL -> {
-                        readValueFromConsole(rhs.message)
+                        readValueFromInput(rhs.message)
                     }
                     else -> ""
                 }
@@ -174,9 +178,9 @@ class AssignationInterpreter(
         }
     }
 
-    private fun readValueFromConsole(message: String): String? {
-        println(message)
-        val input = readlnOrNull() // todo ver porque desde la terminal no espera al input
+    private fun readValueFromInput(message: String): String? {
+        outputter.output(message.substring(1).dropLast(1))
+        val input = inputter.getInputLine() // todo ver porque desde la terminal no espera al input
 
         return input ?: "[INPUT NOT READ]"
     }

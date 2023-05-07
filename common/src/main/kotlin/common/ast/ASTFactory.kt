@@ -1,7 +1,11 @@
 package common.ast
 
-import common.ast.implementations.asts.*
+import common.ast.implementations.asts.AST
 import common.ast.implementations.asts.AssignationAST
+import common.ast.implementations.asts.DeclarationAST
+import common.ast.implementations.asts.DeclarationAssignationAST
+import common.ast.implementations.asts.EndOfFileAST
+import common.ast.implementations.asts.FunctionAST
 import common.token.Token
 
 object ASTFactory {

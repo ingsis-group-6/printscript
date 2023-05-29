@@ -45,7 +45,7 @@ class Formatter(configFileName: String) : Formatter {
         val formattedElseASTs = ast
             .getElseBlock()
             .getContainedASTs()
-            .map { containedAST -> format(containedAST) }
+            .map { containedAST -> createWhitespaceString(formatterRules.custom.conditionalBlockIndentation) + format(containedAST) }
             .joinToString("")
 
         val noElseCase = "if(${ast.getCondition().getValue()}) {" +

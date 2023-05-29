@@ -6,7 +6,8 @@ data class CustomizableFormatterRules(
     val spaceBeforeColon: Int,
     val spaceAfterColon: Int,
     val spaceBeforeAndAfterAssignationOperator: Int,
-    val newlinesBeforePrintln: Int
+    val newlinesBeforePrintln: Int,
+    val conditionalBlockIndentation: Int
 )
 
 class FormatterRules(configFileName: String) {

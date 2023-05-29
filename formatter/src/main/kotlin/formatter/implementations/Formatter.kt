@@ -40,25 +40,20 @@ class Formatter(configFileName: String) : Formatter {
         val formattedIfASTs = ast
             .getIfBlock()
             .getContainedASTs()
-            .map {containedAST -> format(containedAST) }
+            .map { containedAST -> format(containedAST) }
             .joinToString("")
         val formattedElseASTs = ast
             .getElseBlock()
             .getContainedASTs()
-            .map {containedAST -> format(containedAST) }
+            .map { containedAST -> format(containedAST) }
             .joinToString("")
 
         val noElseCase = "if(${ast.getCondition().getValue()}) {" +
-                "\n" + formattedIfASTs + "}"
+            "\n" + formattedIfASTs + "}"
 
         val elseClause = " else {\n" + formattedElseASTs + "}"
 
-        return if (formattedElseASTs.isEmpty()) noElseCase else noElseCase+elseClause
-
-
-
-
-
+        return if (formattedElseASTs.isEmpty()) noElseCase else noElseCase + elseClause
     }
 
     private fun formatEOFAST(tokensInLine: List<Token>): String {

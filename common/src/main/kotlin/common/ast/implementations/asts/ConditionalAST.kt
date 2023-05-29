@@ -15,7 +15,7 @@ class ConditionalAST(conditionToken: Token, ifASTs: List<AST>, elseASTs: List<AS
         return ifBlock
     }
 
-    fun getElseBlock(): AST {
+    fun getElseBlock(): BlockAST {
         return elseBlock
     }
 
@@ -24,7 +24,7 @@ class ConditionalAST(conditionToken: Token, ifASTs: List<AST>, elseASTs: List<AS
     }
 
     override fun getTokensInLine(): List<Token> {
-        return listOf()
+        return ifBlock.getTokensInLine() + elseBlock.getTokensInLine()
     }
 
     fun getCondition(): Node {

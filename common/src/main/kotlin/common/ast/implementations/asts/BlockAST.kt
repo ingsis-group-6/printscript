@@ -13,7 +13,7 @@ class BlockAST(private val containedASTs: List<AST>) : AST {
     }
 
     override fun getTokensInLine(): List<Token> {
-        return listOf()
+        return containedASTs.flatMap { ast -> ast.getTokensInLine() }
     }
 
     fun getContainedASTs(): List<AST> {

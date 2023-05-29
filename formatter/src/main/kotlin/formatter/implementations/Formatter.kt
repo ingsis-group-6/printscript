@@ -1,11 +1,7 @@
 package formatter.implementations
 
 import common.ast.AST
-import common.ast.implementations.asts.AssignationAST
-import common.ast.implementations.asts.DeclarationAST
-import common.ast.implementations.asts.DeclarationAssignationAST
-import common.ast.implementations.asts.EndOfFileAST
-import common.ast.implementations.asts.FunctionAST
+import common.ast.implementations.asts.*
 import common.config.reader.formatter.FormatterRules
 import common.token.Token
 import common.token.TokenType
@@ -33,8 +29,36 @@ class Formatter(configFileName: String) : Formatter {
             is EndOfFileAST -> {
                 formatEOFAST(tokensInLine)
             }
+            is ConditionalAST -> {
+                formatConditionalAST(ast, tokensInLine)
+            }
             else -> { "" }
         }
+    }
+
+    private fun formatConditionalAST(ast: ConditionalAST, tokensInLine: List<Token>): String {
+        val formattedIfASTs = ast
+            .getIfBlock()
+            .getContainedASTs()
+            .map {containedAST -> format(containedAST) }
+            .joinToString("")
+        val formattedElseASTs = ast
+            .getElseBlock()
+            .getContainedASTs()
+            .map {containedAST -> format(containedAST) }
+            .joinToString("")
+
+        val noElseCase = "if(${ast.getCondition().getValue()}) {" +
+                "\n" + formattedIfASTs + "}"
+
+        val elseClause = " else {\n" + formattedElseASTs + "}"
+
+        return if (formattedElseASTs.isEmpty()) noElseCase else noElseCase+elseClause
+
+
+
+
+
     }
 
     private fun formatEOFAST(tokensInLine: List<Token>): String {

@@ -40,7 +40,7 @@ class Formatter(configFileName: String) : Formatter {
         val formattedIfASTs = ast
             .getIfBlock()
             .getContainedASTs()
-            .map { containedAST -> format(containedAST) }
+            .map { containedAST -> createWhitespaceString(formatterRules.custom.conditionalBlockIndentation) + format(containedAST) }
             .joinToString("")
         val formattedElseASTs = ast
             .getElseBlock()

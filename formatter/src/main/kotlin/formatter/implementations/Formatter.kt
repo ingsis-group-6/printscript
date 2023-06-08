@@ -1,7 +1,12 @@
 package formatter.implementations
 
 import common.ast.AST
-import common.ast.implementations.asts.*
+import common.ast.implementations.asts.AssignationAST
+import common.ast.implementations.asts.DeclarationAST
+import common.ast.implementations.asts.DeclarationAssignationAST
+import common.ast.implementations.asts.FunctionAST
+import common.ast.implementations.asts.ConditionalAST
+import common.ast.implementations.asts.EndOfFileAST
 import common.config.reader.formatter.FormatterRules
 import common.token.Token
 import common.token.TokenType

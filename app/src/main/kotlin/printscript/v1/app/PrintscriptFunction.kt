@@ -39,7 +39,7 @@ class StreamedLint(sourceFileInputStream: InputStream, configFileName: String, v
     private val astProvider = ASTProvider(tokenProvider)
     private var streamedLinter = StreamedLinter(astProvider, outputter, configFileName)
 
-    constructor(sourceFileInputStream: InputStream, version: String, outputter: Outputter, linters: Set<Linter>) : this(sourceFileInputStream ,"", version, outputter) {
+    constructor(sourceFileInputStream: InputStream, version: String, outputter: Outputter, linters: Set<Linter>) : this(sourceFileInputStream, "", version, outputter) {
         streamedLinter = StreamedLinter(astProvider, outputter, linters)
     }
 

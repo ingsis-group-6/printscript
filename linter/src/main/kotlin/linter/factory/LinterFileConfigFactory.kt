@@ -6,7 +6,7 @@ import linter.implementations.IdentifierCaseLinter
 import linter.implementations.SyntaxLinter
 import linter.`interface`.Linter
 
-class LinterFileConfigFactory: LinterFactory<LinterConfigInput?> {
+class LinterFileConfigFactory : LinterFactory<LinterConfigInput?> {
 
     override fun createSublinters(configInput: LinterConfigInput?): Set<Linter> {
         if (configInput == null) return setOf()

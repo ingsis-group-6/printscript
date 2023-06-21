@@ -5,11 +5,11 @@ import common.ast.implementations.asts.BlockAST
 import common.ast.implementations.asts.ConditionalAST
 import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
+import common.io.Inputter
+import common.io.Outputter
 import common.token.TokenType
 import interpreter.Scope
-import common.io.Inputter
 import interpreter.interfaces.Interpreter
-import common.io.Outputter
 import kotlin.Exception
 
 class ConditionalInterpreter(

@@ -7,12 +7,12 @@ import common.ast.implementations.asts.DeclarationAST
 import common.ast.implementations.asts.DeclarationAssignationAST
 import common.ast.implementations.asts.EndOfFileAST
 import common.ast.implementations.asts.FunctionAST
+import common.io.Inputter
+import common.io.Outputter
 import interpreter.Scope
 import interpreter.input.ConsoleInputter
-import common.io.Inputter
 import interpreter.interfaces.Interpreter
 import interpreter.output.ConsolePrintOutputter
-import common.io.Outputter
 
 class Interpreter(
     private val scope: Scope,

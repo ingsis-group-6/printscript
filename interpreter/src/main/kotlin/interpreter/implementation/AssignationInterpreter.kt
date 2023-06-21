@@ -6,12 +6,12 @@ import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
 import common.ast.implementations.node.ReadInputNode
 import common.ast.implementations.node.TreeNode
+import common.io.Inputter
+import common.io.Outputter
 import common.token.TokenType
 import interpreter.Utils
-import common.io.Inputter
 import interpreter.interfaces.Interpreter
 import interpreter.interfaces.Scope
-import common.io.Outputter
 import java.lang.AssertionError
 import kotlin.Exception
 import kotlin.collections.HashMap

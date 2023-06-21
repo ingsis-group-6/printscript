@@ -4,13 +4,9 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.optional
 import common.io.Outputter
-import common.token.Token
-import common.token.TokenType
 import formatter.implementations.FormattedTextWriter
 import interpreter.input.ConsoleInputter
 import interpreter.output.ConsolePrintOutputter
-import lexer.implementation.Lexer
-import printscript.v1.app.PrintscriptFunction
 import printscript.v1.app.StreamedExecution
 import printscript.v1.app.StreamedFormat
 import printscript.v1.app.StreamedLint
@@ -40,7 +36,7 @@ class Lint : CliktCommand(help = "Lint a Printscript file") {
     override fun run() {
         // CLIUtils.runAppWithFunction(File(sourceFile), LinterFunction(configFile))
         println(File(sourceFile))
-        StreamedLint(FileInputStream(File(sourceFile)), configFile, version.toString()).execute()
+        StreamedLint(FileInputStream(File(sourceFile)), configFile, version.toString(), ConsolePrintOutputter()).execute()
     }
 }
 

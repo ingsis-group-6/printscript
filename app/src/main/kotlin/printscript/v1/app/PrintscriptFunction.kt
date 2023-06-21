@@ -1,16 +1,14 @@
 package printscript.v1.app
 
-import formatter.implementations.StreamedFormatter
-import interpreter.implementation.StreamInterpreter
 import common.io.Inputter
 import common.io.Outputter
+import formatter.implementations.StreamedFormatter
+import interpreter.implementation.StreamInterpreter
 import lexer.provider.FileTokenProvider
 import linter.implementations.StreamedLinter
+import linter.`interface`.Linter
 import parser.provider.ASTProvider
-import java.io.File
-import java.io.FileInputStream
 import java.io.InputStream
-
 
 interface PrintscriptStreamedFunction {
     fun execute()
@@ -36,10 +34,15 @@ class StreamedFormat(sourceFileInputStream: InputStream, configFileName: String,
     }
 }
 
-class StreamedLint(sourceFileInputStream: InputStream, configFileName: String, version: String) : PrintscriptStreamedFunction {
+class StreamedLint(sourceFileInputStream: InputStream, configFileName: String, version: String, outputter: Outputter) : PrintscriptStreamedFunction {
     private val tokenProvider = FileTokenProvider(sourceFileInputStream, version)
     private val astProvider = ASTProvider(tokenProvider)
-    private val streamedLinter = StreamedLinter(astProvider, configFileName)
+    private var streamedLinter = StreamedLinter(astProvider, outputter, configFileName)
+
+    constructor(sourceFileInputStream: InputStream, version: String, outputter: Outputter, linters: Set<Linter>) : this(sourceFileInputStream ,"", version, outputter) {
+        streamedLinter = StreamedLinter(astProvider, outputter, linters)
+    }
+
     override fun execute() {
         streamedLinter.lint()
     }

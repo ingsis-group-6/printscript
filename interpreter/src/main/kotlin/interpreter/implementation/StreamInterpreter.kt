@@ -1,10 +1,10 @@
 package interpreter.implementation
 
+import common.io.Inputter
+import common.io.Outputter
 import common.providers.ast.ASTProvider
 import interpreter.EmptyScope
 import interpreter.Scope
-import common.io.Inputter
-import common.io.Outputter
 
 class StreamInterpreter(private val astProvider: ASTProvider, inputter: Inputter, outputter: Outputter) {
     private var isEOF = BooleanWrapper(false)

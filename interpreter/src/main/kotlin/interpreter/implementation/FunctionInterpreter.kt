@@ -5,12 +5,12 @@ import common.ast.implementations.asts.FunctionAST
 import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
 import common.ast.implementations.node.TreeNode
+import common.io.Outputter
 import common.token.TokenType
 import interpreter.Utils
 import interpreter.interfaces.Interpreter
 import interpreter.interfaces.Scope
 import interpreter.output.ConsolePrintOutputter
-import common.io.Outputter
 
 class FunctionInterpreter(
     private val scope: Scope,

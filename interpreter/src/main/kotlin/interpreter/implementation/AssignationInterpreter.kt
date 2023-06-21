@@ -8,10 +8,10 @@ import common.ast.implementations.node.ReadInputNode
 import common.ast.implementations.node.TreeNode
 import common.token.TokenType
 import interpreter.Utils
-import interpreter.input.Inputter
+import common.io.Inputter
 import interpreter.interfaces.Interpreter
 import interpreter.interfaces.Scope
-import interpreter.output.Outputter
+import common.io.Outputter
 import java.lang.AssertionError
 import kotlin.Exception
 import kotlin.collections.HashMap

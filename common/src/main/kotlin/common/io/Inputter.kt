@@ -1,4 +1,4 @@
-package interpreter.input
+package common.io
 
 import java.util.*
 

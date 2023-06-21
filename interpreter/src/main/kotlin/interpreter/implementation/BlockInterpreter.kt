@@ -2,10 +2,10 @@ package interpreter.implementation
 
 import common.ast.AST
 import common.ast.implementations.asts.BlockAST
-import interpreter.input.Inputter
+import common.io.Inputter
 import interpreter.interfaces.Interpreter
 import interpreter.interfaces.Scope
-import interpreter.output.Outputter
+import common.io.Outputter
 
 class BlockInterpreter(private val scope: Scope, private val inputter: Inputter, private val outputter: Outputter, private val booleanWrapper: BooleanWrapper) : Interpreter {
     override fun interpret(ast: AST) {

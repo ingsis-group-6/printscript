@@ -1,10 +1,11 @@
 package formatter.implementations
 
+import common.io.Outputter
 import common.providers.ast.ASTProvider
 
 class StreamedFormatter(
     private val astProvider: ASTProvider,
-    private val ftw: FormattedTextWriter,
+    private val outputter: Outputter,
     configFile: String
 ) {
     private val formatter = Formatter(configFile)
@@ -12,7 +13,7 @@ class StreamedFormatter(
     fun format() {
         val astProviderResult = astProvider.getAST()
         if (astProviderResult.isPresent) {
-            ftw.writeLine(formatter.format(astProviderResult.get()))
+            outputter.output(formatter.format(astProviderResult.get()))
         }
         format()
     }

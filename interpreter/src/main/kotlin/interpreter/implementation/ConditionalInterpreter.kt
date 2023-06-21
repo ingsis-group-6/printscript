@@ -7,9 +7,9 @@ import common.ast.implementations.node.LeafNode
 import common.ast.implementations.node.Node
 import common.token.TokenType
 import interpreter.Scope
-import interpreter.input.Inputter
+import common.io.Inputter
 import interpreter.interfaces.Interpreter
-import interpreter.output.Outputter
+import common.io.Outputter
 import kotlin.Exception
 
 class ConditionalInterpreter(

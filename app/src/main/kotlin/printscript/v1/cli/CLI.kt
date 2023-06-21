@@ -3,8 +3,10 @@ package printscript.v1.cli
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.optional
+import common.io.Outputter
 import common.token.Token
 import common.token.TokenType
+import formatter.implementations.FormattedTextWriter
 import interpreter.input.ConsoleInputter
 import interpreter.output.ConsolePrintOutputter
 import lexer.implementation.Lexer
@@ -38,7 +40,7 @@ class Lint : CliktCommand(help = "Lint a Printscript file") {
     override fun run() {
         // CLIUtils.runAppWithFunction(File(sourceFile), LinterFunction(configFile))
         println(File(sourceFile))
-        StreamedLint(File(sourceFile), configFile, version.toString()).execute()
+        StreamedLint(FileInputStream(File(sourceFile)), configFile, version.toString()).execute()
     }
 }
 
@@ -50,47 +52,7 @@ class Format : CliktCommand(help = "Format a Printscript file") {
 
     override fun run() {
         // CLIUtils.runAppWithFunction(File(sourceFile), FormatFunction(sourceFile, configFile))
-        StreamedFormat(File(sourceFile), configFile, version.toString()).execute()
-    }
-}
-
-class CLIUtils {
-    companion object {
-
-        private fun runLexer(file: File) {
-            val lexer = Lexer()
-            lexer.extractTokensFromFile(file)
-        }
-
-        private fun getTokenFromStringRepresentation(input: String): Token {
-            val parts = input.substringAfter("(").dropLast(1).split(", ")
-            val orderId = parts[0].substringAfter("=").toInt()
-            val tokenType = TokenType.valueOf(parts[1].substringAfter("="))
-            val value = parts[2].substringAfter("=")
-            val row = parts[3].substringAfter("=").toInt()
-            val col = parts[4].substringAfter("=").toInt()
-
-            return Token(orderId, tokenType, value, row, col)
-        }
-
-        fun runAppWithFunction(file: File, function: PrintscriptFunction) {
-            runLexer(file)
-
-            val listOfTokensInLine = mutableListOf<Token>()
-            val scanner = Scanner(File("Tokens.txt"))
-
-            while (scanner.hasNextLine()) {
-                val token = getTokenFromStringRepresentation(scanner.nextLine())
-                listOfTokensInLine.add(token)
-
-                if (token.tokenType == TokenType.SEMICOLON) {
-                    function.execute(listOfTokensInLine)
-                    listOfTokensInLine.clear()
-                }
-                if (!scanner.hasNextLine() && token.tokenType != TokenType.SEMICOLON) {
-                    throw java.lang.Exception("There is a semicolon missing in the last line of the file")
-                }
-            }
-        }
+        val outputter: Outputter = FormattedTextWriter(File(sourceFile))
+        StreamedFormat(FileInputStream(File(sourceFile)), configFile, version.toString(), outputter).execute()
     }
 }

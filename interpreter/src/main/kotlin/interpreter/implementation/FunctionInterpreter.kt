@@ -10,7 +10,7 @@ import interpreter.Utils
 import interpreter.interfaces.Interpreter
 import interpreter.interfaces.Scope
 import interpreter.output.ConsolePrintOutputter
-import interpreter.output.Outputter
+import common.io.Outputter
 
 class FunctionInterpreter(
     private val scope: Scope,

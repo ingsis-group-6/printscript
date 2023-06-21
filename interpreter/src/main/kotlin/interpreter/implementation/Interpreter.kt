@@ -9,10 +9,10 @@ import common.ast.implementations.asts.EndOfFileAST
 import common.ast.implementations.asts.FunctionAST
 import interpreter.Scope
 import interpreter.input.ConsoleInputter
-import interpreter.input.Inputter
+import common.io.Inputter
 import interpreter.interfaces.Interpreter
 import interpreter.output.ConsolePrintOutputter
-import interpreter.output.Outputter
+import common.io.Outputter
 
 class Interpreter(
     private val scope: Scope,

@@ -12,7 +12,7 @@ class FormattedTextWriter(private val fileToWrite: File) : Outputter {
         if (text === "EOF") {
             tempFile.copyTo(fileToWrite, overwrite = true)
             tempFile.delete()
-            exitProcess(0)
+            //exitProcess(0)
         } else {
             tempFile.appendText(text)
         }

@@ -12,8 +12,16 @@ import common.token.Token
 import common.token.TokenType
 import formatter.`interface`.Formatter
 
-class Formatter(configFileName: String) : Formatter {
-    private val formatterRules = FormatterRules(configFileName)
+class Formatter : Formatter {
+    private val formatterRules: FormatterRules
+    constructor(configFileName: String) {
+        this.formatterRules = FormatterRules(configFileName)
+    }
+
+    constructor(formatterRules: FormatterRules) {
+        this.formatterRules = formatterRules
+    }
+
 
     override fun format(ast: AST): String {
         val tokensInLine = ast.getTokensInLine()

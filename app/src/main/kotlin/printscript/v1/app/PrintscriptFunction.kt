@@ -1,5 +1,7 @@
 package printscript.v1.app
 
+import common.config.reader.formatter.CustomFormatterRules
+import common.config.reader.formatter.FormatterRules
 import common.io.Inputter
 import common.io.Outputter
 import formatter.implementations.StreamedFormatter
@@ -24,23 +26,55 @@ class StreamedExecution(sourceFileStream: InputStream, version: String, inputter
     }
 }
 
-class StreamedFormat(sourceFileInputStream: InputStream, configFileName: String, version: String, outputter: Outputter) : PrintscriptStreamedFunction {
+class StreamedFormat(
+    sourceFileInputStream: InputStream,
+    configFileName: String,
+    version: String,
+    outputter: Outputter
+) : PrintscriptStreamedFunction {
     private val tokenProvider = FileTokenProvider(sourceFileInputStream, version)
     private val astProvider = ASTProvider(tokenProvider)
+    private var streamedFormatter: StreamedFormatter
 
-    private val streamedFormatter = StreamedFormatter(astProvider, outputter, configFileName)
+    constructor(
+        sourceFileInputStream: InputStream,
+        version: String,
+        outputter: Outputter,
+        formatterRules: FormatterRules
+    ) : this(sourceFileInputStream, "", version, outputter) {
+        streamedFormatter = StreamedFormatter(astProvider, outputter, formatterRules)
+    }
+
+    init {
+        streamedFormatter = if (configFileName != "") {
+            StreamedFormatter(astProvider, outputter, configFileName)
+        } else {
+            StreamedFormatter(astProvider, outputter, FormatterRules(CustomFormatterRules(0,0,0,0,0)))
+        }
+    }
+
     override fun execute() {
         streamedFormatter.format()
     }
 }
 
+
 class StreamedLint(sourceFileInputStream: InputStream, configFileName: String, version: String, outputter: Outputter) : PrintscriptStreamedFunction {
     private val tokenProvider = FileTokenProvider(sourceFileInputStream, version)
     private val astProvider = ASTProvider(tokenProvider)
-    private var streamedLinter = StreamedLinter(astProvider, outputter, configFileName)
+    private var streamedLinter: StreamedLinter
 
     constructor(sourceFileInputStream: InputStream, version: String, outputter: Outputter, linters: Set<Linter>) : this(sourceFileInputStream, "", version, outputter) {
         streamedLinter = StreamedLinter(astProvider, outputter, linters)
+    }
+
+    init {
+        streamedLinter = if (configFileName != "") {
+            StreamedLinter(astProvider, outputter, configFileName)
+        } else {
+            StreamedLinter(astProvider, outputter, setOf())
+        }
+
     }
 
     override fun execute() {

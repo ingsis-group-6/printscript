@@ -5,12 +5,13 @@ import common.io.Outputter
 import common.providers.ast.ASTErrorReporter
 import linter.`interface`.Linter
 
-class StreamedLinter(private val astErrorReporter: ASTErrorReporter, private val outputter: Outputter, configFile: String) {
-    private var linter = LinterImpl(configFile)
+class StreamedLinter(private val astErrorReporter: ASTErrorReporter, private val outputter: Outputter, private val linter: Linter) {
 
-    constructor(astErrorReporter: ASTErrorReporter, outputter: Outputter, linters: Set<Linter>) : this(astErrorReporter, outputter, "") {
-        linter = LinterImpl(linters)
-    }
+    constructor(astErrorReporter: ASTErrorReporter, outputter: Outputter, configFile: String) :
+            this(astErrorReporter, outputter, LinterImpl(configFile))
+
+    constructor(astErrorReporter: ASTErrorReporter, outputter: Outputter, linters: Set<Linter>) :
+            this(astErrorReporter, outputter, LinterImpl(linters))
 
     fun lint() {
         val astProviderResult = astErrorReporter.checkASTCreation()

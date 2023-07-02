@@ -1,19 +1,27 @@
 package formatter.implementations
 
+import common.config.reader.formatter.FormatterRules
 import common.io.Outputter
 import common.providers.ast.ASTProvider
 
 class StreamedFormatter(
     private val astProvider: ASTProvider,
     private val outputter: Outputter,
-    configFile: String
+    private val formatter: Formatter
 ) {
-    private val formatter = Formatter(configFile)
+    constructor(astProvider: ASTProvider, outputter: Outputter, configFile: String) :
+            this(astProvider, outputter, Formatter(configFile))
+
+    constructor(astProvider: ASTProvider, outputter: Outputter, formatterRules: FormatterRules) :
+            this(astProvider, outputter, Formatter(formatterRules))
+
 
     fun format() {
         val astProviderResult = astProvider.getAST()
         if (astProviderResult.isPresent) {
-            outputter.output(formatter.format(astProviderResult.get()))
+            val formatOutput = formatter.format(astProviderResult.get())
+            outputter.output(formatOutput)
+            if(formatOutput == "EOF") return
         }
         format()
     }

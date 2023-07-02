@@ -2,7 +2,7 @@ package common.config.reader.formatter
 
 import common.config.reader.JsonReader
 
-data class CustomizableFormatterRules(
+data class CustomFormatterRules(
     val spaceBeforeColon: Int,
     val spaceAfterColon: Int,
     val spaceBeforeAndAfterAssignationOperator: Int,
@@ -10,9 +10,18 @@ data class CustomizableFormatterRules(
     val conditionalBlockIndentation: Int
 )
 
-class FormatterRules(configFileName: String) {
+class FormatterRules {
     val newlinesAfterSemicolon: Int = 1
     val spacesBetweenTokens: Int = 1
     val spacesBeforeAndAfterOperators: Int = 1
-    val custom = JsonReader().readJsonFromFile<CustomizableFormatterRules>(configFileName) ?: throw Exception("Config file was not found.")
+    val custom: CustomFormatterRules
+
+    constructor(configFileName: String) {
+        custom = JsonReader().readJsonFromFile<CustomFormatterRules>(configFileName)
+            ?: throw Exception("Config file was not found.")
+    }
+
+    constructor(customFormatterRules: CustomFormatterRules) {
+        custom = customFormatterRules
+    }
 }

@@ -49,7 +49,7 @@ class StreamedFormat(
         streamedFormatter = if (configFileName != "") {
             StreamedFormatter(astProvider, outputter, configFileName)
         } else {
-            StreamedFormatter(astProvider, outputter, FormatterRules(CustomFormatterRules(0,0,0,0,0)))
+            StreamedFormatter(astProvider, outputter, FormatterRules(CustomFormatterRules(0, 0, 0, 0, 0)))
         }
     }
 
@@ -57,7 +57,6 @@ class StreamedFormat(
         streamedFormatter.format()
     }
 }
-
 
 class StreamedLint(sourceFileInputStream: InputStream, configFileName: String, version: String, outputter: Outputter) : PrintscriptStreamedFunction {
     private val tokenProvider = FileTokenProvider(sourceFileInputStream, version)
@@ -74,7 +73,6 @@ class StreamedLint(sourceFileInputStream: InputStream, configFileName: String, v
         } else {
             StreamedLinter(astProvider, outputter, setOf())
         }
-
     }
 
     override fun execute() {

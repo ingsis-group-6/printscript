@@ -22,7 +22,6 @@ class Formatter : Formatter {
         this.formatterRules = formatterRules
     }
 
-
     override fun format(ast: AST): String {
         val tokensInLine = ast.getTokensInLine()
 

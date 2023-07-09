@@ -10,18 +10,17 @@ class StreamedFormatter(
     private val formatter: Formatter
 ) {
     constructor(astProvider: ASTProvider, outputter: Outputter, configFile: String) :
-            this(astProvider, outputter, Formatter(configFile))
+        this(astProvider, outputter, Formatter(configFile))
 
     constructor(astProvider: ASTProvider, outputter: Outputter, formatterRules: FormatterRules) :
-            this(astProvider, outputter, Formatter(formatterRules))
-
+        this(astProvider, outputter, Formatter(formatterRules))
 
     fun format() {
         val astProviderResult = astProvider.getAST()
         if (astProviderResult.isPresent) {
             val formatOutput = formatter.format(astProviderResult.get())
             outputter.output(formatOutput)
-            if(formatOutput == "EOF") return
+            if (formatOutput == "EOF") return
         }
         format()
     }

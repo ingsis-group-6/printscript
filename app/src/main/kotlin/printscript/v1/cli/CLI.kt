@@ -40,11 +40,14 @@ class Lint : CliktCommand(help = "Lint a Printscript file") {
     override fun run() {
         // CLIUtils.runAppWithFunction(File(sourceFile), LinterFunction(configFile))
         println(File(sourceFile))
-        //StreamedLint(FileInputStream(File(sourceFile)), configFile, version.toString(), ConsolePrintOutputter()).execute()
-        StreamedLint(FileInputStream(File(sourceFile)), version.toString(), ConsolePrintOutputter(), setOf(
-            IdentifierCaseLinter(CaseConvention.SNAKE_CASE)
+        // StreamedLint(FileInputStream(File(sourceFile)), configFile, version.toString(), ConsolePrintOutputter()).execute()
+        StreamedLint(
+            FileInputStream(File(sourceFile)), version.toString(), ConsolePrintOutputter(),
+            setOf(
+                IdentifierCaseLinter(CaseConvention.SNAKE_CASE)
 
-        )).execute()
+            )
+        ).execute()
     }
 }
 
@@ -57,8 +60,8 @@ class Format : CliktCommand(help = "Format a Printscript file") {
     override fun run() {
         // CLIUtils.runAppWithFunction(File(sourceFile), FormatFunction(sourceFile, configFile))
         val outputter: Outputter = FormattedTextWriter(File(sourceFile))
-        val rules = FormatterRules(CustomFormatterRules(0,5,5,1,4))
-        //StreamedFormat(FileInputStream(File(sourceFile)), configFile, version.toString(), outputter).execute()
+        val rules = FormatterRules(CustomFormatterRules(0, 5, 5, 1, 4))
+        // StreamedFormat(FileInputStream(File(sourceFile)), configFile, version.toString(), outputter).execute()
         StreamedFormat(FileInputStream(File(sourceFile)), version.toString(), outputter, rules).execute()
     }
 }
